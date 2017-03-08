@@ -1,0 +1,253 @@
+/*-------- Type- 01 ------*/
+
+.frst-timeline-style-6 {
+    padding: 0 45px;
+    color: #000;
+}
+
+.frst-timeline-style-6 .frst-timeline-block::before {
+    width: 4px;
+    background: rgba(0, 0, 0, 0);
+    margin-left: -2px;
+    background-image: linear-gradient(#F5D6AA 80%, rgba(255, 255, 255, 0) 0%);
+    background-position: right;
+    background-size: 4px 8px;
+    background-repeat: repeat-y;
+}
+
+.frst-timeline-style-6.frst-right-align .frst-timeline-block::before {
+    margin-right: -2px;
+}
+
+.frst-timeline-block {
+    padding-bottom: 50px;
+}
+
+.frst-alternate.frst-timeline-style-6 .frst-odd-item .frst-timeline-img {
+    padding: 0;
+    margin-left: -28px;
+    top: 0px;
+    width: 58px;
+    height: 58px;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+}
+
+.frst-right-align.frst-timeline-style-6 .frst-timeline-img {
+    padding: 0;
+    margin-left: -28px;
+    top: 0px;
+    width: 58px;
+    height: 58px;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+}
+
+.frst-right-align.frst-timeline-style-6 .frst-timeline-img i {
+    transform: rotate(45deg);
+}
+
+.frst-alternate.frst-timeline-style-6 .frst-odd-item .frst-timeline-img i {
+    transform: rotate(45deg);
+}
+
+.frst-alternate.frst-timeline-style-6 .frst-even-item .frst-timeline-img {
+    padding: 0;
+    margin-left: -28px;
+    top: 0px;
+    width: 58px;
+    height: 58px;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    transform: rotate(180deg);
+}
+
+.frst-left-align.frst-timeline-style-6 .frst-timeline-img {
+    padding: 0;
+    margin-left: -28px;
+    top: 0px;
+    width: 58px;
+    height: 58px;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    transform: rotate(180deg);
+}
+
+.frst-timeline-style-6 .frst-timeline-img span {
+    position: relative;
+    display: block;
+    background: #3F3F47;
+    width: 58px;
+    height: 58px;
+    border: 4px solid #F5D6AA;
+    border-radius: 0 50% 50% 50%;
+    transform: rotate(-45deg);
+}
+
+
+/*.frst-timeline-style-6 .frst-timeline-img span::after, .frst-timeline-style-6 .frst-timeline-img span::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    left: 0;
+    border-left: 21px solid transparent;
+    border-right: 21px solid transparent;
+}
+
+.frst-timeline-style-6 .frst-timeline-img span:before {
+    bottom: 100%;
+    border-bottom: 12.12px solid #f13d9e;
+}
+
+.frst-timeline-style-6 .frst-timeline-img span:after {
+    top: 100%;
+    width: 0;
+    border-top: 12.12px solid #f13d9e;
+}*/
+
+.frst-timeline-style-6 .frst-timeline-img i {
+    display: block;
+    line-height: 23px;
+    transform: rotate(-135deg);
+    font-size: 1.4em;
+    position: relative;
+    top: 14px;
+    /*-webkit-text-stroke: 2px #3f3f47;*/
+}
+
+.frst-timeline-style-6.frst-right-align .frst-timeline-img {
+    margin-right: -31px;
+}
+
+.frst-timeline-style-6 .frst-timeline-content {
+    color: #777;
+}
+
+.frst-alternate.frst-timeline-style-6 .frst-odd-item .frst-timeline-content .frst-timeline-content-inner {
+    margin-right: 10px;
+}
+
+.frst-alternate.frst-timeline-style-6 .frst-even-item .frst-timeline-content .frst-timeline-content-inner {
+    margin-left: 10px;
+}
+
+.frst-right-align.frst-timeline-style-6 .frst-timeline-content .frst-timeline-content-inner {
+    margin-right: 10px;
+}
+
+.frst-left-align.frst-timeline-style-6 .frst-timeline-content .frst-timeline-content-inner {
+    margin-left: 10px;
+}
+
+.frst-timeline-style-6 .frst-date {
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #000;
+    line-height: 30px;
+}
+
+.frst-timeline-style-6 h2 {
+    margin: 0 0 5px;
+    font-weight: 800;
+    color: #f5d6aa;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.frst-date-opposite.frst-timeline-style-6 h2 {}
+
+.frst-timeline-style-6 p {
+    margin: 0;
+    font-size: 13px;
+    color: #bdbcbc;
+}
+
+.frst-timeline-style-6 .frst-labels span {
+    position: relative;
+    left: -35px;
+    width: 78px;
+    height: 78px;
+    background: #f13d9e;
+    color: #fff;
+    font-weight: 800;
+    padding: 23px 10px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 14px;
+    margin-left: -39px;
+}
+
+.frst-timeline-style-6.frst-right-align .frst-labels span {
+    left: auto;
+    right: -35px;
+    margin-right: -39px;
+    margin-left: 0;
+}
+
+
+/*---------- Responsive part ------------*/
+
+@media only screen and (min-width:679px) {
+    .frst-date-opposite {
+        margin-left: 203px;
+    }
+    .frst-left-align.frst-date-opposite {
+        margin-left: 203px;
+    }
+    .frst-right-align.frst-date-opposite {
+        margin-right: 203px;
+        margin-left: 0;
+    }
+    .frst-timeline-style-6.frst-alternate .frst-timeline-content, .frst-timeline-style-6.frst-date-opposite .frst-timeline-content {
+        width: calc(50% - 44px);
+    }
+    .frst-timeline-style-6.frst-date-opposite .frst-date {
+        left: -248px;
+        line-height: 32px;
+        width: 160px;
+    }
+    .frst-timeline-style-6.frst-date-opposite.frst-right-align .frst-date, .frst-timeline-style-6.frst-date-opposite.frst-alternate .frst-timeline-block.frst-odd-item .frst-date {
+        right: -248px;
+        left: auto;
+        text-align: left;
+    }
+    .frst-timeline-style-6.frst-alternate .frst-labels span {
+        margin: 0
+    }
+}
+
+@media only screen and (max-width:678px) {
+    .frst-timeline-style-6.frst-responsive-right .frst-timeline-block::before {
+        margin-right: -2px;
+    }
+    .frst-timeline-style-6.frst-responsive-right .frst-timeline-img {
+        margin-right: -21px;
+    }
+    .frst-timeline-style-6.frst-responsive-right .frst-labels span {
+        left: auto;
+        right: -35px;
+        margin-right: -39px;
+        margin-left: 0;
+    }
+    .frst-alternate.frst-timeline-style-6 .frst-timeline-img {
+        padding: 0;
+        margin-left: -28px;
+        top: 0px;
+        width: 58px;
+        height: 58px;
+        color: #fff;
+        text-align: center;
+        font-size: 24px;
+        transform: rotate(180deg);
+    }
+    .frst-alternate.frst-timeline-style-6 .frst-timeline-content .frst-timeline-content-inner {
+        margin-left: 15px;
+    }
+}

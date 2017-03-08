@@ -1,0 +1,168 @@
+/*-------- Type- 01 ------*/
+
+.frst-timeline-style-7 {
+    color: #000;
+}
+
+.frst-timeline-style-7 .frst-timeline-block::before {
+    width: 3px;
+    background: rgba(0, 0, 0, 0);
+    margin-left: -2px;
+    background: #27aae2;
+}
+
+.frst-timeline-style-7.frst-right-align .frst-timeline-block::before {
+    margin-right: -2px;
+}
+
+.frst-timeline-block {
+    padding-bottom: 50px;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
+.frst-timeline-style-7 .frst-timeline-img {
+    padding: 0;
+    margin-left: -21px;
+    top: 0px;
+    /*--- Box shadow value --*/
+    width: 42px;
+    height: 42px;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+}
+
+.frst-timeline-style-7 .frst-timeline-img span {
+    display: inline-block;
+    margin: auto;
+    padding: 6px;
+    min-height: 16px;
+    min-width: 16px;
+    background: #27aae2;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    vertical-align: top;
+}
+
+.frst-timeline-style-7 .frst-timeline-img i {
+    display: block;
+}
+
+.frst-timeline-style-7.frst-right-align .frst-timeline-img {
+    margin-right: -21px;
+}
+
+.frst-timeline-style-7 .frst-timeline-content {
+    color: #777;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgb(39, 170, 226);
+}
+
+.frst-timeline-style-7 .frst-date {
+    color: #9c9c9c;
+}
+
+.frst-timeline-style-7 h2 {
+    margin: 0 0 5px;
+    font-weight: 800;
+    color: #000;
+    font-size: 16px;
+}
+
+.frst-date-opposite.frst-timeline-style-7 h2 {}
+
+.frst-timeline-style-7 p {
+    margin: 0;
+}
+
+.frst-timeline-style-7 .frst-labels span {
+    position: relative;
+    left: -35px;
+    width: 78px;
+    height: 78px;
+    background: #f13d9e;
+    color: #fff;
+    font-weight: 800;
+    padding: 23px 10px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 14px;
+    margin-left: -39px;
+}
+
+.frst-timeline-style-7.frst-right-align .frst-labels span {
+    left: auto;
+    right: -47px;
+    margin-right: -39px;
+    margin-left: 0;
+}
+
+
+/*---------- Responsive part ------------*/
+
+@media only screen and (min-width:679px) {
+    .frst-date-opposite {
+        margin-left: 203px;
+    }
+    .frst-left-align.frst-date-opposite {
+        margin-left: 203px;
+    }
+    .frst-right-align.frst-date-opposite {
+        margin-right: 203px;
+        margin-left: 0;
+    }
+    .frst-timeline-style-7.frst-alternate .frst-timeline-content, .frst-timeline-style-7.frst-date-opposite .frst-timeline-content {
+        width: calc(50% - 44px);
+    }
+    .frst-timeline-style-7.frst-date-opposite .frst-date {
+        left: -248px;
+        line-height: 20px;
+        width: 160px;
+    }
+    .frst-timeline-style-7.frst-date-opposite.frst-right-align .frst-date, .frst-timeline-style-7.frst-date-opposite.frst-alternate .frst-timeline-block.frst-odd-item .frst-date {
+        right: -248px;
+        left: auto;
+        text-align: left;
+    }
+    .frst-timeline-style-7 .frst-timeline-content-inner {
+        padding-left: 110px;
+        position: relative;
+    }
+    .frst-timeline-style-7.frst-right-align .frst-timeline-content-inner, .frst-timeline-style-7.frst-alternate .frst-timeline-block.frst-odd-item .frst-timeline-content-inner {
+        padding-left: 0;
+        padding-right: 110px;
+    }
+    .frst-timeline-style-7.frst-date-opposite .frst-timeline-content-inner, .frst-timeline-style-7.frst-date-opposite .frst-timeline-block.frst-odd-item .frst-timeline-content-inner {
+        padding: 0;
+    }
+    .frst-timeline-style-7 .frst-date {
+        position: absolute;
+        left: 0;
+        width: 80px;
+    }
+    .frst-timeline-style-7.frst-right-align .frst-date, .frst-timeline-style-7.frst-alternate .frst-timeline-block.frst-odd-item .frst-date {
+        left: auto;
+        right: 0;
+    }
+    .frst-timeline-style-6.frst-alternate .frst-labels span {
+        margin: 0
+    }
+}
+
+@media only screen and (max-width:678px) {
+    .frst-timeline-style-7.frst-responsive-right .frst-timeline-block::before {
+        margin-right: -2px;
+    }
+    .frst-timeline-style-7.frst-responsive-right .frst-timeline-img {
+        margin-right: -21px;
+    }
+    .frst-timeline-style-7.frst-responsive-right .frst-labels span {
+        left: auto;
+        right: -35px;
+        margin-left: 0;
+        margin-right: -39px;
+    }
+}

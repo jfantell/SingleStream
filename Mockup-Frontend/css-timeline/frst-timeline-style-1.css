@@ -1,0 +1,267 @@
+body {
+  background: #EAEDED;
+}
+
+/*-------- Type- 01 ------*/
+
+.frst-timeline-style-1{
+  color: #000;
+}
+.frst-timeline-style-1 .frst-timeline-block::before {
+  width: 3px;
+  background: rgba(0,0,0,0);
+  margin-left: -1px;
+  background: #D5DBDB;
+}
+
+.frst-timeline-style-1.frst-right-align .frst-timeline-block::before{
+  margin-right: -1px;
+}
+
+.frst-timeline-block {
+  padding-bottom: 30px;
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.frst-timeline-style-1 .frst-timeline-img {
+  padding: 0;
+  margin-left: -28px;
+  top: 5px;/*--- Box shadow value --*/
+  width: 56px;
+  height: 56px;
+  color: #D5DBDB;
+  text-align: center;
+  font-size: 28px;
+
+}
+.frst-timeline-style-1 .frst-timeline-img span{
+  display: inline-block;
+  margin: auto;
+  padding: 9px;
+  min-height: 16px;
+  min-width: 16px;
+  background: #1ABC9C;
+  -webkit-border-radius: 10%;
+  border-radius: 10%;
+  vertical-align: middle;
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 5px #D5DBDB;
+  -webkit-box-shadow: 0 0 0 5px #D5DBDB;
+}
+.frst-timeline-style-1 .frst-timeline-img i{
+  display: block;
+  transform: rotate(-45deg);
+}
+
+.frst-timeline-style-1.frst-right-align .frst-timeline-img {
+  margin-right: -28px;
+}
+
+.frst-timeline-style-1 .frst-timeline-content {
+  color: #6f6f6f;
+}
+
+.frst-timeline-style-1 .frst-date {
+  color: #9c9c9c;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.frst-timeline-style-1 h2 {
+  margin: 0 0 5px;
+  font-weight: 800;
+  color: #6f6f6f;
+  font-size: 16px;
+}
+
+.frst-date-opposite.frst-timeline-style-1 h2 {
+}
+
+.frst-timeline-style-1 p {
+  margin: 0;
+}
+
+.frst-timeline-style-1 .frst-timeline-label-block{
+  padding-top: 0;
+}
+.frst-timeline-style-1 .frst-labels{
+  padding: 50px 0;
+}
+.frst-timeline-style-1 .frst-labels.frst-start-label{
+  padding-top: 0;
+}
+.frst-timeline-style-1 .frst-labels.frst-end-label{
+  padding-bottom: 0;
+}
+.frst-timeline-style-1 .frst-labels span{
+  position: relative;
+  background: #17A589;
+  -webkit-border-radius: 25%;
+  border-radius: 25%;
+  vertical-align: top;
+  color: #D5DBDB;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 0 0 5px #D5DBDB;
+  -webkit-box-shadow: 0 0 0 5px #D5DBDB;
+  width: 60px;
+  height: 60px;
+  padding: 20px 5px;
+  margin-left: -45px;
+  left: -35px;
+}
+.frst-timeline-style-1.frst-alternate .frst-timeline-label-block .frst-labels span{
+  margin: 0;
+}
+.frst-timeline-style-1.frst-right-align .frst-labels span{
+  left: auto;
+  right: -35px;
+  margin-left:0;
+  margin-right: -45px;
+}
+
+/*--------- news-------*/
+.frst-timeline-style-1 .frst-timeline-content-inner{
+  padding: 30px;
+  position: relative;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  background: #D5DBDB;
+}
+.frst-timeline-style-1 .frst-timeline-content-inner::before,
+.frst-timeline-style-1 .frst-timeline-content-inner::after{
+  content: "";
+  border-style: solid;
+  border-color: transparent;
+  position: absolute;
+}
+.frst-timeline-style-1 .frst-timeline-content-inner::before{
+  border-width: 10px 11px 10px 0;
+  border-right-color: #D5DBDB;
+  left: -10px;
+  top: 18px;
+}
+.frst-timeline-style-1 .frst-timeline-content-inner::after{
+  border-width: 8px 9px 8px 0;
+  border-right-color: #D5DBDB;
+  left: -9px;
+  top: 18px;
+
+}
+.frst-timeline-style-1.frst-right-align .frst-timeline-content-inner::before{
+  border-width: 10px 0 10px 11px;
+  border-left-color: #D5DBDB;
+  left: auto;
+  right: -11px;
+}
+.frst-timeline-style-1.frst-right-align .frst-timeline-content-inner::after{
+  border-width: 8px 0 8px 9px;
+  border-left-color: #D5DBDB;
+  right: -8px;
+  left: auto;
+}
+
+/*---------- Responsive part ------------*/
+@media only screen and (min-width:679px) {
+
+  .frst-date-opposite {
+    margin-left: 203px;
+  }
+
+  .frst-left-align.frst-date-opposite {
+    margin-left: 203px;
+  }
+
+  .frst-right-align.frst-date-opposite {
+    margin-right: 203px;
+    margin-left: 0;
+  }
+  .frst-timeline-style-1.frst-alternate .frst-timeline-content,
+  .frst-timeline-style-1.frst-date-opposite .frst-timeline-content {
+    width: calc(50% - 44px);
+  }
+
+  .frst-timeline-style-1.frst-date-opposite .frst-date {
+    left: -248px;
+    line-height: 56px;
+    width: 160px;
+  }
+
+  .frst-timeline-style-1.frst-date-opposite.frst-right-align .frst-date,
+  .frst-timeline-style-1.frst-date-opposite.frst-alternate .frst-timeline-block.frst-odd-item .frst-date {
+    right: -248px;
+    left: auto;
+    text-align: left;
+  }
+  .frst-timeline-style-1.frst-right-align .frst-date{
+    left: auto;
+    right: 0;
+
+  }
+
+  /*--------- news-------*/
+  .frst-timeline-style-1.frst-alternate .frst-odd-item .frst-timeline-content-inner::before{
+    border-width: 10px 0 10px 11px;
+    border-left-color: #D5DBDB;
+    left: auto;
+    right: -10px;
+  }
+  .frst-timeline-style-1.frst-alternate .frst-odd-item .frst-timeline-content-inner::after{
+    border-width: 8px 0 8px 9px;
+    border-left-color: #D5DBDB;
+    right: -8px;
+    left: auto;
+  }
+}
+@media only screen and (max-width:1200px) {
+  .frst-timeline-style-1{
+    margin-left: 45px;
+  }
+  .frst-timeline-style-1.frst-right-align{
+    margin-left: 0;
+    margin-right: 45px;
+  }
+}
+@media only screen and (max-width:678px) {
+  .frst-timeline-style-1.frst-responsive-right .frst-labels span{
+    left: auto;
+    right: -47px
+  }
+  .frst-timeline-style-1.frst-responsive-right .frst-timeline-block::before {
+    margin-right: -1px;
+  }
+  .frst-timeline-style-1.frst-responsive-right .frst-timeline-img {
+    margin-right: -28px;
+  }
+  .frst-timeline-style-1.frst-alternate .frst-timeline-label-block .frst-labels span{
+    margin-left: -45px;
+  }
+  .frst-timeline-style-1.frst-responsive-right .frst-labels span,
+  .frst-timeline-style-1.frst-alternate.frst-responsive-right .frst-labels span{
+    right: -35px;
+    margin-right: -45px;
+    left: auto;
+    margin-left: 0;
+  }
+  .frst-timeline-style-1.frst-responsive-right{
+    margin-left: 0;
+    margin-right: 45px;
+  }
+
+  /*--------- news-------*/
+  .frst-timeline-style-1.frst-responsive-right .frst-timeline-content-inner::before{
+    border-width: 10px 0 10px 11px;
+    border-left-color: #D5DBDB;
+    left: auto;
+    right: -11px;
+  }
+  .frst-timeline-style-1.frst-responsive-right .frst-timeline-content-inner::after{
+    border-width: 8px 0 8px 9px;
+    border-left-color: #D5DBDB;
+    right: -8px;
+    left: auto;
+  }
+
+}
