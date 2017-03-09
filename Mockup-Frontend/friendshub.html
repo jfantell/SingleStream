@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Include Angular from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    [ng-cloak] {
+        display: none !important;
+    }
+    .frame {
+        padding: 10px;
+    }
+    input[type=text] {
+        height: 36px;
+        width: 70%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: white;
+        background-image: url('images/searchicon.png');
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+    
+    .btn {
+        margin-top: -4px;
+    }
+    .profile-pic{
+        border-radius: 20px;
+    }
+    .cover-background{
+        background: url(images/billycover.jpg);
+    }
+
+    .floating {
+        position: fixed;
+        left: 30px;
+        right: 0;
+        height: 100px;    
+        width: 50px;
+    }
+
+    .side-buttons button{
+        margin: 10px;
+    }
+    
+/*    .shared li {
+        list-style: none;
+        padding-bottom: 10px;
+    }
+    .shared img.albums {
+        height: 200px;
+        width: 200px;
+    }*/
+    .bio li {
+        display: inline-block;
+        list-style: none;
+    }
+    .bio img.albums {
+        height: 90px;
+        width: 90px;
+    }
+    .music {
+        height: 1000px;
+        width: 100%;
+        margin-left: 2%;
+        margin-top: 5px;
+    }
+    #chartContainer, #chartContainer2{
+        margin: 0 auto;
+        margin-top: 10px;
+        height: 400px;
+        width: 100%;
+    }
+    </style>
+
+</head>
+
+<body ng-controller="mainController">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        SingleStream
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html">Profile</a>
+                </li>
+                <li>
+                    <a href="friendshub.html">FriendsFeed</a>
+                </li>
+                <li>
+                    <a href="music.html">Music</a>
+                </li>
+                <li>
+                    <a href="#">Trivia</a>
+                </li>
+                <li>
+                    <a href="#">Apps</a>
+                </li>
+                <li>
+                    <a href="#">Settings</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid ng-cloak">
+                <!--Profile-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="well">
+                                <a href="#menu-toggle" class="btn btn-default menu-toggle">Menu</a>
+                                <input type="text" name="search" placeholder="Search..">
+                                <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
+                                <button class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></button>
+                                <button class="btn btn-default"><span class="glyphicon glyphicon-user"></span></button>
+                        </div>
+
+                        <div class="well">
+                            <div class="container">
+                                <ul class="nav nav-pills nav-justified">
+                                    <!--Posts-->
+                                    <li class="active"><a href="#" ng-click="view=1">Posts</a></li>
+                                    <li><a href="#" ng-click="view=2">Streamalytics</a></li>
+                                </ul>
+                            </div>
+                            <div class="row" ng-show="view==1">
+                                <div class="col-lg-12 side-buttons">
+                                    <div class="floating">
+                                        <button class="btn btn-danger"><span class="glyphicon glyphicon-edit"></span></button>
+                                        <button class="btn btn-danger"><span class="glyphicon glyphicon-calendar"></span></button>
+                                        <button class="btn btn-danger"><span class="glyphicon glyphicon-share-alt"></span></button>
+                                    </div>
+                                    <div ng-include=" 'posts-friendshub.html' "></div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="view==2">
+                                <div class="col-sm-12">
+                                    <div id="chartContainer"></div>
+                                    <div id="chartContainer2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!--Pie chart JS-->
+    <script src="canvasjs.min.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+
+    //Angular Code
+    var app = angular.module("myApp", []);
+
+    // Here is the Javascript for our controller which we linked (scoped) to the body tag
+    app.controller("mainController", ['$scope','$http',function($scope, $http) {
+
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer",
+            {
+                theme: "theme2",
+                title:{
+                    text: "Most Played Artists This Week Among Your Friends"
+                },
+                data: [
+                {
+                    type: "pie",
+                    showInLegend: true,
+                    toolTipContent: "{y} - #percent %",
+                    yValueFormatString: "#0.#,,. Hundred",
+                    legendText: "{indexLabel}",
+                    dataPoints: [
+                        {  y: 4, indexLabel: "Adele" },
+                        {  y: 4, indexLabel: "AC/DC" },
+                        {  y: 1, indexLabel: "Elvis" },
+                        {  y: 1, indexLabel: "Bruce Springsteen"},
+                    ]
+                }
+                ]
+            });
+            var chart2 = new CanvasJS.Chart("chartContainer2",
+            {
+                theme: "theme2",
+                title:{
+                    text: "Most Played Songs This Week Among Your Friends"
+                },
+                data: [
+                {
+                    type: "pie",
+                    showInLegend: true,
+                    toolTipContent: "{y} - #percent %",
+                    yValueFormatString: "#0.#,,. Million",
+                    legendText: "{indexLabel}",
+                    dataPoints: [
+                        {  y: 4181563, indexLabel: "Only The Good Die Young" },
+                        {  y: 2175498, indexLabel: "Hells Bells" },
+                        {  y: 3125844, indexLabel: "Let It Be" },
+                        {  y: 1176121, indexLabel: "Born To Run"},
+                        {  y: 1727161, indexLabel: "Rolling In The Deep" },
+                        {  y: 4303364, indexLabel: "Someone Like You"},
+                        {  y: 1717786, indexLabel: "Scenes from an Italian Restaurant"}
+                    ]
+                }
+                ]
+            });
+            chart.render();
+            chart2.render();
+        }
+
+        $(".nav li").on("click", function() {
+          $(".nav li").removeClass("active");
+          $(this).addClass("active");
+        });
+
+        $(".menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+
+        $scope.view = 1;    // literal
+        // Lets go get an image from the Internet
+
+    }]);
+    </script>
+
+</body>
+
+</html>

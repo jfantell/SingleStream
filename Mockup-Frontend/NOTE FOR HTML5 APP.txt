@@ -1,0 +1,6 @@
+This example is also HTML5 desktop app,
+just open index.html,
+scroll to the bottom,
+you will find conditional comment,
+Active it,
+Now it's ready for electron/nw.

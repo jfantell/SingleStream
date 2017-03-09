@@ -1,0 +1,199 @@
+/* Genre icons with gradient
+/* ========================================================= */
+.genre.chill .gArt {
+    background: url(../images/genres/chill.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.chill .art {
+    background: #ffe37d linear-gradient(180deg, #ffe37d, #ffd333)
+}
+
+.genre.romance .gArt {
+    background: url(../images/genres/romance.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.romance .art {
+    background: #e473e9 linear-gradient(180deg, #e473e9, #bd5cd0)
+}
+
+.genre.hiphop .gArt {
+    background: url(../images/genres/hiphop.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.hiphop .art {
+    background: #d7e592 linear-gradient(180deg, #d7e592, #b0d464)
+}
+
+.genre.decades .gArt {
+    background: url(../images/genres/decades.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.decades .art {
+    background: #fed97b linear-gradient(180deg, #fed97b, #fb9f3e)
+}
+
+.genre.sleep .gArt {
+    background: url(../images/genres/sleep.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.sleep .art {
+    background: #53b0e4 linear-gradient(180deg, #53b0e4, #4f8ded)
+}
+
+.genre.classic .gArt {
+    background: url(../images/genres/classic.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.classic .art {
+    background: #05c090 linear-gradient(180deg, #05c090, #178c85)
+}
+
+.genre.kids .gArt {
+    background: url(../images/genres/kids.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.kids .art {
+    background: #63f5f4 linear-gradient(180deg, #63f5f4, #13cefd)
+}
+
+.genre.dinner .gArt {
+    background: url(../images/genres/dinner.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.dinner .art {
+    background: #fee85d linear-gradient(180deg, #fee85d, #fab543)
+}
+
+.genre.club .gArt {
+    background: url(../images/genres/club.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.club .art {
+    background: #d5ef65 linear-gradient(180deg, #d5ef65, #f1a822)
+}
+
+.genre.country .gArt {
+    background: url(../images/genres/country.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.country .art {
+    background: #8d7e66 linear-gradient(180deg, #8d7e66, #52493d)
+}
+
+.genre.folk .gArt {
+    background: url(../images/genres/folk.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.folk .art {
+    background: #c8ff93 linear-gradient(180deg, #c8ff93, #58ff8d)
+}
+
+.genre.groove .gArt {
+    background: url(../images/genres/groove.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.groove .art {
+    background: #4bdfff linear-gradient(180deg, #4bdfff, #0b9bff)
+}
+
+.genre.jazz-blues .gArt {
+    background: url(../images/genres/jazz-blues.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.jazz-blues .art {
+    background: #a15ac2 linear-gradient(180deg, #a15ac2, #563571)
+}
+
+.genre.latino .gArt {
+    background: url(../images/genres/latino.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.latino .art {
+    background: #d3b498 linear-gradient(180deg, #d3b498, #a18a74)
+}
+
+.genre.metal .gArt {
+    background: url(../images/genres/metal.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.metal .art {
+    background: #9e9e9e linear-gradient(180deg, #9e9e9e, #535353)
+}
+
+.genre.mood .gArt {
+    background: url(../images/genres/mood.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.mood .art {
+    background: #05ebf5 linear-gradient(180deg, #05ebf5, #18d2c9)
+}
+
+.genre.party .gArt {
+    background: url(../images/genres/party.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.party .art {
+    background: #d7aed0 linear-gradient(180deg, #d7aed0, #cc6ee0)
+}
+
+.genre.pop .gArt {
+    background: url(../images/genres/pop.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.pop .art {
+    background: #fff18e linear-gradient(180deg, #fff18e, #ffb22c)
+}
+
+.genre.rap .gArt {
+    background: url(../images/genres/rap.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.rap .art {
+    background: #ff6ab4 linear-gradient(180deg, #ff6ab4, #ff1576)
+}
+
+.genre.rock .gArt {
+    background: url(../images/genres/rock.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.rock .art {
+    background: #1d90b1 linear-gradient(180deg, #1d90b1, #25577a)
+}
+
+.genre.travel .gArt {
+    background: url(../images/genres/travel.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.travel .art {
+    background: #fcca97 linear-gradient(180deg, #fcca97, #ec5967)
+}
+
+.genre.workout .gArt {
+    background: url(../images/genres/workout.png) no-repeat center center;
+    background-size: contain;
+}
+
+.genre.workout .art {
+    background: #73c359 linear-gradient(180deg, #73c359, #1c853d)
+}

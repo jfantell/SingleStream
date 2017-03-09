@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Include Angular from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    [ng-cloak] {
+        display: none !important;
+    }
+    .frame {
+        padding: 10px;
+    }
+    input[type=text] {
+        height: 36px;
+        width: 70%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: white;
+        background-image: url('images/searchicon.png');
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+    
+    .btn {
+        margin-top: -4px;
+    }
+    .profile-pic{
+        border-radius: 20px;
+    }
+    .cover-background{
+        background: url(images/billycover.jpg);
+    }
+
+    .floating {
+        position: fixed;
+        left: 30px;
+        right: 0;
+        height: 100px;    
+        width: 50px;
+    }
+
+    .side-buttons button{
+        margin: 10px;
+    }
+
+    .music {
+        height: 1000px;
+        width: 100%;
+        margin: 0 auto;
+        margin-top: 5px;
+    }
+    </style>
+
+</head>
+
+<body ng-controller="mainController">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        FriendsFeed
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html">Profile</a>
+                </li>
+                <li>
+                    <a href="friendshub.html">FriendsHub</a>
+                </li>
+                <li>
+                    <a href="music.html">Music</a>
+                </li>
+                <li>
+                    <a href="#">Trivia</a>
+                </li>
+                <li>
+                    <a href="#">Apps</a>
+                </li>
+                <li>
+                    <a href="#">Settings</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid ng-cloak">
+                <!--Profile-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="well">
+                                <a href="#menu-toggle" class="btn btn-default menu-toggle">Menu</a>
+                                <input type="text" name="search" placeholder="Search..">
+                                <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
+                                <button class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span></button>
+                                <button class="btn btn-default"><span class="glyphicon glyphicon-user"></span></button>
+                        </div>
+                        <div class="well cover-background">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                </div>
+                                <div class="col-sm-2">
+                                    <img class="profile-pic" src="images/billyjoel.jpg" alt="Smiley face" height="180" width="180">
+                                </div>
+                                <div class="col-sm-5">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="well">
+                            <div class="row music" ng-show="view==1">
+                                    <iframe class="music" src="music-player.html"></iframe>
+                            </div>
+
+                            <div class="row" ng-show="view==2">
+                                <div class="col-lg-12">
+                                    <h1>Shared Music</h1>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="view==3">
+                                <div class="col-lg-12">
+                                    <h1>Billy Joel</h1>
+                                    <p>Born on May 9, 1949, in New York, Billy Joel bounced back after a disappointing first album, Cold Spring Harbor (1971), with 1973's Piano Man, featuring hits like "Piano Man" and "Captain Jack." He went on to make successful albums like Streetlife Serenade (1974), The Stranger (1977) and 52nd Street (1978). In the 1980s, Joel married supermodel Christie Brinkley, and topped the musical charts with "Uptown Girl" and "We Didn't Start the Fire." By 1999, his worldwide song sales had topped $100 million, and he was inducted into the Rock and Roll Hall of Fame. Several years later, in 2013, he received the Kennedy Center Honors.</p>
+                                    <h5>Favorite Musicians</h5>
+                                    <iframe src="grid.html" width="100%" height="200px"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+
+    //Angular Code
+    var app = angular.module("myApp", []);
+
+    // Here is the Javascript for our controller which we linked (scoped) to the body tag
+    app.controller("mainController", ['$scope','$http',function($scope, $http) {
+
+        $(".nav li").on("click", function() {
+          $(".nav li").removeClass("active");
+          $(this).addClass("active");
+        });
+
+        $(".menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+
+        $scope.view = 1;    // literal
+        // Lets go get an image from the Internet
+
+    }]);
+    </script>
+
+</body>
+
+</html>
