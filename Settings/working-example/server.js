@@ -38,14 +38,17 @@ server.on("load", err => {
     err && process.exit(1);
 });
 
-// Add a dynamic route
+// When the "Get YouTube Data" button is clicked
+//Initiate authentication/authorization
 server.addPage("/youtube", "post", lien => {
     opn(oauth.generateAuthUrl({
         access_type: "offline"
         , scope: ["https://www.googleapis.com/auth/youtube"]
     }));
+    //Redirect back to the starting (index) page
     lien.redirect("/");
 });
+
 
 server.errorPages();
 
