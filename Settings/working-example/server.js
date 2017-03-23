@@ -50,13 +50,14 @@ server.addPage("/youtube", "post", lien => {
 });
 
 
-server.errorPages();
-
-server.on("serverError", err => {
-    console.log(err.stack);
-});
+var SpotifyWebApi = require('spotify-web-api-node');
 
 
+//SPOTIFY////////////////////////////////////////////////////////////////////
+// credentials are optional
+
+
+//GOOGLE////////////////////////////////////////////////////////////////
 // Authenticate
 // You can access the Youtube resources via OAuth2 only.
 // https://developers.google.com/youtube/v3/guides/moving_to_oauth#service_accounts

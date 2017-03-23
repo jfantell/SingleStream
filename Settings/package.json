@@ -27,7 +27,8 @@
     "url": "https://github.com/IonicaBizau/youtube-api/issues"
   },
   "dependencies": {
-    "googleapis": "^5.2.1"
+    "googleapis": "^5.2.1",
+    "spotify-web-api-node": "^2.3.6"
   },
   "homepage": "https://github.com/IonicaBizau/youtube-api",
   "directories": {
