@@ -1,26 +1,60 @@
-<!DOCTYPE html>
-<!--Users will add sync their YouTube, Spotify, and SoundCloud songs/playlists here-->
-<!--For example: After clicking the "Get YouTube Data" button, a Get request to Google's server will be sent from nodejs to retrieve all of the user's playlist videos. The user's playlist data is currently being logged in the console. It will later be stored in a mongo database (that is the links to the videos/songs, as well as some metadata)-->
-<html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <title>Settings Page Demo</title>
-</head>
-
-<body>
-    <form class="YouTube" action="/youtube" method="post">
-      <input class="btn btn-primary" class="submit" type="submit" value="Get YouTube Data" />
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <title>YouTube and Spotify API</title>
+    <style>
+    </style>
+  </head>
+  <body ng-controller="mainController">
+    <form action="/youtube_auth">
+      <input type="submit" value="YouTube Auth" ng-click="youtube_auth"/>
     </form>
-    <form class="SoundCloud" action="/soundcloud" method="post">
-      <input class="btn btn-primary" class="submit" type="submit" value="Get SoundCloud Data" />
+    <form action="/youtube_list">
+      <input type="submit" value="YouTube List" ng-click="youtube_list"/>
     </form>
-    <form class="Spotify" action="/Spotify" method="post">
-      <input class="btn btn-primary" class="submit" type="submit" value="Get Spotify Data" />
+    <form action="/spotify_auth">
+      <input type="submit" value="Spotify Auth" ng-click="spotify_auth"/>
     </form>
-</body>
-
+    <form action="/spotify_list">
+      <input type="submit" value="Spotify List" ng-click="spotify_list"/>
+    </form>
+  </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Include Angular from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+<script>
+
+// Instantiate the myApp Angular application that we attached to out html tag
+    var app = angular.module("myApp", []);
+
+// Here is the Javascript for our controller which we linked (scoped) to the body tag
+    app.controller("mainController", ['$scope','$http',function($scope, $http) {
+
+        $scope.youtube_auth = function{
+          $http.get("/youtube_auth").then(function(response) {
+            alert(response);
+          });
+        }
+
+        $scope.youtube_list = function{
+          $http.get("/youtube_list").then(function(response) {
+            alert(response);
+          });
+        }
+        $scope.spotify_auth = function{
+          $http.get("/spotify_auth").then(function(response) {
+            alert(response);
+          });
+        }
+
+        $scope.spotify_list = function{
+          $http.get("/spotify_list").then(function(response) {
+            alert(response);
+          });
+        }
+    }]);
+</script>
 </html>
 
 <!--YouTube NODEJS API-->

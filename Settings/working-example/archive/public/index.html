@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--Users will add sync their YouTube, Spotify, and SoundCloud songs/playlists here-->
+<!--For example: After clicking the "Get YouTube Data" button, a Get request to Google's server will be sent from nodejs to retrieve all of the user's playlist videos. The user's playlist data is currently being logged in the console. It will later be stored in a mongo database (that is the links to the videos/songs, as well as some metadata)-->
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Settings Page Demo</title>
+</head>
+
+<body>
+    <form class="YouTube" action="/youtube" method="post">
+      <input class="btn btn-primary" class="submit" type="submit" value="Get YouTube Data" />
+    </form>
+    <form class="SoundCloud" action="/soundcloud" method="post">
+      <input class="btn btn-primary" class="submit" type="submit" value="Get SoundCloud Data" />
+    </form>
+    <form class="Spotify" action="/Spotify" method="post">
+      <input class="btn btn-primary" class="submit" type="submit" value="Get Spotify Data" />
+    </form>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</html>
+
+<!--YouTube NODEJS API-->
+<!--https://www.npmjs.com/package/youtube-api-->
+
+<!--Spotify NODEJS API-->
+<!--https://github.com/thelinmichael/spotify-web-api-node-->
+
+<!--SoundCloud NODEJS API-->
+<!-->

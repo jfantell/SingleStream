@@ -38,6 +38,15 @@ console.log(dateUnitMs.week);
 // => 604800000
 ```
 
+## :question: Get Help
+
+There are few ways to get help:
+
+ 1. Please [post questions on Stack Overflow](https://stackoverflow.com/questions/ask). You can open issues with questions, as long you add a link to your Stack Overflow question.
+ 2. For bug reports and feature requests, open issues. :bug:
+ 3. For direct and quick help from me, you can [use Codementor](https://www.codementor.io/johnnyb). :rocket:
+
+
 ## :memo: Documentation
 
 
@@ -55,6 +64,7 @@ The library exports an object containing the number of milliseconds for the foll
  - `hour`
  - `day`
  - `week`
+
 
 ## :yum: How to contribute
 Have an idea? Found a bug? See [how to contribute][contributing].
