@@ -1,3 +1,5 @@
+var request = require('request');
+
 module.exports = function(app, passport) {
 
 // normal routes ===============================================================
@@ -13,6 +15,22 @@ module.exports = function(app, passport) {
             user : req.user
         });
     });
+
+    app.get('/playlists', isLoggedIn, function(req, res) {
+        var options = {
+            url: 'https://api.napster.com/v2.1/me/account',
+            headers: { 'Authorization': 'Bearer ' + req.user.napster.token },
+            json: true
+        };
+        request.get(options, function(error, response, body) {
+            console.log(body);
+            res.render('playlists.ejs', {
+                user : req.user,
+                favorites : body
+            });
+        });
+    });
+
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
@@ -88,6 +106,18 @@ module.exports = function(app, passport) {
                 failureRedirect : '/'
             }));
 
+    // napster ---------------------------------
+
+    // send to google to do the authentication
+    app.get('/auth/napster', passport.authenticate('napster'));
+
+    // the callback after google has authenticated the user
+    app.get('/auth/napster/callback',
+        passport.authenticate('napster', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
 // =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
@@ -139,6 +169,18 @@ module.exports = function(app, passport) {
                 failureRedirect : '/'
             }));
 
+    // napster ---------------------------------
+
+        // send to google to do the authentication
+        app.get('/connect/napster', passport.authorize('napster'));
+
+        // the callback after google has authorized the user
+        app.get('/connect/napster/callback',
+            passport.authorize('napster', {
+                successRedirect : '/profile',
+                failureRedirect : '/'
+            }));
+
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
 // =============================================================================
@@ -178,6 +220,15 @@ module.exports = function(app, passport) {
     app.get('/unlink/google', function(req, res) {
         var user          = req.user;
         user.google.token = undefined;
+        user.save(function(err) {
+            res.redirect('/profile');
+        });
+    });
+
+    // google ---------------------------------
+    app.get('/unlink/napster', function(req, res) {
+        var user          = req.user;
+        user.napster.token = undefined;
         user.save(function(err) {
             res.redirect('/profile');
         });

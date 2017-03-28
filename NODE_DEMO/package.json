@@ -10,8 +10,10 @@
     "passport-facebook": "~2.1.1",
     "passport-twitter": "~1.0.4",
     "passport-google-oauth" : "~1.0.0",
+    "passport-oauth":"*",
     "connect-flash": "~0.1.1",
     "bcrypt-nodejs" : "latest",
+    "request":"*",
 
     "morgan": "~1.7.0",
     "body-parser": "~1.15.2",

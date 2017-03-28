@@ -17,6 +17,8 @@
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 
+    <a href="/playlists" class="btn btn-default"><span class="fa fa-user"></span>Playlists Page</a>
+
     <div class="row">
 
         <!-- LOCAL INFORMATION -->
@@ -103,6 +105,28 @@
                     <a href="/unlink/google" class="btn btn-danger">Unlink</a>
                 <% } else { %>
                     <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+                <% } %>
+
+            </div>
+        </div>
+
+        <!-- NAPSTER INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-danger"><span class=""></span> Napster</h3>
+
+                <!-- check if the user has this token (is the user authenticated with this social account) -->
+                <% if (user.napster.token) { %>
+                    <p>
+                        <strong>id</strong>: <%= user.napster.id %><br>
+                        <strong>token</strong>: <%= user.napster.token %><br>
+                        <strong>email</strong>: <%= user.napster.email %><br>
+                        <strong>name</strong>: <%= user.napster.name %>
+                    </p>
+
+                    <a href="/unlink/napster" class="btn btn-danger">Unlink</a>
+                <% } else { %>
+                    <a href="/connect/napster" class="btn btn-danger">Connect Napster</a>
                 <% } %>
 
             </div>

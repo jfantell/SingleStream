@@ -1,8 +1,10 @@
 // load all the things we need
+var request = require('request');
 var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+var NapsterStrategy = require('passport-oauth').OAuth2Strategy;
 
 // load up the user model
 var User       = require('../app/models/user');
@@ -344,6 +346,87 @@ module.exports = function(passport) {
                 });
 
             }
+
+        });
+
+    }));
+
+    passport.use('napster', new NapsterStrategy({
+        //?client_id=YWQzNWQxZWMtNDU5Mi00NjJjLThkNTAtNjcwN2M4Yjc5NWM4&redirect_uri=http://localhost:8080/auth/napster/callback&response_type=code
+        authorizationURL: 'https://api.napster.com/oauth/authorize?',
+        tokenURL: 'https://api.napster.com/oauth/access_token',
+        clientID        : configAuth.napsterAuth.clientID,
+        clientSecret    : configAuth.napsterAuth.clientSecret,
+        callbackURL     : configAuth.napsterAuth.callbackURL,
+        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+
+    },
+    function(req, token, refreshToken, profile, done) {
+
+        process.nextTick(function() {
+
+            var options = {
+                url: 'https://api.napster.com/v2.1/me',
+                headers: { 'Authorization': 'Bearer ' + token },
+                json: true
+            };
+
+            request.get(options, function(error, response, body) {
+                                // check if the user is already logged in
+                if (!req.user) {
+
+                    User.findOne({ 'napster.id' : body.me.id }, function(err, user) {
+                        if (err) {
+                            return done(err);
+                        }
+
+                        if (user) {
+
+                            // if there is a user id already but no token (user was linked at one point and then removed)
+                            if (!user.napster.token) {
+                                user.napster.token = token;
+                                user.napster.name  = body.me.realName;
+
+                                user.save(function(err) {
+                                    if (err)
+                                        throw err;
+                                    return done(null, user);
+                                });
+                            }
+
+                            return done(null, user);
+                        } else {
+                            var newUser          = new User();
+
+                            newUser.napster.id    = body.me.id;
+                            newUser.napster.token = token;
+                            newUser.napster.name  = body.me.realName;
+
+                            newUser.save(function(err) {
+                                if (err)
+                                    throw err;
+                                return done(null, newUser);
+                            });
+                        }
+                    });
+
+                } else {
+                    // user already exists and is logged in, we have to link accounts
+                    var user               = req.user; // pull the user out of the session
+
+                    user.napster.id    = body.me.id;
+                    user.napster.token = token;
+                    user.napster.name  = body.me.realName;
+
+                    user.save(function(err) {
+                        if (err)
+                            throw err;
+                        return done(null, user);
+                    });
+
+                }
+
+            });
 
         });
 
