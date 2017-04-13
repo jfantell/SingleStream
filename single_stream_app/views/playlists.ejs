@@ -16,6 +16,7 @@
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 
+    <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span>Profile Page</a>
     <div class="row">
 
         <!-- GOOGLE INFORMATION -->
@@ -24,14 +25,13 @@
                 <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
 
                 <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.google.refreshToken) { %>
+                <% if (g_playlists) { %>
                     <p>
-                        <strong>token</strong>: <%= user.google.refreshToken %><br>
+                        <strong>Body</strong>: <%= g_playlists %>
                     </p>
 
-                    <a href="/unlink/google" class="btn btn-danger">Unlink</a>
                 <% } else { %>
-                    <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+                    <p>Please connect your Google account.</p>
                 <% } %>
 
             </div>
@@ -43,12 +43,10 @@
                 <h3 class="text-danger"><span class=""></span> Napster</h3>
 
                 <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.napster.refreshToken) { %>
+                <% if (n_playlists) { %>
                     <p>
-                        <strong>Body</strong>: <%= favorites %>
+                        <strong>Body</strong>: <%= n_playlists %>
                     </p>
-
-                    <a href="/unlink/napster" class="btn btn-danger">Unlink</a>
                 <% } else { %>
                     <p>Please connect your Napster account.</p>
                 <% } %>

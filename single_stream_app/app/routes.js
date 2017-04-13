@@ -6,9 +6,6 @@ var NapsterTokenProvider = require('refresh-token');
 //Load the user database schema
 var User       = require('./models/user');
 
-//Two unitliaized global variables to hold the refresh tokens for Google and Napster respectively
-var gTokenProvider, nTokenProvider;
-
 //Global unitiliazed variable to construct Napster authorization uri
 var oauth2;
 
@@ -42,10 +39,10 @@ module.exports = function(app, passport) {
         });
     });
 
-    //!!!!!!!!!!Temporary Page for purposes of testing
-    app.get('/testing', function(req, res) {
-        res.render('testing.ejs');
-    });
+    // //!!!!!!!!!!Temporary Page for purposes of testing
+    // app.get('/testing', function(req, res) {
+    //     res.render('testing.ejs');
+    // });
 
 // =============================================================================
 // AUTHENTICATE  ==================================================
@@ -265,10 +262,9 @@ module.exports = function(app, passport) {
         rest(req.session.user._id, "tracks_info",res);
     });
 
+    //Display all playlist tracks Google and Napster
     app.get('/testing', isLoggedIn, function(req, res) {
-        // console.log(req.user);
-        // console.log(req.session.user);
-        res.render('testing.ejs');
+        rest(req.session.user._id, "testing",res);
     });
     app.get('/player', isLoggedIn, function(req, res) {
         // console.log(req.user);
@@ -284,6 +280,12 @@ function rest(session_user_id, api_call, res){
     User.findOne({ '_id' :  session_user_id }, function(err, user) {
 
         ////-->NAPSTER
+        //Two unitliaized global variables to hold the refresh tokens for Google and Napster respectively
+        var gTokenProvider, nTokenProvider;
+        napster_set = false;
+        google_set = false;
+        
+        var g_playlists, n_playlists;
 
         //Check if napster refresh token has been set in the user's local account
         if(user.napster.refreshToken != undefined){
@@ -294,62 +296,94 @@ function rest(session_user_id, api_call, res){
                 client_id:     configAuth.napsterAuth.clientID, 
                 client_secret: configAuth.napsterAuth.clientSecret
             });
-            //Get the valid access token
-            nTokenProvider.getToken(function (err, token) {
-                //Determine what operation do perform based on the second input in the rest function
-                if(api_call == "playlists"){
-                    var options = {
-                        url: 'https://api.napster.com/v2.1/me/account',
-                        headers: { 'Authorization': 'Bearer ' + token },
-                        json: true
-                    };
-                    request.get(options, function(error, response, body) {
-                        res.render('playlists.ejs', {
-                            user : user,
-                            favorites : body
-                        });
-                    });   
-                }
-                else if(api_call == "tracks_info"){
-                    res.send({access_token: token, refresh_token: user.napster.refreshToken});
-                }
-            });
+            napster_set = true;
         }
-        //
-        else{
-            if(api_call == "playlists"){
-                res.render('playlists.ejs', {
-                    user : user,
-                });
-            }
-        }
-        ////-->GOOGLE
         //Check if Google refresh token has been set
         if(user.google.refreshToken != undefined){
             //If so initialize the refresh-token module for Google
-            var gtokenProvider = new GoogleTokenProvider({
+            gTokenProvider = new GoogleTokenProvider({
                 refresh_token: user.google.refreshToken, 
                 client_id:     configAuth.googleAuth.clientID, 
                 client_secret: configAuth.googleAuth.clientSecret
             });
-            //Get valid access token
-            gtokenProvider.getToken(function (err, token) {
-                //Determine operation based on second input in rest
+            google_set = true;
+        }
 
-                //Send api call to google to revoke token
-                if(api_call == "unlink"){
+        //GET PLAYLISTS FROM BOTH NAPSTER AND GOOGLE/YOUTUBE
+        if(api_call == "playlists"){
+            if(napster_set){
+                //Get the valid access token
+                nTokenProvider.getToken(function (err, token) {
+                    //Determine what operation do perform based on the second input in the rest function
                     var options = {
-                        url: 'https://accounts.google.com/o/oauth2/revoke?token=' + token,
+                        url: 'https://api.napster.com/v2.1/me/library/playlists?limit=10',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        json: true
                     };
                     request.get(options, function(error, response, body) {
+                        console.log(body.playlists[0].links.tracks.href + '?limit=10');
+                        var options = {
+                            url: body.playlists[0].links.tracks.href + '?limit=10',
+                            headers: { 'Authorization': 'Bearer ' + token },
+                            json: true
+                        };
+                        request.get(options, function(error, response, body) {
+                            console.log("Napster");
+                            console.log(body);
+                            n_playlists = body;
+                        });
                     });   
-                }
+                });
+            }
+            if(google_set){
+                //Get valid access token
+                gTokenProvider.getToken(function (err, token) {
+                    var options = {
+                        url: 'https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&mine=true',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        json: true
+                    };
+                    request.get(options, function(error, response, body) {
+                        console.log("Google");
+                        console.log(body);
+                        g_playlists = body;
+                    });   
+                });
+            }
+            //Send the playlist data to the client, timeout function needed to make sure
+            //the data has been processed before it is sent over
+            setTimeout(function(){myFunction(res,n_playlists,g_playlists)}, 5000);
+        }
+
+        //For the napster player, we need to send the access token and refresh token to the client
+        if(api_call == "tracks_info"){
+            if(google_set) {
+                nTokenProvider.getToken(function (err, token) {
+                   res.send({access_token: token, refresh_token: user.napster.refreshToken}); 
+               });
+            }
+        }
+        //Unlink Google Account
+        if(api_call == "unlink"){
+            gTokenProvider.getToken(function (err, token) {
+                var options = {
+                    url: 'https://accounts.google.com/o/oauth2/revoke?token=' + token,
+                };
+                request.get(options, function(error, response, body) {
+                });  
             });
         }
     });
     return;
 }
 
+function myFunction(res,n_playlists,g_playlists){
+    res.render("playlists.ejs", {
+        g_playlists : g_playlists,
+        n_playlists : n_playlists,
+    });
+    return;
+}
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {

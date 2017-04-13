@@ -17,6 +17,7 @@
     </div>
 
     <a href="/playlists" class="btn btn-default"><span class="fa fa-user"></span>Playlists Page</a>
+    <a href="/player" class="btn btn-default"><span class="fa fa-user"></span>Music Player Demo</a>
 
     <div class="row">
 
@@ -46,12 +47,12 @@
                         <strong>Refresh Token</strong>: <%= user.google.refreshToken %><br>
                     </p>
                      <a href="/unlink/google" class="btn btn-danger">Unlink</a>
-                <% } else if (user.error) { %>
+                <% } else { %>
+                    <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google+</a>
+                <% } if (user.error & !user.google.refreshToken) { %>
                     <p>
                         <strong>Error:</strong> <%= user.error %><br>
                     </p>
-                <% } else { %>
-                    <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google+</a>
                 <% } %>
 
             </div>
