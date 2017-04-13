@@ -9,4 +9,9 @@ CHANGES:
 
 3/22/17: Added two folders: Settings and npm_test_packages. The latter folder will be used for simply tinkering with npm packages/apis. The former folder contains a folder called "working_example". Here you will find a node server file (server.js) and public directory containing an index.html file. To run the server, you must enter "node server.js." Then you can go to localhost:3000. There are three buttons on the index page. The first will allow you to sync your YouTube data with the SingleStream app. The second and third buttons will allow you to sync SoundCloud and Spotify data, respectively, with the SingleStream app. Right now only the YouTube button is semi-functional. It does not store any data but it logs it in the console. Data (specifically media uris, and song/video metadata will be stored in a mongo database).
 
+
+4/12/17:
+
+Added back end interface. Combined front-end prototypes with it.
+
 -JF
