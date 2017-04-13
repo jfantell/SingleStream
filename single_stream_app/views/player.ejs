@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html> <!--   --> <!--<![endif]-->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- use the width of the device's screen so it looks good -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>SingleStream</title>
+
+        <!-- To Use Angular -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <!-- Custom css specifically for this page (not the menu and sidebar) -->
+        <!-- <link rel="stylesheet" href="css/index_style.css"> --> 
+        <!-- Fonts  -->
+        <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <!-- Bootstrap Core CSS -->
+        <link href="../player_files/css/bootstrap.css" rel='stylesheet' type='text/css' />
+        <!-- Custom css file for this page (mostly the sidebar and menu)-->
+        <link href="../player_files/css/style.css" rel='stylesheet' type='text/css' /> 
+        <!-- For the button that opens up the sidebar menu-->
+        <link href="../player_files/css/font-awesome.css" rel="stylesheet"> 
+        <!-- lined-icons -->
+        <link rel="stylesheet" href="../player_files/css/icon-font.css" type='text/css' />
+
+        <!--napster music player style-->
+        <link rel="stylesheet" type="text/css" href="../napster_specific/napster_client.css">
+         <!-- jQuery -->
+        <script src="../player_files/js/jquery-2.1.4.js"></script>
+
+    </head>
+
+<body class="sticky-header left-side-collapsed" ng-app="myApp" ng-controller="myCtrl">
+  <!-- onload="initMap() --> 
+    <section>
+      <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+      <!--logo and iconic logo start-->
+      <div class="logo">
+        <h1><a href="/player">Single<span>Stream</span></a></h1>
+      </div>
+      <div class="logo-icon text-center">
+        <a href="/player">SS </a>
+      </div>
+   <!-- /w3l-agile -->
+
+
+
+  <div class="left-side-inner">
+
+        <!--sidebar nav start-->
+        <!-- These links are dead, not sure what the actual files names will end up being -->
+          <ul class="nav nav-pills nav-stacked custom-nav">
+            <li class="active"><a href="index.html"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
+            <li><a href="browse.html"><i class="camera"></i> <span>Browse</span></a></li>
+            <li><a href="friends.html"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
+            <li><a href="playlists.html"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
+            <li class="menu-list"><a href="Search.html"><i class="lnr lnr-indent-increase"></i> <span>Search</span></a></li>
+            <li><a href="analytics.html"><i class="lnr lnr-book"></i><span>Analytics</span></a></li>
+            <li class="menu-list"><a href="#"><i class="lnr lnr-heart"></i>  <span>My Favorites</span></a> 
+            </li>
+          </ul>
+        <!--sidebar nav end-->
+      </div>
+    </div>
+
+
+
+  <!-- main content start-->
+    <div class="main-content">
+      <!-- header-starts -->
+      <div class="header-section">
+      <!--toggle button start-->
+      <a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
+      <!--toggle button end-->
+      <!--notification menu start -->
+        <div class="menu-right">
+          <div class="profile_details">   
+              <div class="col-md-4 serch-part">
+                <div id="sb-search" class="sb-search">
+                  <form id="search-form" action="#" method="post">
+
+                    <input class="sb-search-input" placeholder="Search" type="search" name="search" id="query"> 
+                    <!-- id used to be "search" -->
+                    <input class="sb-search-submit" type="submit" value="">
+                    <span class="sb-icon-search"> </span>
+                  </form>
+                </div>
+              </div>
+                <!-- search-scripts -->
+                  <script src="../player_files/js/classie.js"></script>
+                  <script src="../player_files/js/uisearch.js"></script>
+                    <script>
+                      new UISearch( document.getElementById( 'sb-search' ) );
+                    </script>
+                  <!-- //search-scripts -->
+                       <!---->
+                        <div class="col-md-4 player">
+                          <div class="audio-player">
+                            <audio id="audio-player"  controls="controls">
+                             <!--  <source ng-bind-html="myHTML"></source> -->
+                                <source src="../player_files/media/bdaysx.mp3" type="audio/mpeg"></source>
+                                </audio>
+                            </div>
+                        <!---->
+                        <script type="text/javascript">
+                          $(function(){
+                            $('#audio-player').mediaelementplayer({
+                            alwaysShowControls: true,
+                            features: ['playpause','progress','volume'],
+                            audioVolume: 'horizontal',
+                            iPadUseNativeControls: true,
+                            iPhoneUseNativeControls: true,
+                            AndroidUseNativeControls: true
+                          });
+                         });
+                        </script>
+                        <!--audio-->
+                          <link rel="stylesheet" type="text/css" media="all" href="../player_files/css/audio.css">
+                          <script type="text/javascript" src="../player_files/js/mediaelement-and-player.min.js"></script>
+                          <!---->
+
+
+                        <!--//-->
+                        <ul class="next-top">
+                          <li><a class="ar" href="#"> <img src="../player_files/images/arrow.png" alt=""/></a></li>
+                          <li><a class="ar2" href="#"><img src="../player_files/images/arrow2.png" alt=""/></i></a></li>
+                            
+                       </ul>  
+                      </div>
+
+                      <!-- This is the login button, this should probably end up throwing you the our own specific login page -->
+                      <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
+                      <div class="col-md-4 login-pop">
+                        <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+
+                            <div id="loginBox">  
+                        <form action="#" method="post" id="loginForm">
+                                  <fieldset id="body">
+                                    <fieldset>
+                                        <label for="email">Email Address</label>
+                                        <input type="text" name="email" id="email">
+                                    </fieldset>
+                                    <fieldset>
+                                        <label for="password">Password</label>
+                                        <input type="password" name="password" id="password">
+                                     </fieldset>
+                                    <input type="submit" id="login" value="Sign in">
+                                    <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
+                                  </fieldset>
+                                <span><a href="#">Forgot your password?</a></span>
+                             </form>
+                          </div>
+                        </div>
+
+                      </div>
+                    <div class="clearfix"> </div>
+                </div>
+              </div>
+          <div class="clearfix"></div>
+          </div> <!-- Header Section -->
+
+
+
+        <div id="page-wrapper">
+        <div class="inner-content">
+        
+        <!-- END MENU AND SIDEBAR -->
+        <!-- PAGE CONTENT GOES HERE  -->
+
+        <div class="header">
+          <div class="header-text">napster.js Sample App<span class="user"></span></div>
+        </div>
+        <div id="tracks"></div>
+
+   
+      
+
+        <!-- END PAGE CONTENT -->
+
+      </div>
+      </div>
+    </div> <!--End main content -->
+  </section>
+
+
+<!-- Additional Scripts -->
+<script src="../player_files/js/jquery.nicescroll.js"></script>
+<script src="../player_files/js/scripts.js"></script>
+<script src="../player_files/js/bootstrap.js"></script>
+
+
+</body>
+
+<!-- <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> -->
+<script src="../napster_specific/napster.js" type="text/javascript"></script>
+<script src="../napster_specific/napster_client.js" type="text/javascript"></script>
+<script>
+  var API_KEY = 'YWQzNWQxZWMtNDU5Mi00NjJjLThkNTAtNjcwN2M4Yjc5NWM4';
+  $( document ).ready(function() {
+    player();
+    console.log("ready");
+});
+</script>
+
+<script>
+
+//This grabs the word you searched
+document.getElementById('search-form').addEventListener('submit', function(e) {
+
+  console.log(document.getElementById('query').value); //prints the query to the conosle
+
+  //alert(document.getElementById('query').value); //alerts the window of the query
+
+  document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + '../player_files/media/breathe.mp3' + '" type="audio/mpeg"></source>' + '</audio>'
+
+}, false);
+
+
+ function myFunction() {
+  // document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + 'media/breathe.mp3' + '" type="audio/mpeg"></source>' + '</audio>';
+  //document.getElementById("audio-player").innerHTML = '<p>yo</p>';
+  console.log(document.getElementById("audio-player"));
+ }
+
+</script>
+
+<script>
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+    $scope.song = 'bdaysx';
+    $scope.myHTML = 'src="../player_files/media/"' + 'bdaysx' + '.mp3" type="audio/mpeg">'
+    // <input id="button" type="submit" name="button" value="Change Song" onclick="myFunction();"/>
+});
+
+</script>
+</html>
