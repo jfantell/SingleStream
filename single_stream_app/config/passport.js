@@ -55,7 +55,7 @@ module.exports = function(passport) {
 
                 // all is well, return user
                 else {
-                    req.session.user = user;
+                    // req.session.user = user;
                     return done(null, user);
                 }
             });
@@ -96,7 +96,7 @@ module.exports = function(passport) {
                     newUser.local.email    = email;
                     newUser.local.password = newUser.generateHash(password);
 
-                    req.session.user = newUser;
+                    // req.session.user = newUser;
 
                     newUser.save(function(err) {
                         if (err)

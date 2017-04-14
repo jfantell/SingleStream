@@ -16,7 +16,13 @@ var userSchema = mongoose.Schema({
     napster           : {
         refreshToken : String,
     },
-    error : String
+    error : String,
+    followers : {
+        array: [String],
+    },
+    following: {
+        array: [String],
+    }
 });
 
 // methods ======================

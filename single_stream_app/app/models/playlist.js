@@ -2,18 +2,17 @@
 var playlistSchema = mongoose.Schema({
 
     user_id: String,
-    google           : {
-        id           : String,
-        token        : String,
-        refreshToken : String,
-        email        : String,
-        name         : String
-    },
-    napster           : {
-        id           : String,
-        token        : String,
-        refreshToken : String,
-        name         : String
+    playlist_id: String,
+    date_of_creation: String,
+    playlist_count: int,
+    description: String,
+    tracks: {
+        array : [Track_Object]
+    }
+    Track_Object: {
+        source: String,
+        track_id: String
+        url: String
     }
 });
 
