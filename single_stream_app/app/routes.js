@@ -5,6 +5,7 @@ var NapsterTokenProvider = require('refresh-token');
 
 //Load the user database schema
 var User       = require('./models/user');
+var Playlist = require('./models/playlist');
 
 //Global unitiliazed variable to construct Napster authorization uri
 var oauth2;
@@ -291,7 +292,7 @@ module.exports = function(app, passport) {
         // console.log(req.session.user);
         rest(req.user._id, "search",res,"");
     });
-    app.post('/create_playlist', isLoggedIn, function(req, res) {
+    app.get('/create_playlist', isLoggedIn, function(req, res) {
         // console.log(req.user);
         // console.log(req.session.user);
         rest(req.user._id, "create_playlist",res,"");
@@ -350,24 +351,31 @@ function rest(session_user_id, api_call, res, post_parameters){
         //         });
         //     }
         // }
-        // if(api_call == "create_playlist"){
-        // 	if(napster_set){
-        //         //Get the valid access token
-        //         nTokenProvider.getToken(function (err, token) {
-        //             //Determine what operation do perform based on the second input in the rest function
-        //             Playlist.findOne({ '_id' :  req.seesion.user_id}, function(err, user) {
-	       //              //append the songs that the user wanted to the playlist
 
-	       //              user.save(function(err) {
-	       //                      if (err)
-	       //                          throw err;
-	       //              });
-	       //              //Reset the session with the new changes
-	       //              req.session.user = user;
-	       //          });
-        //         });
-        //     }
-        // }
+        // This is just using a GET right now, so it'll work if you type in 
+        // "/create_playlist" in the URL. Using the myFunction to redirect
+        //  back to the /playlists page because there is nothing to show yet.
+        if(api_call == "create_playlist"){
+
+            // create the playlist
+            var newPlaylist = new Playlist();
+
+
+            // for now just looking at user id and initializing track count
+            newPlaylist.user_id = session_user_id;
+            newPlaylist.track_count = 0;
+
+            newPlaylist.save();
+
+            // show that user now has a playlist 
+            // will not be reflected unless redirected from here 
+            u_playlists = true;
+
+            //borrowing this function for now
+            setTimeout(function(){myFunction(res,n_playlists,g_playlists,u_playlists)}, 5000);
+
+            
+        }
 
         //GET PLAYLISTS FROM BOTH NAPSTER AND GOOGLE/YOUTUBE
         if(api_call == "playlists"){
