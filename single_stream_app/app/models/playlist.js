@@ -1,21 +1,37 @@
-// define the schema for our user model
-var playlistSchema = mongoose.Schema({
+// app/models/user.js
+// load the things we need
+var mongoose = require('mongoose');
+var bcrypt   = require('bcrypt-nodejs');
 
-    user_id: String,
-    playlist_id: String,
-    date_of_creation: String,
-    playlist_count: int,
-    description: String,
-    tracks: {
-        array : [Track_Object]
-    }
-    Track_Object: {
-        source: String,
-        track_id: String
-        url: String
+// define the schema for our user model
+var userSchema = mongoose.Schema({
+
+    local            : {
+        email        : String,
+        password     : String,
+    },
+    google           : {
+        refreshToken : String,
+    },
+    napster           : {
+        refreshToken : String,
+    },
+    error : String,
+    followers : {
+        array: [String],
+    },
+    following: {
+        array: [String],
     }
 });
 
-
+// methods ======================
+// generating a hash
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+userSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.local.password);
+};
 // create the model for users and expose it to our app
-module.exports = mongoose.model('Playlist', playlistSchema);
+module.exports = mongoose.model('User', userSchema);
