@@ -4,26 +4,23 @@ var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
-var userSchema = mongoose.Schema({
+var playlistSchema = mongoose.Schema({
 
-    local            : {
-        email        : String,
-        password     : String,
-    },
-    google           : {
-        refreshToken : String,
-    },
-    napster           : {
-        refreshToken : String,
-    },
-    error : String,
-    followers : {
-        array: [String],
-    },
-    following: {
-        array: [String],
-    }
+    user_id : String, 
+    created : Date,
+    track_count : Number,
+    description : String,
+    tracks : 
+        [
+            {
+                track_name : String,
+                service : String,
+                url : String
+            }
+        ]
+    
 });
+
 
 // methods ======================
 // generating a hash
@@ -33,5 +30,6 @@ userSchema.methods.generateHash = function(password) {
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
+
 // create the model for users and expose it to our app
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Playlist', userSchema);
