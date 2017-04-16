@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
-// define the schema for our user model
+// define the schema for our playlist model
 var playlistSchema = mongoose.Schema({
 
     user_id : String, 

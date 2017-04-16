@@ -380,7 +380,7 @@ function rest(session_user_id, api_call, res, post_parameters){
                         json: true
                     };
                     request.get(options, function(error, response, body) {
-                        console.log(body.playlists[0].links.tracks.href + '?limit=10');
+                        if (body.playlists) console.log(body.playlists[0].links.tracks.href + '?limit=10');
                         var options = {
                             url: body.playlists[0].links.tracks.href + '?limit=10',
                             headers: { 'Authorization': 'Bearer ' + token },
