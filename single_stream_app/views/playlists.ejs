@@ -55,6 +55,22 @@
         </div>
     </div>
 
+    <!-- User Defined Playlists -->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-danger"><span class=""></span>User Created</h3>
+                <% if (u_playlists) { %>
+                    <p>
+                        <strong>Body</strong>: <%=u_playlists %>
+                    </p>
+                <% } else { %>
+                    <p>You have not created any SingleStream playlists yet</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

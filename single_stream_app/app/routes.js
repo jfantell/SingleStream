@@ -311,6 +311,7 @@ function rest(session_user_id, api_call, res, post_parameters){
         google_set = false;
         
         var g_playlists, n_playlists;
+        var u_playlists = false;
 
         //Check if napster refresh token has been set in the user's local account
         if(user.napster.refreshToken != undefined){
@@ -411,7 +412,7 @@ function rest(session_user_id, api_call, res, post_parameters){
             }
             //Send the playlist data to the client, timeout function needed to make sure
             //the data has been processed before it is sent over
-            setTimeout(function(){myFunction(res,n_playlists,g_playlists)}, 5000);
+            setTimeout(function(){myFunction(res,n_playlists,g_playlists,u_playlists)}, 5000);
         }
 
         //For the napster player, we need to send the access token and refresh token to the client
@@ -436,10 +437,11 @@ function rest(session_user_id, api_call, res, post_parameters){
     return;
 }
 
-function myFunction(res,n_playlists,g_playlists){
+function myFunction(res,n_playlists,g_playlists,u_playlists){
     res.render("playlists.ejs", {
         g_playlists : g_playlists,
         n_playlists : n_playlists,
+        u_playlists : u_playlists
     });
     return;
 }
