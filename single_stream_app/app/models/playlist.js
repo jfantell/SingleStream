@@ -12,6 +12,7 @@ var playlistSchema = mongoose.Schema({
     track_count : Number,
     running_time : Number,
     description : String,
+    tags : Array,
     tracks : 
         [
             {
