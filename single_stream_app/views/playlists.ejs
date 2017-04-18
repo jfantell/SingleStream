@@ -1,5 +1,5 @@
 <!Doctype html>
-<html>
+<html ng-app="playlists">
 <head>
     <title>Node Authentication</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
@@ -8,69 +8,61 @@
         body        { padding-top:80px; word-wrap:break-word; }
     </style>
 </head>
-<body>
-<div class="container">
+    <body>
+        <div ng-controller="mainController">
+            <div class="container">
 
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
+                <div class="page-header text-center">
+                    <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+                    <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+                </div>
 
-    <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span>Profile Page</a>
-    <div class="row">
+                <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span>Profile Page</a>
+                <div class="row">
 
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
+                    <!-- GOOGLE INFORMATION -->
+                    <div class="col-sm-6">
+                        <div class="well">
+                            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
+                        </div>
+                    </div>
 
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (g_playlists) { %>
-                    <p>
-                        <strong>Body</strong>: <%= g_playlists %>
-                    </p>
+                    <!-- NAPSTER INFORMATION -->
+                    <div class="col-sm-6">
+                        <div class="well">
+                            <h3 class="text-danger"><span class=""></span> Napster</h3>
+                        </div>
+                    </div>
+                </div>
 
-                <% } else { %>
-                    <p>Please connect your Google account.</p>
-                <% } %>
-
+                <!-- User Defined Playlists -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="well">
+                            <h3 class="text-danger"><span class=""></span>User Created</h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- NAPSTER INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class=""></span> Napster</h3>
-
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (n_playlists) { %>
-                    <p>
-                        <strong>Body</strong>: <%= n_playlists %>
-                    </p>
-                <% } else { %>
-                    <p>Please connect your Napster account.</p>
-                <% } %>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- User Defined Playlists -->
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class=""></span>User Created</h3>
-                <% if (u_playlists) { %>
-                    <p>
-                        <strong>Body</strong>: <%=u_playlists %>
-                    </p>
-                <% } else { %>
-                    <p>You have not created any SingleStream playlists yet</p>
-                <% } %>
-            </div>
-        </div>
-    </div>
-
-</div>
-</body>
+    </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script>
+    var app = angular.module("playlists", []);
+    app.controller("mainController", ['$scope','$http',function($scope, $http) {
+        var run_function = true;
+        if(run_function){
+            var req = {
+            method: 'GET',
+            url: '/playlists_function',
+            }
+            $http(req).success(function(data){
+              console.log(data);
+            });
+            run_function = false;
+        }
+    }]);
+</script>
 </html>

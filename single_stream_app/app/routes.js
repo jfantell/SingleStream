@@ -267,36 +267,46 @@ module.exports = function(app, passport) {
 // RESTFUL API CALLS (ONCE AUTHENTICATED!) =============================================================
 // =============================================================================
 
-    //SAMPLE NAPSTER API CALL (ONCE AUTHENTICATED)
+    //== RENDER PLAYLISTS PAGE ==
     app.get('/playlists', isLoggedIn, function(req, res) {
-        // console.log(req.user);
-        // console.log(req.session.user);
-        rest(req.user._id, "playlists",res,"");
+        res.render('playlists.ejs')
     });
 
-    app.get('/tracks_info', isLoggedIn, function(req, res) {
-        rest(req.user._id, "tracks_info",res,"");
+    //== GET USER'S NAPSTER, GOOGLE, AND CUSTOM PLAYLISTS ==
+    app.get('/playlists_function', isLoggedIn, function(req, res) {
+        rest(req.user._id, "playlists_function",res,"");
     });
 
-    //Display all playlist tracks Google and Napster
-    app.get('/testing', isLoggedIn, function(req, res) {
-        rest(req.user._id, "testing",res,"");
+    //== RENDER SEARCH PAGE ==
+    app.get('/search_page', isLoggedIn, function(req, res) {
+        res.render('testing.ejs');
     });
-    app.get('/player', isLoggedIn, function(req, res) {
-        // console.log(req.user);
-        // console.log(req.session.user);
-        res.render('player.ejs');
+    //== SEARCH NEW SONGS AND VIDEOS FROM NAPSTER AND GOOGLE
+    app.post('/search', isLoggedIn, function(req, res) {
+        rest(req.user._id, "search",res,req.body.q);
     });
-   	app.post('/search', isLoggedIn, function(req, res) {
-        // console.log(req.user);
-        // console.log(req.session.user);
-        rest(req.user._id, "search",res,"");
-    });
-    app.get('/create_playlist', isLoggedIn, function(req, res) {
-        // console.log(req.user);
-        // console.log(req.session.user);
-        rest(req.user._id, "create_playlist",res,"");
-    });
+
+    //UNFINISHED STUFF
+
+    // app.get('/tracks_info', isLoggedIn, function(req, res) {
+    //     rest(req.user._id, "tracks_info",res,"");
+    // });
+
+    // //Display all playlist tracks Google and Napster
+    // app.get('/testing', isLoggedIn, function(req, res) {
+    //     rest(req.user._id, "testing",res,"");
+    // });
+    // app.get('/player', isLoggedIn, function(req, res) {
+    //     // console.log(req.user);
+    //     // console.log(req.session.user);
+    //     res.render('player.ejs');
+    // });
+     
+    // app.get('/create_playlist', isLoggedIn, function(req, res) {
+    //     // console.log(req.user);
+    //     // console.log(req.session.user);
+    //     rest(req.user._id, "create_playlist",res,"");
+    // });
 };
 
 //The following function will be used to make all api calls that require an access token.
@@ -305,14 +315,13 @@ module.exports = function(app, passport) {
 function rest(session_user_id, api_call, res, post_parameters){
     User.findOne({ '_id' :  session_user_id }, function(err, user) {
 
-        ////-->NAPSTER
         //Two unitliaized global variables to hold the refresh tokens for Google and Napster respectively
         var gTokenProvider, nTokenProvider;
         napster_set = false;
         google_set = false;
         
-        var g_playlists, n_playlists;
-        var u_playlists = false;
+        //Variables to store objects that will be passed back to the client in some api calls
+        var g_playlists, n_playlists, u_playlists;
 
         //Check if napster refresh token has been set in the user's local account
         if(user.napster.refreshToken != undefined){
@@ -325,6 +334,7 @@ function rest(session_user_id, api_call, res, post_parameters){
             });
             napster_set = true;
         }
+
         //Check if Google refresh token has been set
         if(user.google.refreshToken != undefined){
             //If so initialize the refresh-token module for Google
@@ -335,22 +345,27 @@ function rest(session_user_id, api_call, res, post_parameters){
             });
             google_set = true;
         }
-        // if(api_call == "search"){
-        // 	if(napster_set){
-        //         //Get the valid access token
-        //         nTokenProvider.getToken(function (err, token) {
-        //             //Determine what operation do perform based on the second input in the rest function
-        //             var options = {
-        //                 url: '//search',
-        //                 headers: { 'Authorization': 'Bearer ' + token },
-        //                 json: true
-        //             };
-        //             request.get(options, function(error, response, body) {
-        //                ///send options back to client
-        //             });   
-        //         });
-        //     }
-        // }
+
+        if(api_call == "search"){
+            var songs = [];
+            //songs array, napster auth boolean, token obect, query, callback
+            napster_songs(songs,napster_set,nTokenProvider,post_parameters,function(done_1) {
+                google_videos(songs,google_set,gTokenProvider,post_parameters,function(done_2){
+                    res.send(songs);
+                });
+            });    
+        }
+
+        //GET PLAYLISTS FROM BOTH NAPSTER AND GOOGLE/YOUTUBE
+        if(api_call == "playlists_function"){
+            var playlists = [];
+            napster_playlist(playlists,napster_set,nTokenProvider,function(done_1){
+                google_playlist(playlists,google_set,gTokenProvider,function(done_2){
+                    res.send("Hey man");
+                });
+            });
+        }
+
 
         // This is just using a GET right now, so it'll work if you type in 
         // "/create_playlist" in the URL. Using the myFunction to redirect
@@ -362,66 +377,22 @@ function rest(session_user_id, api_call, res, post_parameters){
 
 
             // for now just looking at user id and initializing track count
-            newPlaylist.user_id = session_user_id;
+            newPlaylist.user_id = req.user._id;
             newPlaylist.track_count = 0;
 
-            newPlaylist.save();
+            newPlaylist.save(function(err) {
+                res.redirect()
+            });
 
             // show that user now has a playlist 
             // will not be reflected unless redirected from here 
             u_playlists = true;
 
             //borrowing this function for now
-            setTimeout(function(){myFunction(res,n_playlists,g_playlists,u_playlists)}, 5000);
-
-            
+            setTimeout(function(){myFunction(res,n_playlists,g_playlists,u_playlists)}, 5000);  
         }
 
-        //GET PLAYLISTS FROM BOTH NAPSTER AND GOOGLE/YOUTUBE
-        if(api_call == "playlists"){
-            if(napster_set){
-                //Get the valid access token
-                nTokenProvider.getToken(function (err, token) {
-                    //Determine what operation do perform based on the second input in the rest function
-                    var options = {
-                        url: 'https://api.napster.com/v2.1/me/library/playlists?limit=10',
-                        headers: { 'Authorization': 'Bearer ' + token },
-                        json: true
-                    };
-                    request.get(options, function(error, response, body) {
-                        if (body.playlists) console.log(body.playlists[0].links.tracks.href + '?limit=10');
-                        var options = {
-                            url: body.playlists[0].links.tracks.href + '?limit=10',
-                            headers: { 'Authorization': 'Bearer ' + token },
-                            json: true
-                        };
-                        request.get(options, function(error, response, body) {
-                            console.log("Napster");
-                            console.log(body);
-                            n_playlists = body;
-                        });
-                    });   
-                });
-            }
-            if(google_set){
-                //Get valid access token
-                gTokenProvider.getToken(function (err, token) {
-                    var options = {
-                        url: 'https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&mine=true',
-                        headers: { 'Authorization': 'Bearer ' + token },
-                        json: true
-                    };
-                    request.get(options, function(error, response, body) {
-                        console.log("Google");
-                        console.log(body);
-                        g_playlists = body;
-                    });   
-                });
-            }
-            //Send the playlist data to the client, timeout function needed to make sure
-            //the data has been processed before it is sent over
-            setTimeout(function(){myFunction(res,n_playlists,g_playlists,u_playlists)}, 5000);
-        }
+
 
         //For the napster player, we need to send the access token and refresh token to the client
         if(api_call == "tracks_info"){
@@ -445,14 +416,138 @@ function rest(session_user_id, api_call, res, post_parameters){
     return;
 }
 
-function myFunction(res,n_playlists,g_playlists,u_playlists){
-    res.render("playlists.ejs", {
-        g_playlists : g_playlists,
-        n_playlists : n_playlists,
-        u_playlists : u_playlists
-    });
-    return;
+//-----------------------------
+//Search API Call
+//-----------------------------
+function napster_songs(songs,napster_set,nTokenProvider,post_parameters,callback){
+    if(napster_set){
+        nTokenProvider.getToken(function (err, token) {
+                //Determine what operation do perform based on the second input in the rest function
+                // var artists = {
+                //     url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=artist&limit=5',
+                //     headers: { 'Authorization': 'Bearer ' + token },
+                //     json: true
+                // };
+                // request.get(artists, function(error, response, body) {
+                //    console.log("Artists");
+                //    for(i = 0; i < data.length; i++){
+                //       console.log(data[i].id, data[i].name, )
+                //    }
+                // }); 
+                // var albums = {
+                //     url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=album&limit=5',
+                //     headers: { 'Authorization': 'Bearer ' + token },
+                //     json: true
+                // };
+                // request.get(albums, function(error, response, body) {
+                //    console.log("Albums");
+                //    console.log(body);
+                // });
+            var tracks = {
+                url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=track&limit=5',
+                headers: { 'Authorization': 'Bearer ' + token },
+                json: true
+            };
+            request.get(tracks, function(error, response, body) {
+               console.log("Tracks");
+               for(i = 0; i < body.data.length; i++){
+                    songs.push([body.data[i].id, body.data[i].artistName, body.data[i].name, body.data[i].albumId]);
+                    if(i == body.data.length-1){
+                        callback("done");
+                    }
+                }
+            });   
+        });  
+    }
+
 }
+function google_videos(songs,google_set,gTokenProvider,post_parameters,callback){
+    if(google_set){
+        gTokenProvider.getToken(function (err, token) {
+            var videos = {
+                url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&q='+post_parameters+'&type=video',
+                headers: { 'Authorization': 'Bearer ' + token },
+                json: true
+            }
+            request.get(videos, function(error, response, body) {
+                //Parse body and add each video to an array with the needed data/metadata
+                var youtube_videos = [];
+                console.log("Google");
+                for(i = 0; i < body.items.length; i++){
+                    // Save important data for each video to master array
+                    songs.push([body.items[i].id.videoId, body.items[i].snippet.channelTitle, body.items[i].snippet.title, body.items[i].snippet.thumbnails.default.url]);
+                    if(i == body.items.length-1){
+                        console.log("Google")
+                        callback("done");
+                    }
+                }
+            });
+        });
+    }
+}
+
+//-----------------------------
+//Playlists
+//-----------------------------
+function napster_playlist(playlists, napster_set, nTokenProvider, callback){
+    if(napster_set){
+        //Get the valid access token
+        nTokenProvider.getToken(function (err, token) {
+            //Determine what operation do perform based on the second input in the rest function
+            var options = {
+                url: 'https://api.napster.com/v2.1/me/library/playlists?limit=10',
+                headers: { 'Authorization': 'Bearer ' + token },
+                json: true
+            };
+            request.get(options, function(error, response, body) {
+                var options = "";
+                //Go through all playlists
+                var remaining = body.playlists.length;
+                for(i=0; i < body.playlists.length; i++){
+                    options = {
+                        url: body.playlists[i].links.tracks.href + '?limit=10',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        json: true
+                    };
+                    request.get(options, function(error, response, playlist) {
+                        var songs = [];
+                        remaining--;
+                        //Go through all songs in a particular playlist
+                        for(j = 0; j < playlist.tracks.length; j++){
+                            songs.push([playlist.tracks[j].id, playlist.tracks[j].artistName, playlist.tracks[j].name, playlist.tracks[j].albumId]);
+                            if(j == playlist.tracks.length-1){
+                                playlists.push(songs);
+                                if(remaining == 0){
+                                    console.log(playlists);
+                                    callback("done");
+                                }
+                            }
+                        }
+                    });
+                }
+            });   
+        });
+    }
+}
+
+function google_playlist(playlists, google_set, gTokenProvider, callback){
+    if(google_set){
+        //Get valid access token
+        gTokenProvider.getToken(function (err, token) {
+            var options = {
+                url: 'https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&mine=true',
+                headers: { 'Authorization': 'Bearer ' + token },
+                json: true
+            };
+            request.get(options, function(error, response, body) {
+                console.log(body);
+                callback("done");
+            });   
+        });
+    }
+}
+
+
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
