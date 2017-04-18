@@ -7,12 +7,9 @@ var bcrypt   = require('bcrypt-nodejs');
 var playlistSchema = mongoose.Schema({
 
     user_id : String, 
-    name : String,
     created : Date,
     track_count : Number,
-    running_time : Number,
     description : String,
-    tags : Array,
     tracks : 
         [
             {
@@ -20,7 +17,10 @@ var playlistSchema = mongoose.Schema({
                 service : String,
                 url : String
             }
-        ]
+        ],
+    name: String,
+    running_time: Number,
+    tags: [String]
     
 });
 
