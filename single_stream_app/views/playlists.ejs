@@ -39,11 +39,11 @@
       <div class="container">
         <div class="row">
           <div class="well">
-            <div ng-bind-html="trustedHtml"></div>
+            <div id="trustedHtml"></div>
           </div>
         </div>
         <div class="row">
-          <div class="well" ng-show="ready==1" id="views">
+          <div class="well" id="views">
           </div>
         </div>
       </div>
@@ -55,7 +55,18 @@
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
 <script>
   var app = angular.module("playlists", ['ngSanitize']);
-  app.controller("mainController", ['$scope','$http','$sce','$compile',function($scope, $http, $sce, $compile) {
+  app.controller("mainController", ['$scope','$http','$compile', function($scope, $http, $compile) {
+     // var btnhtml = '<button type="button" ng-click="addButton()">Click Me</button>';
+     //    var temp = $compile(btnhtml)($scope);
+
+     //    //Let's say you have element with id 'foo' in which you want to create a button
+     //    angular.element(document.getElementById('trustedHtml')).append(temp);
+
+     //   var addButton = function(){
+     //      alert("button clicked");
+     //      alert('Yes Click working at dynamically added element');
+     //   }
+
     $scope.view = 0;
     $scope.ready = 0;
     $scope.playlist_name = "";
@@ -80,18 +91,16 @@
                     row+='<div class="row">';
                 }
                 row+= '<div class="col col-md-3">';
-                row+= '<button id="playlist_' + i + '" ng-click="ready_change(' + i + ')" type="button" class="btn btn-primary btn-lg">' + data[i].name +'</button>';
+                row+= '<button id="playlist_' + i + '" onclick="angular.element(this).scope().ready_change(' + i + ')" type="button" class="btn btn-primary btn-lg">' + data[i].name +'</button>';
                 row+= '</div>';
             }
             row += "</div>";
-            $scope.row = row;
-            // $scope.trustedHtml = $compile(angular.element(row))($scope);
-            $scope.trustedHtml = $sce.trustAsHtml($scope.row);
+            $('#trustedHtml').html(row);
         });
     });
 
     $scope.ready_change = function(i){
-        console.log("hello");
+        alert("hello");
         $scope.tracks = $scope.data[i].tracks;
         var headerString = "<div class='row'>";
         headerString += "<div class='col col-md-2'></div>";
@@ -101,6 +110,12 @@
         headerString += "<div class='col col-md-2'>Playlist/Album</div>";
         headerString += "</div>";
         $('#views').html(headerString);
+        console.log($scope.tracks);
+        var str = "";
+        for(i = 0; i < $scope.tracks.length; i++){
+          str+= "<div class='row'><p>" + $scope.tracks[i] + "</p></div>"
+        }
+        $('#views').append(str);
     }
     
 
