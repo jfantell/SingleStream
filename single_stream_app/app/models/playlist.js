@@ -21,6 +21,7 @@ var playlistSchema = mongoose.Schema({
     name: String,
     running_time: Number,
     tags: [String]
+
 });
 
 
