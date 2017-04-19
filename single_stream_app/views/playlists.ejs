@@ -11,6 +11,12 @@
         text-align: center;
         color: white;
       }
+      .yellow-wellow{
+        background-color: yellow;
+      }
+      li {
+        list-style: none;
+      }
     </style>
   </head>
   <body>
@@ -21,16 +27,19 @@
       <div class="container">
         <div class="row">
           <div class="well">
+            <button type="button" ng-click="toggleCustom()" class="btn btn-primary btn-block">Create New Playlist</button>
+            <span ng-hide="custom">
             <div class="form-group">
               <label for="usr">Create a new playlist:</label>
               <input type="text" class="form-control" placeholder="Playlist Name - Required" id="playlist_name" ng-model="playlist_name">
               <div class="form-group">
                   <label for="comment">Description:</label>
                   <textarea class="form-control" rows="5" placeholder="Optional Description" id="description" ng-model="description"></textarea>
-                </div>
-                <label for="usr">Tags (comma seperated):</label>
-                <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
-                <input type="submit" class="btn btn-primary" value="Create" ng-click="create()">
+              </div>
+              <label for="usr">Tags (comma seperated):</label>
+              <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
+              <input type="submit" class="btn btn-primary" value="Create" ng-click="create()">
+            </span>
             </div>
           </div>
         </div>
@@ -39,11 +48,21 @@
       <div class="container">
         <div class="row">
           <div class="well">
-            <div id="trustedHtml"></div>
+            <div id="all_playlists"></div>
           </div>
         </div>
         <div class="row">
-          <div class="well" id="views">
+          <div class="well">
+            <div id="search_field" class="form-group">
+              <label for="usr">Search for a new song or video to your playlist:</label>
+              <input type="text" class="form-control" placeholder="Billie Jean" id="query" ng-model="query">
+              <input type="submit" class="btn btn-primary" value="Search" ng-click="search()">
+              <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
+            </div>
+            <div id="well yellow-well">
+              <ul><li ng-repeat="result in search_results track by $index">{{result[1]}}, {{result[2]}}, {{result[3]}}, <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
+            </div>
+            <div id="views"></div>
           </div>
         </div>
       </div>
@@ -56,32 +75,31 @@
 <script>
   var app = angular.module("playlists", ['ngSanitize']);
   app.controller("mainController", ['$scope','$http','$compile', function($scope, $http, $compile) {
-     // var btnhtml = '<button type="button" ng-click="addButton()">Click Me</button>';
-     //    var temp = $compile(btnhtml)($scope);
 
-     //    //Let's say you have element with id 'foo' in which you want to create a button
-     //    angular.element(document.getElementById('trustedHtml')).append(temp);
-
-     //   var addButton = function(){
-     //      alert("button clicked");
-     //      alert('Yes Click working at dynamically added element');
-     //   }
-
-    $scope.view = 0;
-    $scope.ready = 0;
-    $scope.playlist_name = "";
-    $scope.description = "";
-    $scope.tags = "";
-    $scope.data = null;
-    $scope.tracks = null;
-    $scope.row = "";
+    $scope.query = ""; //Parameter for searching new songs or videos
+    $scope.playlist_name = ""; //Name of new playlist
+    $scope.description = ""; //Description for new playlist
+    $scope.tags = ""; //Tags for new playlist
+    $scope.data = null; //Returned videos and songs from search
+    $scope.tracks = null; //Tracks from custom playlists
     $scope.trustedHtml = "";
+    $scope.search_results = [];
+    $scope.current_playlist = "";
+
+    //Toggle create new playlist button
+    $scope.custom = true;
+    $scope.toggleCustom = function() {
+        $scope.custom = $scope.custom === false ? true: false;
+    };
 
     angular.element(document).ready(function () {
+      //On page load, hide the search field for adding new songs to an existing playlist
+        $('#search_field').hide();
         var req = {
             method: 'GET',
             url: '/get_playlists',
         }
+        //Retrieve all custom playlists from backend
         $http(req).success(function(data){
             $scope.data = data;
             var row = "<div class='row'>";
@@ -95,13 +113,33 @@
                 row+= '</div>';
             }
             row += "</div>";
-            $('#trustedHtml').html(row);
+            //Append the tabs to access each playlist stored in user's account
+            $('#all_playlists').html(row);
         });
     });
 
+    //Add a new song to a playlist
+    $scope.add = function(result){
+      var req = {
+          method: 'POST',
+          url: '/add_to_playlist',
+          data: {'result': result, "playlist_id": $scope.current_playlist}
+      }
+      $http(req).success(function(data){
+          alert(data);
+      });
+    }
+
+    //Applies new changes to playlist
+    $scope.apply = function(){
+      location.reload();
+    }
+
+    //Load playlists into view when user clicks on a specific playlist
     $scope.ready_change = function(i){
-        alert("hello");
+        $('#search_field').show();
         $scope.tracks = $scope.data[i].tracks;
+        $scope.current_playlist = $scope.data[i]._id;
         var headerString = "<div class='row'>";
         headerString += "<div class='col col-md-2'></div>";
         headerString += "<div class='col col-md-2'></div>";
@@ -110,15 +148,30 @@
         headerString += "<div class='col col-md-2'>Playlist/Album</div>";
         headerString += "</div>";
         $('#views').html(headerString);
-        console.log($scope.tracks);
         var str = "";
         for(i = 0; i < $scope.tracks.length; i++){
           str+= "<div class='row'><p>" + $scope.tracks[i] + "</p></div>"
         }
         $('#views').append(str);
     }
-    
 
+    //Search napster and youtube for new songs and videos to add to an existing custom playlist
+    $scope.search = function(){
+      if($scope.query.length == 0){
+        alert("Please enter a song!")
+        return;
+      }
+      var req = {
+          method: 'POST',
+          url: '/search',
+          data: {'q': $scope.query}
+        }
+      $http(req).success(function(data){
+          $scope.search_results = data;
+      });
+    }
+
+    //Create new custom playlist
     $scope.create = function(){
       var req = {
           method: 'POST',

@@ -271,33 +271,43 @@ module.exports = function(app, passport) {
     app.get('/playlists', isLoggedIn, function(req, res) {
         res.render('playlists.ejs')
     });
+    //==CREATE A NEW CUSTOM PAGE (EMPTY)==
     app.post('/create_playlist', isLoggedIn, function(req, res) {
         rest(req.user._id, "create_playlist",res,req.body);
     });
-     app.get('/get_playlists', isLoggedIn, function(req, res) {
+    //==RETRIEVE ALL CUSTOM PLAYLISTS (EMPTY)==
+    app.get('/get_playlists', isLoggedIn, function(req, res) {
         rest(req.user._id, "get_playlists",res,'');
     });
-
-
-
-    //== TEST
-    app.get('/playlists_test', isLoggedIn, function(req, res) {
-        res.render('playlists_test.ejs')
+    //== SEARCH NEW SONGS AND VIDEOS FROM NAPSTER AND GOOGLE
+    app.post('/search', isLoggedIn, function(req, res) {
+        if(req.body.q.length == 0){
+            res.send("Error: No song or video specified!");
+        }
+        rest(req.user._id, "search",res,req.body.q);
     });
-
     //== GET USER'S NAPSTER, GOOGLE, AND CUSTOM PLAYLISTS ==
     app.get('/playlists_function', isLoggedIn, function(req, res) {
         rest(req.user._id, "playlists_function",res,"");
     });
+    app.post('/add_to_playlist', isLoggedIn, function(req, res) {
+        rest(req.user._id, "add_to_playlist",res,req.body);
+    });
 
-    //== RENDER SEARCH PAGE ==
-    app.get('/search_page', isLoggedIn, function(req, res) {
-        res.render('testing.ejs');
-    });
-    //== SEARCH NEW SONGS AND VIDEOS FROM NAPSTER AND GOOGLE
-    app.post('/search', isLoggedIn, function(req, res) {
-        rest(req.user._id, "search",res,req.body.q);
-    });
+
+
+    // //== TEST
+    // app.get('/playlists_test', isLoggedIn, function(req, res) {
+    //     res.render('playlists_test.ejs')
+    // });
+
+
+
+    // //== RENDER SEARCH PAGE ==
+    // app.get('/search_page', isLoggedIn, function(req, res) {
+    //     res.render('testing.ejs');
+    // });
+
 
     //UNFINISHED STUFF
 
@@ -315,11 +325,6 @@ module.exports = function(app, passport) {
     //     res.render('player.ejs');
     // });
      
-    // app.get('/create_playlist', isLoggedIn, function(req, res) {
-    //     // console.log(req.user);
-    //     // console.log(req.session.user);
-    //     rest(req.user._id, "create_playlist",res,"");
-    // });
 };
 
 //The following function will be used to make all api calls that require an access token.
@@ -413,16 +418,26 @@ function rest(session_user_id, api_call, res, post_parameters){
             });
         }
 
+        if(api_call == "add_to_playlist"){
+            var track = {track_id: post_parameters.result[0], channel_artist: post_parameters.result[1], track_name: post_parameters.result[2], url: post_parameters.result[3]};
 
-
-        //For the napster player, we need to send the access token and refresh token to the client
-        if(api_call == "tracks_info"){
-            if(napster_set) {
-                nTokenProvider.getToken(function (err, token) {
-                   res.send({access_token: token, refresh_token: user.napster.refreshToken}); 
-               });
-            }
+            Playlist.findByIdAndUpdate(post_parameters.playlist_id, {
+              $push: { tracks: track }
+            }, function (err, playlist) {
+                console.log(err);
+                console.log(playlist);
+            });
+            res.end();
         }
+
+        // //For the napster player, we need to send the access token and refresh token to the client
+        // if(api_call == "tracks_info"){
+        //     if(napster_set) {
+        //         nTokenProvider.getToken(function (err, token) {
+        //            res.send({access_token: token, refresh_token: user.napster.refreshToken}); 
+        //        });
+        //     }
+        // }
         //Unlink Google Account
         if(api_call == "unlink"){
             gTokenProvider.getToken(function (err, token) {
