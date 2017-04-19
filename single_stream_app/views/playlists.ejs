@@ -1,68 +1,122 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html ng-app="playlists">
-<head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+  <head>
+    <title>Playlists</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
-        body        { padding-top:80px; word-wrap:break-word; }
+      body {
+        background: black;
+      }
+      h1 {
+        text-align: center;
+        color: white;
+      }
     </style>
-</head>
-    <body>
-        <div ng-controller="mainController">
-            <div class="container">
-
-                <div class="page-header text-center">
-                    <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-                    <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+  </head>
+  <body>
+    <div ng-controller="mainController">
+      <div class="header">
+        <h1>Playlists</h1>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="well">
+            <div class="form-group">
+              <label for="usr">Create a new playlist:</label>
+              <input type="text" class="form-control" placeholder="Playlist Name - Required" id="playlist_name" ng-model="playlist_name">
+              <div class="form-group">
+                  <label for="comment">Description:</label>
+                  <textarea class="form-control" rows="5" placeholder="Optional Description" id="description" ng-model="description"></textarea>
                 </div>
-
-                <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span>Profile Page</a>
-                <div class="row">
-
-                    <!-- GOOGLE INFORMATION -->
-                    <div class="col-sm-6">
-                        <div class="well">
-                            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
-                        </div>
-                    </div>
-
-                    <!-- NAPSTER INFORMATION -->
-                    <div class="col-sm-6">
-                        <div class="well">
-                            <h3 class="text-danger"><span class=""></span> Napster</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User Defined Playlists -->
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="well">
-                            <h3 class="text-danger"><span class=""></span>User Created</h3>
-                        </div>
-                    </div>
-                </div>
+                <label for="usr">Tags (comma seperated):</label>
+                <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
+                <input type="submit" class="btn btn-primary" value="Create" ng-click="create()">
             </div>
+          </div>
         </div>
-    </body>
+      </div>
+      <!--Playlists added here-->
+      <div class="container">
+        <div class="row">
+          <div class="well">
+            <div ng-bind-html="trustedHtml"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="well" ng-show="ready==1" id="views">
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
 <script>
-    var app = angular.module("playlists", []);
-    app.controller("mainController", ['$scope','$http',function($scope, $http) {
-        var run_function = true;
-        if(run_function){
-            var req = {
+  var app = angular.module("playlists", ['ngSanitize']);
+  app.controller("mainController", ['$scope','$http','$sce','$compile',function($scope, $http, $sce, $compile) {
+    $scope.view = 0;
+    $scope.ready = 0;
+    $scope.playlist_name = "";
+    $scope.description = "";
+    $scope.tags = "";
+    $scope.data = null;
+    $scope.tracks = null;
+    $scope.row = "";
+    $scope.trustedHtml = "";
+
+    angular.element(document).ready(function () {
+        var req = {
             method: 'GET',
-            url: '/playlists_function',
-            }
-            $http(req).success(function(data){
-              console.log(data);
-            });
-            run_function = false;
+            url: '/get_playlists',
         }
-    }]);
+        $http(req).success(function(data){
+            $scope.data = data;
+            var row = "<div class='row'>";
+            for(i=0; i<data.length; i++){
+                if(i%4 == 0){
+                    row+='</div>'
+                    row+='<div class="row">';
+                }
+                row+= '<div class="col col-md-3">';
+                row+= '<button id="playlist_' + i + '" ng-click="ready_change(' + i + ')" type="button" class="btn btn-primary btn-lg">' + data[i].name +'</button>';
+                row+= '</div>';
+            }
+            row += "</div>";
+            $scope.row = row;
+            // $scope.trustedHtml = $compile(angular.element(row))($scope);
+            $scope.trustedHtml = $sce.trustAsHtml($scope.row);
+        });
+    });
+
+    $scope.ready_change = function(i){
+        console.log("hello");
+        $scope.tracks = $scope.data[i].tracks;
+        var headerString = "<div class='row'>";
+        headerString += "<div class='col col-md-2'></div>";
+        headerString += "<div class='col col-md-2'></div>";
+        headerString += "<div class='col col-md-3'>Name</div>";
+        headerString += "<div class='col col-md-3'>Artist/Channel</div>";
+        headerString += "<div class='col col-md-2'>Playlist/Album</div>";
+        headerString += "</div>";
+        $('#views').html(headerString);
+    }
+    
+
+    $scope.create = function(){
+      var req = {
+          method: 'POST',
+          url: '/create_playlist',
+          data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags}
+        }
+      $http(req).success(function(data){
+            if(data == "Done"){
+                location.reload();
+            }
+      });
+    }
+  }]);
 </script>
 </html>
+

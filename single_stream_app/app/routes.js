@@ -271,6 +271,19 @@ module.exports = function(app, passport) {
     app.get('/playlists', isLoggedIn, function(req, res) {
         res.render('playlists.ejs')
     });
+    app.post('/create_playlist', isLoggedIn, function(req, res) {
+        rest(req.user._id, "create_playlist",res,req.body);
+    });
+     app.get('/get_playlists', isLoggedIn, function(req, res) {
+        rest(req.user._id, "get_playlists",res,'');
+    });
+
+
+
+    //== TEST
+    app.get('/playlists_test', isLoggedIn, function(req, res) {
+        res.render('playlists_test.ejs')
+    });
 
     //== GET USER'S NAPSTER, GOOGLE, AND CUSTOM PLAYLISTS ==
     app.get('/playlists_function', isLoggedIn, function(req, res) {
@@ -374,22 +387,30 @@ function rest(session_user_id, api_call, res, post_parameters){
 
             // create the playlist
             var newPlaylist = new Playlist();
-
+            //array of tags
+            var tags = post_parameters.tags.split(",").map(function(item) {
+              return item.trim();
+            });
+            var date = new Date();
 
             // for now just looking at user id and initializing track count
-            newPlaylist.user_id = req.user._id;
+            newPlaylist.user_id = session_user_id;
             newPlaylist.track_count = 0;
-
+            newPlaylist.name = post_parameters.playlist_name;
+            newPlaylist.description = post_parameters.description;
+            newPlaylist.tags = tags;
+            newPlaylist.created = date.toDateString();
             newPlaylist.save(function(err) {
-                res.redirect()
+                if (err)
+                    console.log(err);
+                res.send("Done");
+                console.log("done");
+            });  
+        }
+        if(api_call == "get_playlists"){
+            Playlist.find({ 'user_id' :  session_user_id }, function(err, playlists) {
+                res.send(playlists);
             });
-
-            // show that user now has a playlist 
-            // will not be reflected unless redirected from here 
-            u_playlists = true;
-
-            //borrowing this function for now
-            setTimeout(function(){myFunction(res,n_playlists,g_playlists,u_playlists)}, 5000);  
         }
 
 
@@ -519,7 +540,7 @@ function napster_playlist(playlists, napster_set, nTokenProvider, callback){
                                 playlists.push(songs);
                                 if(remaining == 0){
                                     console.log(playlists);
-                                    callback("done");
+                                    callback("done");s
                                 }
                             }
                         }
