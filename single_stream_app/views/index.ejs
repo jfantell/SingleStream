@@ -1,28 +1,165 @@
-<!-- views/index.ejs -->
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Music streaming web application">
+    <meta name="author" content="Web Science Group 8">
+
+    <title>SingleStream</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="index_resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="index_resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="index_resources/css/grayscale.min.css" rel="stylesheet">
+
+    <!-- Temporary navbar container fix -->
     <style>
-        body        { padding-top:80px; }
+    .navbar-toggler {
+        z-index: 1;
+    }
+    
+    @media (max-width: 576px) {
+        nav > .container {
+            width: 100%;
+        }
+    }
     </style>
+
 </head>
-<body>
-<div class="container">
 
-    <div class="jumbotron text-center">
-        <h1><span class="fa fa-lock"></span> Node Authentication</h1>
+<body id="page-top">
 
-        <p>Login or Register with:</p>
+    <!-- Navigation -->
+    <nav id="mainNav" class="navbar fixed-top navbar-toggleable-md navbar-light">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
+            Menu <i class="fa fa-bars"></i>
+        </button>
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarExample">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#page-top">SingleStream</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
-        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+    <!-- Intro Header -->
+    <header class="masthead">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <h1 class="brand-heading">SingleStream</h1>
+                        <% if (message.length > 0) { %>
+                            <div class="alert alert-danger"><%= message %></div>
+                        <% } %>
+                        <div class="login-page">
+                          <div class="form">
+                            <form class="register-form" action="/signup" method="post">
+                              <input type="text" placeholder="email" name="email" required/>
+                              <input type="password" placeholder="password" name="password" required/>
+                              <button>create</button>
+                              <p class="message">Already registered? <a href="#">Sign In</a></p>
+                            </form>
+                            <form class="login-form" action="/login" method="post">
+                              <input type="text" placeholder="email" name="email" required/>
+                              <input type="password" placeholder="password" name="password" required/>
+                              <button type="submit" class="btn btn-warning btn-lg">Login</button>
+                              <p class="message">Not registered? <a href="#">Create an account</a></p>
+                            </form>
+                          </div>
+                        </div>
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <!-- Login Section -->
+<!--     <section id="loginSection" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 offset-md-2">
+                <h2>Login</h2>
+            </div>
+    </section> -->
 
-    </div>
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 offset-md-2">
+                <h2>About SingleStream</h2>
+                <p>Music Is Everywhere but now you will not have to be. Music lovers should not have to decide what media platform they would like to use when their favorite songs are scattered across them. SingleStream puts your favorite songs from various media platforms in one place -- a combination of your favorite tracks from Spotify, freestyles from SoundCloud, and remixes from YouTube together like they should be. But SingleStream is not only a music hub -- it is a social network made of and for music enthusiasts. Share your favorite songs, explore new artists, challenge your friends in music trivia and more.</p>
+            </div>
+        </div>
+    </section>
 
-</div>
+    <!-- Contact Section -->
+    <header class="contact">
+    <section id="contact" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 offset-md-2">
+                <h2>Contact SingleStream</h2>
+                <p>Stuff about developers maybe goes here?</p>
+                <ul class="list-inline banner-social-buttons">
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://github.com/BlackrockDigital/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    </header>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>Copyright &copy; SingleStream 2017</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="index_resources/vendor/jquery/jquery.min.js"></script>
+    <script src="index_resources/vendor/tether/tether.min.js"></script>
+    <script src="index_resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="index_resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="index_resources/js/grayscale.min.js"></script>
+
+    <script>
+        $('.message a').click(function(){
+            $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+        });
+    </script>
+
 </body>
+
 </html>

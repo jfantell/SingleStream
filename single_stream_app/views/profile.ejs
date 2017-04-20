@@ -1,81 +1,288 @@
-<!Doctype html>
-<html>
-<head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body        { padding-top:80px; word-wrap:break-word; }
-    </style>
-</head>
-<body>
-<div class="container">
+<!DOCTYPE html>
+<html> <!--   --> <!--<![endif]-->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- use the width of the device's screen so it looks good -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        <title>SingleStream</title>
+
+        <!-- To Use Angular -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+      
+        <!-- Custom fonts for this template -->
+        <link href="profile_resources/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
+        <!-- Fonts  -->
+        <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <!-- Bootstrap Core CSS -->
+        <link href="profile_resources/css/bootstrap.css" rel='stylesheet' type='text/css' />
+        <!-- For the button that opens up the sidebar menu-->
+        
+        <link rel="stylesheet" href="profile_resources/css/icon-font.css" type='text/css' />
+         
+          <!-- Custom css specifically for this page (not the menu and sidebar) -->
+        <link href="profile_resources/css/grayscale.css" rel="stylesheet">
+        <!-- Custom css file for this page (mostly the sidebar and menu)-->
+        <link href="profile_resources/css/style.css" rel='stylesheet' type='text/css' /> 
+        <!-- jQuery -->
+        <script src="profile_resources/js/jquery-2.1.4.js"></script>
+        <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
+        <!-- lined-icons -->
+
+
+    </head>
+
+<body class="sticky-header left-side-collapsed" ng-app="myApp" ng-controller="myCtrl">
+  <!-- onload="initMap() --> 
+    <section>
+      <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+      <!--logo and iconic logo start-->
+      <div class="logo">
+        <h1><a href="/profile">Single<span>Stream</span></a></h1>
+      </div>
+      <div class="logo-icon text-center">
+        <a href="index.html">SS </a>
+      </div>
+   <!-- /w3l-agile -->
+
+
+
+  <div class="left-side-inner">
+
+        <!--sidebar nav start-->
+        <!-- These links are dead, not sure what the actual files names will end up being -->
+          <ul class="nav nav-pills nav-stacked custom-nav">
+            <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
+ <!--            <li><a href="/friends"><i class="camera"></i> <span>Friends</span></a></li> -->
+            <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
+            <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
+            <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
+            <li><a href="/contact"><i class="lnr lnr-book"></i><span>Contact</span></a></li>
+            </li>
+          </ul>
+        <!--sidebar nav end-->
+      </div>
     </div>
 
-    <a href="/playlists" class="btn btn-default"><span class="fa fa-user"></span>Playlists Page</a>
-    <a href="/player" class="btn btn-default"><span class="fa fa-user"></span>Music Player Demo</a>
 
-    <div class="row">
 
-        <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
+  <!-- main content start-->
+    <div class="main-content">
+      <!-- header-starts -->
+      <div class="header-section">
+      <!--toggle button start-->
+      <a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
+      <!--toggle button end-->
+      <!--notification menu start -->
+        <div class="menu-right">
+          <div class="profile_details">   
+              <div class="col-md-4 serch-part">
+                <div id="sb-search" class="sb-search">
+                  <form id="search-form" action="#" method="post">
 
-                <% if (user.local.email) { %>
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
-                    </p>  
-                <% } %>
+                    <input class="sb-search-input" placeholder="Search" type="search" name="search" id="query"> 
+                    <!-- id used to be "search" -->
+                    <input class="sb-search-submit" type="submit" value="">
+                    <span class="sb-icon-search"> </span>
+                  </form>
+                </div>
+              </div>
+                <!-- search-scripts -->
+                  <script src="js/classie.js"></script>
+                  <script src="js/uisearch.js"></script>
+                    <script>
+                      new UISearch( document.getElementById( 'sb-search' ) );
+                    </script>
+                  <!-- //search-scripts -->
+                       <!---->
+                        <div class="col-md-4 player">
+                          <div class="audio-player">
+                            <audio id="audio-player"  controls="controls">
+                             <!--  <source ng-bind-html="myHTML"></source> -->
+                                <source src="media/bdaysx.mp3" type="audio/mpeg"></source>
+                                </audio>
+                            </div>
+                        <!---->
+                        <script type="text/javascript">
+                          $(function(){
+                            $('#audio-player').mediaelementplayer({
+                            alwaysShowControls: true,
+                            features: ['playpause','progress','volume'],
+                            audioVolume: 'horizontal',
+                            iPadUseNativeControls: true,
+                            iPhoneUseNativeControls: true,
+                            AndroidUseNativeControls: true
+                          });
+                         });
+                        </script>
+                        <!--audio-->
+                          <link rel="stylesheet" type="text/css" media="all" href="css/audio.css">
+                          <script type="text/javascript" src="js/mediaelement-and-player.min.js"></script>
+                          <!---->
+
+
+                        <!--//-->
+                        <ul class="next-top">
+                          <li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
+                          <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></i></a></li>
+                            
+                       </ul>  
+                      </div>
+
+                      <!-- This is the login button, this should probably end up throwing you the our own specific login page -->
+                      <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
+                      <div class="col-md-4 login-pop">
+                        <div id="loginpop"> <a href="#" id="loginButton"><span>+Add Playlist</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+
+                            <div id="loginBox">  
+                        <form action="#" method="post" id="loginForm">
+                                  <fieldset id="body">
+                                    <fieldset>
+                                        <label for="email">Playlist Name</label>
+                                        <input type="text" name="email" id="email">
+                                    </fieldset>
+                                    <input type="submit" id="login" value="Go">
+                                  </fieldset>
+                             </form>
+                          </div>
+                        </div>
+
+                      </div>
+                    <div class="clearfix"> </div>
+                </div>
+              </div>
+          <div class="clearfix"></div>
+          </div> <!-- Header Section -->
+
+        <div id="page-wrapper">
+        <div class="inner-content">
+        
+        <!-- END MENU AND SIDEBAR -->
+        
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+        <!-- PAGE CONTENT GOES HERE  -->
+
+      <!-- Intro Header -->
+            <div class="container">
+                <div class="row">
+                    <h2 id="profileHeader">Welcome to your profile</h2>
+                    <!-- LOCAL INFORMATION -->
+                    <div class="col-sm-4">
+                        <div class="well">
+                            <h3><span class="fa fa-user"></span> Local</h3>
+
+                            <% if (user.local.email) { %>
+                                <p>
+                                    <strong>id</strong>: <%= user._id %><br>
+                                    <strong>email</strong>: <%= user.local.email %><br>
+                                    <strong>password</strong>: <%= user.local.password %>
+                                </p>  
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- GOOGLE INFORMATION -->
+                    <div class="col-sm-4">
+                        <div class="well">
+                            <h3 class="text-default"><span class="fa fa-google-plus"></span> Google+</h3>
+
+                            <!-- check if the user has this token (is the user authenticated with this social account) -->
+                            <% if (user.google.refreshToken) { %>
+                                <p>
+                                    <strong>Refresh Token</strong>: <%= user.google.refreshToken %><br>
+                                </p>
+                                 <a href="/unlink/google" class="btn btn-default">Unlink</a>
+                            <% } else { %>
+                                <a href="/auth/google" class="btn btn-default"><span class="fa fa-google-plus"></span> Google+</a>
+                            <% } if (user.error & !user.google.refreshToken) { %>
+                                <p>
+                                    <strong>Error:</strong> <%= user.error %><br>
+                                </p>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- NAPSTER INFORMATION -->
+                    <div class="col-sm-4">
+                        <div class="well">
+                            <h3 class="text-default"><span class=""></span> Napster</h3>
+
+                            <!-- check if the user has this token (is the user authenticated with this social account) -->
+                            <% if (user.napster.refreshToken) { %>
+                                <p>
+                                    <strong>Refresh Token</strong>: <%= user.napster.refreshToken %><br>
+                                </p>
+                                <a href="/unlink/napster" class="btn btn-default">Unlink</a>
+                            <% } else { %>
+                                <a href="/auth/napster" class="btn btn-default"><span class="fa fa-google-plus"></span> Napster</a>
+                            <% } %>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
+        <!-- END PAGE CONTENT -->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+      </div>
+      </div>
+       <!-- <div id="page-end"> -->
+ 
+    </div> <!--End main content -->
 
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.google.refreshToken) { %>
-                    <p>
-                        <strong>Refresh Token</strong>: <%= user.google.refreshToken %><br>
-                    </p>
-                     <a href="/unlink/google" class="btn btn-danger">Unlink</a>
-                <% } else { %>
-                    <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google+</a>
-                <% } if (user.error & !user.google.refreshToken) { %>
-                    <p>
-                        <strong>Error:</strong> <%= user.error %><br>
-                    </p>
-                <% } %>
+  </section>
 
-            </div>
-        </div>
 
-        <!-- NAPSTER INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class=""></span> Napster</h3>
+<!-- Additional Scripts -->
+<script src="profile_resources/js/jquery.nicescroll.js"></script>
+<script src="profile_resources/js/scripts.js"></script>
+<script src="profile_resources/js/bootstrap.js"></script>
 
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.napster.refreshToken) { %>
-                    <p>
-                        <strong>Refresh Token</strong>: <%= user.napster.refreshToken %><br>
-                    </p>
-                    <a href="/unlink/napster" class="btn btn-danger">Unlink</a>
-                <% } else { %>
-                    <a href="/auth/napster" class="btn btn-danger"><span class="fa fa-google-plus"></span> Napster</a>
-                <% } %>
 
-            </div>
-        </div>
-    </div>
-</div>
 </body>
+
+<script>
+
+//This grabs the word you searched
+document.getElementById('search-form').addEventListener('submit', function(e) {
+
+  console.log(document.getElementById('query').value); //prints the query to the conosle
+
+  //alert(document.getElementById('query').value); //alerts the window of the query
+
+  document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + media/breathe.mp3 + '" type="audio/mpeg"></source>' + '</audio>'
+
+}, false);
+
+
+ function myFunction() {
+  // document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + 'media/breathe.mp3' + '" type="audio/mpeg"></source>' + '</audio>';
+  //document.getElementById("audio-player").innerHTML = '<p>yo</p>';
+  console.log(document.getElementById("audio-player"));
+ }
+
+</script>
+
+<script>
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+    $scope.song = 'bdaysx';
+    $scope.myHTML = 'src="media/"' + 'bdaysx' + '.mp3" type="audio/mpeg">'
+    // <input id="button" type="submit" name="button" value="Change Song" onclick="myFunction();"/>
+});
+
+
+</script>
+
+
+
+
 </html>

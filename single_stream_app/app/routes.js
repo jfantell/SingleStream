@@ -23,8 +23,12 @@ module.exports = function(app, passport) {
     
     // Show Landing Page
     app.get('/', function(req, res) {
-        req.session.destroy(function (err) {
-            res.render('index.ejs');
+        res.render('index.ejs', { message: req.flash('loginMessage')}, function(e, render) { 
+                console.log(req.flash('loginMessage'));
+                req.session.destroy(function (err){ 
+                console.log("Hi"); 
+                res.send(render);
+            }); 
         });
     });
 
@@ -47,30 +51,17 @@ module.exports = function(app, passport) {
 // AUTHENTICATE  ==================================================
 // =============================================================================
 
-    // locally --------------------------------
-    // LOGIN ===============================
-    // show the login form
-    app.get('/login', function(req, res) {
-        res.render('login.ejs', { message: req.flash('loginMessage') });
-    });
-
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
-
-    // SIGNUP =================================
-    // show the signup form
-    app.get('/signup', function(req, res) {
-        res.render('signup.ejs', { message: req.flash('loginMessage') });
-    });
 
     // process the signup form
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
 
@@ -290,9 +281,23 @@ module.exports = function(app, passport) {
     app.get('/playlists_function', isLoggedIn, function(req, res) {
         rest(req.user._id, "playlists_function",res,"");
     });
+    //== ADD NEW SONG TO EXISTING PLAYLIST ==
     app.post('/add_to_playlist', isLoggedIn, function(req, res) {
         rest(req.user._id, "add_to_playlist",res,req.body);
     });
+    //== RENDER FRIENDS PAGE ==
+    app.get('/friends', isLoggedIn, function(req, res) {
+        res.render('friends.ejs')
+    });
+    //== RENDER ANALYTICS PAGE ==
+    app.get('/analytics', isLoggedIn, function(req, res) {
+        res.render('analytics.ejs')
+    });
+    //== RENDER ANALYTICS PAGE ==
+    app.get('/contact', isLoggedIn, function(req, res) {
+        res.render('contact.ejs')
+    });
+
 
 
 
