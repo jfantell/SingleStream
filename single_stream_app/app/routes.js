@@ -23,8 +23,12 @@ module.exports = function(app, passport) {
     
     // Show Landing Page
     app.get('/', function(req, res) {
-        req.session.destroy(function (err) {
-            res.render('index.ejs');
+        res.render('index.ejs', { message: req.flash('loginMessage')}, function(e, render) { 
+                console.log(req.flash('loginMessage'));
+                req.session.destroy(function (err){ 
+                console.log("Hi"); 
+                res.send(render);
+            }); 
         });
     });
 
@@ -47,30 +51,17 @@ module.exports = function(app, passport) {
 // AUTHENTICATE  ==================================================
 // =============================================================================
 
-    // locally --------------------------------
-    // LOGIN ===============================
-    // show the login form
-    app.get('/login', function(req, res) {
-        res.render('login.ejs', { message: req.flash('loginMessage') });
-    });
-
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
-
-    // SIGNUP =================================
-    // show the signup form
-    app.get('/signup', function(req, res) {
-        res.render('signup.ejs', { message: req.flash('loginMessage') });
-    });
 
     // process the signup form
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
 
@@ -240,6 +231,7 @@ module.exports = function(app, passport) {
     // google ---------------------------------
     app.get('/unlink/google', function(req, res) {
         var user          = req.user;
+        console.log("UNLINKED GOOGLE");
         //We need to actually revoke the token by making a Google API call
         //This will be done in the function "rest"
         rest(req.user._id, "unlink",res);
@@ -247,6 +239,7 @@ module.exports = function(app, passport) {
         user.google.refreshToken = undefined;
         //Redirect
         user.save(function(err) {
+            if(err) console.log(err);
             res.redirect('/profile');
         });
     });
@@ -254,10 +247,12 @@ module.exports = function(app, passport) {
     // napster ---------------------------------
     app.get('/unlink/napster', function(req, res) {
         var user          = req.user;
+        console.log("UNLINKED NAPSTER");
         //Simply set the refreshToken in mongodb to undefined
         user.napster.refreshToken = undefined;
         //Save the changes, and redirect to the profile page
         user.save(function(err) {
+            if(err) console.log(err);
             res.redirect('/profile');
         });
     });
@@ -290,9 +285,32 @@ module.exports = function(app, passport) {
     app.get('/playlists_function', isLoggedIn, function(req, res) {
         rest(req.user._id, "playlists_function",res,"");
     });
+    //== ADD NEW SONG TO EXISTING PLAYLIST ==
     app.post('/add_to_playlist', isLoggedIn, function(req, res) {
         rest(req.user._id, "add_to_playlist",res,req.body);
     });
+    //== RENDER FOLLOWERS PAGE ==
+    app.get('/friends', isLoggedIn, function(req, res) {
+        res.render('friends.ejs')
+    });
+    //== FIND FOLLOWERS ==
+    app.post('/find_followers', isLoggedIn, function(req, res) {
+        rest(req.user._id, "find_followers",res,req.body);
+    });
+    //== ADD FOLLOWERS ==
+    app.post('/add_follower', isLoggedIn, function(req, res) {
+        rest(req.user._id, "add_follower",res,req.body);
+    });
+
+    //== RENDER ANALYTICS PAGE ==
+    app.get('/analytics', isLoggedIn, function(req, res) {
+        res.render('analytics.ejs')
+    });
+    //== RENDER ANALYTICS PAGE ==
+    app.get('/contact', isLoggedIn, function(req, res) {
+        res.render('contact.ejs')
+    });
+
 
 
 
@@ -430,6 +448,32 @@ function rest(session_user_id, api_call, res, post_parameters){
             res.end();
         }
 
+        if(api_call == "find_followers"){
+            User.find({ 'local.email' :  post_parameters.q }, function(err, followers) {
+                res.send(followers);
+            });
+        }
+
+        //add someone you want to follow/following
+        //add your id to their account as a follower
+        if(api_call == "add_follower"){
+            var following = {_id: post_parameters.result._id, name: post_parameters.result.local.email};
+            var followers = {_id: session_user_id, name: user.local.email};
+            User.findByIdAndUpdate(session_user_id, {
+              $push: { following : following }
+            }, function (err, user) {
+                console.log(err);
+                console.log(user);
+            });
+            User.findByIdAndUpdate(post_parameters.result._id, {
+              $push: { followers : followers }
+            }, function (err, user) {
+                console.log(err);
+                console.log(user);
+            });
+            res.end();
+        }
+
         // //For the napster player, we need to send the access token and refresh token to the client
         // if(api_call == "tracks_info"){
         //     if(napster_set) {
@@ -458,27 +502,6 @@ function rest(session_user_id, api_call, res, post_parameters){
 function napster_songs(songs,napster_set,nTokenProvider,post_parameters,callback){
     if(napster_set){
         nTokenProvider.getToken(function (err, token) {
-                //Determine what operation do perform based on the second input in the rest function
-                // var artists = {
-                //     url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=artist&limit=5',
-                //     headers: { 'Authorization': 'Bearer ' + token },
-                //     json: true
-                // };
-                // request.get(artists, function(error, response, body) {
-                //    console.log("Artists");
-                //    for(i = 0; i < data.length; i++){
-                //       console.log(data[i].id, data[i].name, )
-                //    }
-                // }); 
-                // var albums = {
-                //     url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=album&limit=5',
-                //     headers: { 'Authorization': 'Bearer ' + token },
-                //     json: true
-                // };
-                // request.get(albums, function(error, response, body) {
-                //    console.log("Albums");
-                //    console.log(body);
-                // });
             var tracks = {
                 url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=track&limit=5',
                 headers: { 'Authorization': 'Bearer ' + token },

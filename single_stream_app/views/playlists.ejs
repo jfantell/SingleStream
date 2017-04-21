@@ -1,86 +1,276 @@
 <!DOCTYPE html>
-<html ng-app="playlists">
-  <head>
-    <title>Playlists</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-      body {
-        background: black;
-      }
-      h1 {
-        text-align: center;
-        color: white;
-      }
-      .yellow-wellow{
-        background-color: yellow;
-      }
-      li {
-        list-style: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div ng-controller="mainController">
-      <div class="header">
-        <h1>Playlists</h1>
+<html ng-app="playlists"> <!--   --> <!--<![endif]-->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- use the width of the device's screen so it looks good -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>SingleStream</title>
+      
+        <!-- Custom fonts for this template -->
+        <link href="profile_resources/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
+        <!-- Fonts  -->
+        <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <!-- Bootstrap Core CSS -->
+        <link href="profile_resources/css/bootstrap.css" rel='stylesheet' type='text/css' />
+        <!-- For the button that opens up the sidebar menu-->
+        
+        <link rel="stylesheet" href="profile_resources/css/icon-font.css" type='text/css' />
+         
+          <!-- Custom css specifically for this page (not the menu and sidebar) -->
+        <link href="profile_resources/css/grayscale.css" rel="stylesheet">
+        <!-- Custom css file for this page (mostly the sidebar and menu)-->
+        <link href="profile_resources/css/style.css" rel='stylesheet' type='text/css' /> 
+        <!-- jQuery -->
+        <script src="profile_resources/js/jquery-2.1.4.js"></script>
+        <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
+        <!-- lined-icons -->
+        <style>
+          li {
+            list-style: none;
+          }
+        </style>
+
+    </head>
+
+<body ng-controller="mainController" class="sticky-header left-side-collapsed">
+  <!-- onload="initMap() --> 
+    <section>
+      <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+      <!--logo and iconic logo start-->
+      <div class="logo">
+        <h1><a href="/profile">Single<span>Stream</span></a></h1>
       </div>
-      <div class="container">
-        <div class="row">
-          <div class="well">
-            <button type="button" ng-click="toggleCustom()" class="btn btn-primary btn-block">Create New Playlist</button>
-            <span ng-hide="custom">
-            <div class="form-group">
-              <label for="usr">Create a new playlist:</label>
-              <input type="text" class="form-control" placeholder="Playlist Name - Required" id="playlist_name" ng-model="playlist_name">
-              <div class="form-group">
-                  <label for="comment">Description:</label>
-                  <textarea class="form-control" rows="5" placeholder="Optional Description" id="description" ng-model="description"></textarea>
-              </div>
-              <label for="usr">Tags (comma seperated):</label>
-              <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
-              <input type="submit" class="btn btn-primary" value="Create" ng-click="create()">
-            </span>
-            </div>
-          </div>
-        </div>
+      <div class="logo-icon text-center">
+        <a href="/profile">SS </a>
       </div>
-      <!--Playlists added here-->
-      <div class="container">
-        <div class="row">
-          <div class="well">
-            <div id="all_playlists"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="well">
-            <div id="search_field" class="form-group">
-              <label for="usr">Search for a new song or video to your playlist:</label>
-              <input type="text" class="form-control" placeholder="Billie Jean" id="query" ng-model="query">
-              <input type="submit" class="btn btn-primary" value="Search" ng-click="search()">
-              <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
-            </div>
-            <div id="well yellow-well">
-              <ul><li ng-repeat="result in search_results track by $index">{{result[1]}}, {{result[2]}}, {{result[3]}}, <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
-            </div>
-            <div id="views"></div>
-          </div>
-        </div>
+   <!-- /w3l-agile -->
+
+
+
+  <div class="left-side-inner">
+        <!--sidebar nav start-->
+        <!-- These links are dead, not sure what the actual files names will end up being -->
+          <ul class="nav nav-pills nav-stacked custom-nav">
+            <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
+            <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
+            <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
+            <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
+            <li><a href="/contact"><i class="lnr lnr-book"></i><span>Contact</span></a></li>
+            </li>
+          </ul>
+        <!--sidebar nav end-->
       </div>
     </div>
-  </body>
+
+
+
+  <!-- main content start-->
+    <div class="main-content">
+      <!-- header-starts -->
+      <div class="header-section">
+      <!--toggle button start-->
+      <a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
+      <!--toggle button end-->
+      <!--notification menu start -->
+        <div class="menu-right">
+          <div class="profile_details">   
+              <div class="col-md-4 serch-part">
+                <div id="sb-search" class="sb-search">
+                  <form id="search-form" action="#" method="post">
+
+                    <input class="sb-search-input" placeholder="Search" type="search" name="search" id="query"> 
+                    <!-- id used to be "search" -->
+                    <input class="sb-search-submit" type="submit" value="">
+                    <span class="sb-icon-search"> </span>
+                  </form>
+                </div>
+              </div>
+                <!-- search-scripts -->
+                  <script src="profile_resources/js/classie.js"></script>
+                  <script src="profile_resources/js/uisearch.js"></script>
+                    <script>
+                      new UISearch( document.getElementById( 'sb-search' ) );
+                    </script>
+                  <!-- //search-scripts -->
+                       <!---->
+                        <div class="col-md-4 player">
+                          <div class="audio-player">
+                            <audio id="audio-player"  controls="controls">
+                             <!--  <source ng-bind-html="myHTML"></source> -->
+                                <source src="media/bdaysx.mp3" type="audio/mpeg"></source>
+                                </audio>
+                            </div>
+                        <!---->
+                        <script type="text/javascript">
+                         //  $(function(){
+                         //    $('#audio-player').mediaelementplayer({
+                         //    alwaysShowControls: true,
+                         //    features: ['playpause','progress','volume'],
+                         //    audioVolume: 'horizontal',
+                         //    iPadUseNativeControls: true,
+                         //    iPhoneUseNativeControls: true,
+                         //    AndroidUseNativeControls: true
+                         //  });
+                         // });
+                        </script>
+                        <!--audio-->
+                          <link rel="stylesheet" type="text/css" media="all" href="profile_resources/css/audio.css">
+                          <script type="text/javascript" src="profile_resources/js/mediaelement-and-player.min.js"></script>
+                          <!---->
+
+
+                        <!--//-->
+                        <ul class="next-top">
+                          <li><a class="ar" href="#"> <img src="profile_resources/images/arrow.png" alt=""/></a></li>
+                          <li><a class="ar2" href="#"><img src="profile_resources/images/arrow2.png" alt=""/></i></a></li>
+                            
+                       </ul>  
+                      </div>
+
+                      <!-- This is the login button, this should probably end up throwing you the our own specific login page -->
+                      <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
+                      <div class="col-md-4 login-pop">
+                        <div id="loginpop"> <a href="#" id="loginButton"><span>+Add Playlist</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+
+                            <div id="loginBox">  
+                        <form action="#" method="post" id="loginForm">
+                                  <fieldset id="body">
+                                    <fieldset>
+                                        <label for="email">Playlist Name</label>
+                                        <input type="text" name="email" id="email">
+                                    </fieldset>
+                                    <input type="submit" id="login" value="Go">
+                                  </fieldset>
+                             </form>
+                          </div>
+                        </div>
+
+                      </div>
+                    <div class="clearfix"> </div>
+                </div>
+              </div>
+          <div class="clearfix"></div>
+          </div> <!-- Header Section -->
+
+        <div id="page-wrapper">
+        <div class="inner-content">
+        
+        <!-- END MENU AND SIDEBAR -->
+        
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+      <!-- PAGE CONTENT GOES HERE  -->
+
+      <!-- Intro Header -->
+            <div class="container">
+              <div class="container">
+                <div class="row">
+                  <div class="well">
+                    <button type="button" ng-click="toggleCustom()" class="btn btn-primary btn-block">Create New Playlist</button>
+                    <span ng-hide="custom">
+                    <div class="form-group">
+                      <label for="usr">Create a new playlist:</label>
+                      <input type="text" class="form-control" placeholder="Playlist Name - Required" id="playlist_name" ng-model="playlist_name">
+                      <div class="form-group">
+                          <label for="comment">Description:</label>
+                          <textarea class="form-control" rows="5" placeholder="Optional Description" id="description" ng-model="description"></textarea>
+                      </div>
+                      <label for="usr">Tags (comma seperated):</label>
+                      <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
+                      <input type="submit" class="btn btn-primary" value="Create" ng-click="create()">
+                    </span>
+                    </div>
+                  </div>
+                </div>
+              </div><!--End of container-->
+              <!--Playlists added here-->
+              <div class="container">
+                <div class="row">
+                  <div class="well">
+                    <div id="all_playlists">
+                      <ul><li ng-repeat="playlist in user_playlists track by $index">
+                        <button ng-click="load_playlist_view($index)" class="btn btn-primary">{{playlist.name}}</button>
+                      </li></ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="well">
+                    <div id="search_field" class="form-group">
+                      <label for="usr">Search for a new song or video to your playlist:</label>
+                      <input type="text" class="form-control" placeholder="Billie Jean" id="query" ng-model="query">
+                      <input type="submit" class="btn btn-primary" value="Search" ng-click="search()">
+                      <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
+                    </div>
+                    <div id="well yellow-well">
+                      <ul><li ng-repeat="result in search_results track by $index">{{result[1]}}, {{result[2]}}, {{result[3]}}, <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
+                    </div>
+                    <div id="views"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        <!-- END PAGE CONTENT -->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+      </div>
+      </div>
+       <!-- <div id="page-end"> -->
+ 
+    </div> <!--End main content -->
+
+  </section>
+
+
+<!-- Additional Scripts -->
+<script src="profile_resources/js/jquery.nicescroll.js"></script>
+<script src="profile_resources/js/scripts.js"></script>
+<script src="profile_resources/js/bootstrap.js"></script>
+
+<!--For playlists-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
+
+</body>
+
 <script>
-  var app = angular.module("playlists", ['ngSanitize']);
-  app.controller("mainController", ['$scope','$http','$compile', function($scope, $http, $compile) {
+//This grabs the word you searched
+document.getElementById('search-form').addEventListener('submit', function(e) {
+
+  console.log(document.getElementById('query').value); //prints the query to the conosle
+
+  //alert(document.getElementById('query').value); //alerts the window of the query
+
+  document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + media/breathe.mp3 + '" type="audio/mpeg"></source>' + '</audio>'
+
+}, false);
+
+
+ function myFunction() {
+  // document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + 'media/breathe.mp3' + '" type="audio/mpeg"></source>' + '</audio>';
+  //document.getElementById("audio-player").innerHTML = '<p>yo</p>';
+  console.log(document.getElementById("audio-player"));
+ }
+</script>
+
+<script>
+var app = angular.module("playlists", ['ngSanitize']);
+  app.controller("mainController", ['$scope','$http','$compile','$timeout', function($scope, $http, $compile, $timeout) {
 
     $scope.query = ""; //Parameter for searching new songs or videos
     $scope.playlist_name = ""; //Name of new playlist
     $scope.description = ""; //Description for new playlist
     $scope.tags = ""; //Tags for new playlist
-    $scope.data = null; //Returned videos and songs from search
+    $scope.user_playlists = []; //Returned videos and songs from search
     $scope.tracks = null; //Tracks from custom playlists
     $scope.trustedHtml = "";
     $scope.search_results = [];
@@ -92,54 +282,13 @@
         $scope.custom = $scope.custom === false ? true: false;
     };
 
-    angular.element(document).ready(function () {
-      //On page load, hide the search field for adding new songs to an existing playlist
-        $('#search_field').hide();
-        var req = {
-            method: 'GET',
-            url: '/get_playlists',
-        }
-        //Retrieve all custom playlists from backend
-        $http(req).success(function(data){
-            $scope.data = data;
-            var row = "<div class='row'>";
-            for(i=0; i<data.length; i++){
-                if(i%4 == 0){
-                    row+='</div>'
-                    row+='<div class="row">';
-                }
-                row+= '<div class="col col-md-3">';
-                row+= '<button id="playlist_' + i + '" onclick="angular.element(this).scope().ready_change(' + i + ')" type="button" class="btn btn-primary btn-lg">' + data[i].name +'</button>';
-                row+= '</div>';
-            }
-            row += "</div>";
-            //Append the tabs to access each playlist stored in user's account
-            $('#all_playlists').html(row);
-        });
-    });
-
-    //Add a new song to a playlist
-    $scope.add = function(result){
-      var req = {
-          method: 'POST',
-          url: '/add_to_playlist',
-          data: {'result': result, "playlist_id": $scope.current_playlist}
-      }
-      $http(req).success(function(data){
-          alert(data);
-      });
-    }
-
-    //Applies new changes to playlist
-    $scope.apply = function(){
-      location.reload();
-    }
-
     //Load playlists into view when user clicks on a specific playlist
-    $scope.ready_change = function(i){
+    $scope.load_playlist_view = function(i){
         $('#search_field').show();
-        $scope.tracks = $scope.data[i].tracks;
-        $scope.current_playlist = $scope.data[i]._id;
+        $scope.tracks = $scope.user_playlists[i].tracks;
+        console.log($scope.tracks);
+        $scope.current_playlist = $scope.user_playlists[i]._id;
+        console.log($scope.current_playlist);
         var headerString = "<div class='row'>";
         headerString += "<div class='col col-md-2'></div>";
         headerString += "<div class='col col-md-2'></div>";
@@ -153,6 +302,37 @@
           str+= "<div class='row'><p>" + $scope.tracks[i] + "</p></div>"
         }
         $('#views').append(str);
+    }
+
+    //Retrieve all custom playlists from backend
+    $scope.add_playlists = function(){
+      var req = {
+          method: 'GET',
+          url: '/get_playlists',
+      }
+      $http(req).success(function(data){
+          $scope.user_playlists = data;
+      });
+    }
+
+    //On page load, hide the search field for adding new songs to an existing playlist
+    angular.element(document).ready(function () {
+      $('#search_field').hide();
+      $timeout($scope.add_playlists, 10);
+    });
+
+    //Create new custom playlist
+    $scope.create = function(){
+      var req = {
+          method: 'POST',
+          url: '/create_playlist',
+          data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags}
+        }
+      $http(req).success(function(data){
+            if(data == "Done"){
+                location.reload();
+            }
+      });
     }
 
     //Search napster and youtube for new songs and videos to add to an existing custom playlist
@@ -172,20 +352,23 @@
       });
     }
 
-    //Create new custom playlist
-    $scope.create = function(){
+    //Add a new song to a playlist
+    $scope.add = function(result){
       var req = {
           method: 'POST',
-          url: '/create_playlist',
-          data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags}
-        }
+          url: '/add_to_playlist',
+          data: {'result': result, "playlist_id": $scope.current_playlist}
+      }
       $http(req).success(function(data){
-            if(data == "Done"){
-                location.reload();
-            }
+          alert(data);
       });
     }
+
+    //Applies new changes to playlist
+    $scope.apply = function(){
+      location.reload();
+    }
+
   }]);
 </script>
 </html>
-
