@@ -9,9 +9,6 @@
 
         <title>SingleStream</title>
 
-        <!-- To Use Angular -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-      
         <!-- Custom fonts for this template -->
         <link href="profile_resources/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
@@ -32,7 +29,11 @@
         <script src="profile_resources/js/jquery-2.1.4.js"></script>
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
         <!-- lined-icons -->
-
+        <style>
+          li {
+            list-style: none;
+          }
+        </style>
 
     </head>
 
@@ -59,7 +60,6 @@
         <!-- These links are dead, not sure what the actual files names will end up being -->
           <ul class="nav nav-pills nav-stacked custom-nav">
             <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
- <!--            <li><a href="/friends"><i class="camera"></i> <span>Friends</span></a></li> -->
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
@@ -167,7 +167,7 @@
         
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
-        <!-- PAGE CONTENT GOES HERE  -->
+      <!-- PAGE CONTENT GOES HERE  -->
 
       <!-- Intro Header -->
             <div class="container" ng-app="playlists">
@@ -175,6 +175,17 @@
                 <div class="container">
                   <div class="row">
                     <div class="well">
+                      <div id="search_field" class="form-group">
+                      <label for="usr">Add a follower</label>
+                      <input type="text" class="form-control" placeholder="Billy Joel" id="follower" ng-model="query">
+                      <input type="submit" class="btn btn-primary" value="Search" ng-click="search()">
+                      <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
+                    </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="well">
+                      <ul><li ng-repeat="result in follower_results">{{result.local.email}} <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
                     </div>
                   </div>
                 </div>
@@ -230,76 +241,51 @@ var app = angular.module("playlists", ['ngSanitize']);
   app.controller("mainController", ['$scope','$http','$compile', function($scope, $http, $compile) {
 
     $scope.query = ""; //Parameter for searching new songs or videos
-    $scope.playlist_name = ""; //Name of new playlist
-    $scope.description = ""; //Description for new playlist
-    $scope.tags = ""; //Tags for new playlist
-    $scope.data = null; //Returned videos and songs from search
-    $scope.tracks = null; //Tracks from custom playlists
-    $scope.trustedHtml = "";
-    $scope.search_results = [];
-    $scope.current_playlist = "";
+    $scope.follower_results = "";
+    // $scope.playlist_name = ""; //Name of new playlist
+    // $scope.description = ""; //Description for new playlist
+    // $scope.tags = ""; //Tags for new playlist
+    // $scope.data = null; //Returned videos and songs from search
+    // $scope.tracks = null; //Tracks from custom playlists
+    // $scope.trustedHtml = "";
+    // $scope.search_results = [];
+    // $scope.current_playlist = "";
 
-    //Load playlists into view when user clicks on a specific playlist
-    $scope.ready_change = function(i){
-        $('#search_field').show();
-        $scope.tracks = $scope.data[i].tracks;
-        $scope.current_playlist = $scope.data[i]._id;
-        var headerString = "<div class='row'>";
-        headerString += "<div class='col col-md-2'></div>";
-        headerString += "<div class='col col-md-2'></div>";
-        headerString += "<div class='col col-md-3'>Name</div>";
-        headerString += "<div class='col col-md-3'>Artist/Channel</div>";
-        headerString += "<div class='col col-md-2'>Playlist/Album</div>";
-        headerString += "</div>";
-        $('#views').html(headerString);
-        var str = "";
-        for(i = 0; i < $scope.tracks.length; i++){
-          str+= "<div class='row'><p>" + $scope.tracks[i] + "</p></div>"
-        }
-        $('#views').append(str);
-    }
+    // //Load playlists into view when user clicks on a specific playlist
+    // $scope.ready_change = function(i){
+    //     $('#search_field').show();
+    //     $scope.tracks = $scope.data[i].tracks;
+    //     $scope.current_playlist = $scope.data[i]._id;
+    //     var headerString = "<div class='row'>";
+    //     headerString += "<div class='col col-md-2'></div>";
+    //     headerString += "<div class='col col-md-2'></div>";
+    //     headerString += "<div class='col col-md-3'>Name</div>";
+    //     headerString += "<div class='col col-md-3'>Artist/Channel</div>";
+    //     headerString += "<div class='col col-md-2'>Playlist/Album</div>";
+    //     headerString += "</div>";
+    //     $('#views').html(headerString);
+    //     var str = "";
+    //     for(i = 0; i < $scope.tracks.length; i++){
+    //       str+= "<div class='row'><p>" + $scope.tracks[i] + "</p></div>"
+    //     }
+    //     $('#views').append(str);
+    // }
 
-    //Toggle create new playlist button
-    $scope.custom = true;
-    $scope.toggleCustom = function() {
-        $scope.custom = $scope.custom === false ? true: false;
-    };
-
-    angular.element(document).ready(function () {
-      //On page load, hide the search field for adding new songs to an existing playlist
-        $('#search_field').hide();
-        var req = {
-            method: 'GET',
-            url: '/get_playlists',
-        }
-        //Retrieve all custom playlists from backend
-        $http(req).success(function(data){
-            $scope.data = data;
-            var row = "<div class='row'>";
-            for(i=0; i<data.length; i++){
-                if(i%4 == 0){
-                    row+='</div>'
-                    row+='<div class="row">';
-                }
-                row+= '<div class="col col-md-3">';
-                row+= '<button id="playlist_' + i + '" onclick="angular.element(this).scope().ready_change(' + i + ')" type="button" class="btn btn-primary btn-lg">' + data[i].name +'</button>';
-                row+= '</div>';
-            }
-            row += "</div>";
-            //Append the tabs to access each playlist stored in user's account
-            $('#all_playlists').html(row);
-        });
-    });
+    // //Toggle create new playlist button
+    // $scope.custom = true;
+    // $scope.toggleCustom = function() {
+    //     $scope.custom = $scope.custom === false ? true: false;
+    // };
 
     //Add a new song to a playlist
     $scope.add = function(result){
       var req = {
           method: 'POST',
-          url: '/add_to_playlist',
-          data: {'result': result, "playlist_id": $scope.current_playlist}
+          url: '/add_follower',
+          data: {'result': result}
       }
       $http(req).success(function(data){
-          alert(data);
+         console.log("Hey");
       });
     }
 
@@ -311,32 +297,33 @@ var app = angular.module("playlists", ['ngSanitize']);
     //Search napster and youtube for new songs and videos to add to an existing custom playlist
     $scope.search = function(){
       if($scope.query.length == 0){
-        alert("Please enter a song!")
+        alert("Please enter the email of the person you want to follow");
         return;
       }
       var req = {
           method: 'POST',
-          url: '/search',
+          url: '/find_followers',
           data: {'q': $scope.query}
         }
       $http(req).success(function(data){
-          $scope.search_results = data;
+           $scope.follower_results = data;
+           console.log(data);
       });
     }
 
-    //Create new custom playlist
-    $scope.create = function(){
-      var req = {
-          method: 'POST',
-          url: '/create_playlist',
-          data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags}
-        }
-      $http(req).success(function(data){
-            if(data == "Done"){
-                location.reload();
-            }
-      });
-    }
+    // //Create new custom playlist
+    // $scope.create = function(){
+    //   var req = {
+    //       method: 'POST',
+    //       url: '/create_playlist',
+    //       data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags}
+    //     }
+    //   $http(req).success(function(data){
+    //         if(data == "Done"){
+    //             location.reload();
+    //         }
+    //   });
+    // }
   }]);
 </script>
 </html>

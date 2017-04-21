@@ -196,7 +196,7 @@
                   <div class="well">
                     <div id="all_playlists">
                       <ul><li ng-repeat="playlist in user_playlists track by $index">
-                        <button ng-click="ready_change($index)" class="btn btn-primary">{{playlist.name}}</button>
+                        <button ng-click="load_playlist_view($index)" class="btn btn-primary">{{playlist.name}}</button>
                       </li></ul>
                     </div>
                   </div>
@@ -276,8 +276,14 @@ var app = angular.module("playlists", ['ngSanitize']);
     $scope.search_results = [];
     $scope.current_playlist = "";
 
+    //Toggle create new playlist button
+    $scope.custom = true;
+    $scope.toggleCustom = function() {
+        $scope.custom = $scope.custom === false ? true: false;
+    };
+
     //Load playlists into view when user clicks on a specific playlist
-    $scope.ready_change = function(i){
+    $scope.load_playlist_view = function(i){
         $('#search_field').show();
         $scope.tracks = $scope.user_playlists[i].tracks;
         console.log($scope.tracks);
@@ -309,34 +315,24 @@ var app = angular.module("playlists", ['ngSanitize']);
       });
     }
 
-
-    //Toggle create new playlist button
-    $scope.custom = true;
-    $scope.toggleCustom = function() {
-        $scope.custom = $scope.custom === false ? true: false;
-    };
-
+    //On page load, hide the search field for adding new songs to an existing playlist
     angular.element(document).ready(function () {
       $('#search_field').hide();
       $timeout($scope.add_playlists, 10);
-      //On page load, hide the search field for adding new songs to an existing playlist
     });
 
-    //Add a new song to a playlist
-    $scope.add = function(result){
+    //Create new custom playlist
+    $scope.create = function(){
       var req = {
           method: 'POST',
-          url: '/add_to_playlist',
-          data: {'result': result, "playlist_id": $scope.current_playlist}
-      }
+          url: '/create_playlist',
+          data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags}
+        }
       $http(req).success(function(data){
-          alert(data);
+            if(data == "Done"){
+                location.reload();
+            }
       });
-    }
-
-    //Applies new changes to playlist
-    $scope.apply = function(){
-      location.reload();
     }
 
     //Search napster and youtube for new songs and videos to add to an existing custom playlist
@@ -355,19 +351,23 @@ var app = angular.module("playlists", ['ngSanitize']);
       });
     }
 
-    //Create new custom playlist
-    $scope.create = function(){
+    //Add a new song to a playlist
+    $scope.add = function(result){
       var req = {
           method: 'POST',
-          url: '/create_playlist',
-          data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags}
-        }
+          url: '/add_to_playlist',
+          data: {'result': result, "playlist_id": $scope.current_playlist}
+      }
       $http(req).success(function(data){
-            if(data == "Done"){
-                location.reload();
-            }
+          alert(data);
       });
     }
+
+    //Applies new changes to playlist
+    $scope.apply = function(){
+      location.reload();
+    }
+
   }]);
 </script>
 </html>

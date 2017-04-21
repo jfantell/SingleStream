@@ -17,12 +17,18 @@ var userSchema = mongoose.Schema({
         refreshToken : String,
     },
     error : String,
-    followers : {
-        array: [String],
-    },
-    following: {
-        array: [String],
-    }
+    followers : [
+        {
+            _id: String,
+            name: String
+        }
+    ],
+    following: [
+        {
+            _id: String,
+            name: String
+        }
+    ]
 });
 
 // methods ======================
