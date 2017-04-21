@@ -1,0 +1,81 @@
+<!Doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body        { padding-top:80px; word-wrap:break-word; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <a href="/playlists" class="btn btn-default"><span class="fa fa-user"></span>Playlists Page</a>
+    <a href="/player" class="btn btn-default"><span class="fa fa-user"></span>Music Player Demo</a>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                <% if (user.local.email) { %>
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <strong>email</strong>: <%= user.local.email %><br>
+                        <strong>password</strong>: <%= user.local.password %>
+                    </p>  
+                <% } %>
+            </div>
+        </div>
+
+        <!-- GOOGLE INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
+
+                <!-- check if the user has this token (is the user authenticated with this social account) -->
+                <% if (user.google.refreshToken) { %>
+                    <p>
+                        <strong>Refresh Token</strong>: <%= user.google.refreshToken %><br>
+                    </p>
+                     <a href="/unlink/google" class="btn btn-danger">Unlink</a>
+                <% } else { %>
+                    <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google+</a>
+                <% } if (user.error & !user.google.refreshToken) { %>
+                    <p>
+                        <strong>Error:</strong> <%= user.error %><br>
+                    </p>
+                <% } %>
+
+            </div>
+        </div>
+
+        <!-- NAPSTER INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-danger"><span class=""></span> Napster</h3>
+
+                <!-- check if the user has this token (is the user authenticated with this social account) -->
+                <% if (user.napster.refreshToken) { %>
+                    <p>
+                        <strong>Refresh Token</strong>: <%= user.napster.refreshToken %><br>
+                    </p>
+                    <a href="/unlink/napster" class="btn btn-danger">Unlink</a>
+                <% } else { %>
+                    <a href="/auth/napster" class="btn btn-danger"><span class="fa fa-google-plus"></span> Napster</a>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

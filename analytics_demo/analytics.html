@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example - example-ngControllerAs-production</title>
+  
+
+  <script src="//code.angularjs.org/snapshot/angular.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script src="test.js"></script>
+
+<body ng-app="changeExample">
+    <div ng-controller="ExampleController" ng-init="showme=false">
+
+    <button onclick="table()">Table</button>
+    <button onclick="map()">Map</button>
+    <button onclick="gauge()">Gauge</button>
+    <button onclick="donut()">Donut</button>   
+    <button onclick="Pie()">Pie</button>
+
+
+
+
+
+    <div id="chart_div"></div>
+    <div id="table_div"></div>
+    <div id="gauge_div" style="width: 400px; height: 120px;"></div>
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+
+
+
+
+    </div>
+    </body>
+
+
+
+
+<script>
+     angular.module('changeExample', [])
+        .controller('ExampleController', ['$scope', function($scope) {
+          $scope.foo ={};
+          $scope.foo.bar = false;
+        }]);
+</script>
+<script>
+  function table () {
+    google.charts.load('current', {'packages':['table']});
+    google.charts.setOnLoadCallback(drawTable);
+  }
+
+  function map () {
+    google.charts.load('current', { 'packages': ['map'] });
+    google.charts.setOnLoadCallback(drawMap);
+  }
+
+  function gauge() {
+    google.charts.load('current', {'packages':['gauge']});
+    google.charts.setOnLoadCallback(drawChart);
+  }
+
+  function donut() {
+     google.charts.load("current", {packages:["corechart"]});
+     google.charts.setOnLoadCallback(drawPie);
+  }
+
+  function Pie() {
+     google.charts.load("current", {packages:["corechart"]});
+     google.charts.setOnLoadCallback(draw3DPie);
+
+  }
+
+  
+  
+</script>
+
+
+
+  
