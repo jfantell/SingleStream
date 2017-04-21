@@ -509,6 +509,7 @@ function google_videos(songs,google_set,gTokenProvider,post_parameters,callback)
                 //Parse body and add each video to an array with the needed data/metadata
                 var youtube_videos = [];
                 console.log("Google");
+
                 for(i = 0; i < body.items.length; i++){
                     // Save important data for each video to master array
                     songs.push([body.items[i].id.videoId, body.items[i].snippet.channelTitle, body.items[i].snippet.title, body.items[i].snippet.thumbnails.default.url]);
