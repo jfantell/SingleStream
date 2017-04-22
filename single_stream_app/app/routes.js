@@ -462,13 +462,25 @@ function rest(session_user_id, api_call, res, post_parameters){
                         headers: { 'Authorization': 'Bearer ' + token },
                         json: true
                     };
+                    //new youtube track request to get video duration (only if youtube source)
                     request.get(contentDetails, function(error, response, contents) {
                        console.log(contents);
                        var runtime = "";
+                       var duration = contents.items[0].contentDetails.duration;
                        if(post_parameters.result[5] == 'youtube'){
-                        runtime = contents.items[0].contentDetails.duration;
+                            //convert Youtube iso format to seconds
+                            var total = 0;
+                            var hours = duration.match(/(\d+)H/);
+                            var minutes = duration.match(/(\d+)M/);
+                            var seconds = duration.match(/(\d+)S/);
+                            if (hours) total += parseInt(hours[1]) * 3600;
+                            if (minutes) total += parseInt(minutes[1]) * 60;
+                            if (seconds) total += parseInt(seconds[1]);
+                            duration = total;
+                            runtime = duration;
                        }
                        else{
+                        //otherwise its a napster song and just keep format
                         runtime = post_parameters.result[4];
                        }
                         var track = {track_id: post_parameters.result[0], 
