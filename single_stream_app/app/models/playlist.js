@@ -17,7 +17,7 @@ var playlistSchema = mongoose.Schema({
                 channel_artist : String,
                 track_name : String,
                 url : String,
-                runtime: Number,
+                runtime: String,
                 source: String
             }
         ],
