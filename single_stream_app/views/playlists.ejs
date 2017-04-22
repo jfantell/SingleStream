@@ -213,8 +213,13 @@
                     <div id="searh_results" class="well yellow-well">
                       <ul><li ng-repeat="result in search_results track by $index">{{result[0]}} {{result[2]}} {{result[3]}} <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
                     </div>
-
+ 
                     <div id="views">
+                      <div ng-if="isFlashEnabled()==1">
+                        <div class="well">
+                          Flash is required to play napster content. Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
+                        </div>
+                      </div>
                       <div class='row'>
                         <div class='col col-md-2'></div>
                         <div class='col col-md-2'></div>
@@ -222,11 +227,6 @@
                         <div class='col col-md-3'>Artist/Channel</div>
                         <div class='col col-md-2'>Playlist/Album</div>
                       </div>
-
-                      <div ng-if="has_flash()==false">
-                        <h1>YES IT DOES</h1>
-                      </div>
-                      
                       <div class="row" ng-repeat="song in tracks track by $index">
                           <div class="col col-md-2">{{song.track_name}}</div>
                           <div class="col col-md-2">{{song.channel_artist}}</div>
@@ -239,17 +239,14 @@
                               </iframe>
                             </div>
                             <div ng-if="song.source=='napster'">
-                              <div ng-if="flash_enabled==true">
-                               Flash is required to play napster content. Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
-                              </div>
-                              <div ng-if="flash_enabled==false">
-                                <button ng-click="play_napster_track(song.track_id)" class="btn btn-primary">Play</button>
-                              </div>
+<!--                               <div ng-if="isFlashEnabled()==0"> -->
+                              <button ng-click="play_napster_track(song.track_id)" class="btn btn-primary">Play</button>
+<!--                               </div> -->
                             </div>
                           </div>
                           <div class="col col-md-2">
                             <div ng-if="song.source=='napster'">
-                              <button ng-click="pause_napster_track()" class="btn btn-primary">Pause</button>
+                              <button ng-click="pause_napster_track(song.track_id)" class="btn btn-primary">Pause</button>
                             </div>
                           </div>
                       </div>
@@ -334,35 +331,26 @@ $(document).ready(function() {
         $scope.custom = $scope.custom === false ? true: false;
     };
 
-    $scope.has_flash = function(){
-      var hasFlash = false;
-      try {
-        var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
-        if (fo) {
-          hasFlash = true;
-        }
-      } catch (e) {
-        if (navigator.mimeTypes
-              && navigator.mimeTypes['application/x-shockwave-flash'] != undefined
-              && navigator.mimeTypes['application/x-shockwave-flash'].enabledPlugin) {
-          hasFlash = true;
-        }
-      }
-      $scope.flash_enabled = hasFlash;
+    $scope.isFlashEnabled = function(){
+        var flash = navigator.plugins.namedItem('Shockwave Flash');
+        if (!flash) { return 0; } 
+        else { return 1; }
     }
 
     $scope.play_napster_track = function(id){
-      console.log("ID: " + id);
-      Napster.player.play(id);
+      // player(id,'play');
+       Napster.player.play(id);
     }
 
     $scope.pause_napster_track = function(id){
+      // player(id,'pause');
       Napster.player.pause();
     }
 
     //Load playlists into view when user clicks on a specific playlist
     $scope.load_playlist_view = function(i){
         $('#search_field').show();
+        $('#views').show();
         $scope.tracks = $scope.user_playlists[i].tracks;
         $scope.current_playlist = $scope.user_playlists[i]._id;
     }
@@ -381,9 +369,7 @@ $(document).ready(function() {
     //On page load, hide the search field for adding new songs to an existing playlist
     angular.element(document).ready(function () {
       $('#search_field').hide();
-      // // var API_KEY = 'YWQzNWQxZWMtNDU5Mi00NjJjLThkNTAtNjcwN2M4Yjc5NWM4';
-      // player();
-      // console.log('testing BIG');
+      $('#views').hide();
       $timeout($scope.add_playlists, 10);
     });
 
