@@ -330,9 +330,9 @@ module.exports = function(app, passport) {
 
     //UNFINISHED STUFF
 
-    // app.get('/tracks_info', isLoggedIn, function(req, res) {
-    //     rest(req.user._id, "tracks_info",res,"");
-    // });
+    app.get('/tracks_info', isLoggedIn, function(req, res) {
+        rest(req.user._id, "tracks_info",res,"");
+    });
 
     // //Display all playlist tracks Google and Napster
     // app.get('/testing', isLoggedIn, function(req, res) {
@@ -491,13 +491,13 @@ function rest(session_user_id, api_call, res, post_parameters){
         }
 
         // //For the napster player, we need to send the access token and refresh token to the client
-        // if(api_call == "tracks_info"){
-        //     if(napster_set) {
-        //         nTokenProvider.getToken(function (err, token) {
-        //            res.send({access_token: token, refresh_token: user.napster.refreshToken}); 
-        //        });
-        //     }
-        // }
+        if(api_call == "tracks_info"){
+            if(napster_set) {
+                nTokenProvider.getToken(function (err, token) {
+                   res.send({access_token: token, refresh_token: user.napster.refreshToken}); 
+               });
+            }
+        }
         //Unlink Google Account
         if(api_call == "unlink"){
             gTokenProvider.getToken(function (err, token) {
@@ -599,7 +599,7 @@ function google_videos(songs,google_set,gTokenProvider,post_parameters, reqUser,
                         songs.push([body.items[i].id.videoId, 
                                     body.items[i].snippet.channelTitle, 
                                     body.items[i].snippet.title, 
-                                    "http://www.youtube.com/watch?v=" + body.items[i].id.videoId,
+                                    "http://www.youtube.com/embed/" + body.items[i].id.videoId,
                                     0,
                                     "youtube"]);
                         if(i == body.items.length-1){

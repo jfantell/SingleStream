@@ -213,7 +213,35 @@
                     <div id="searh_results" class="well yellow-well">
                       <ul><li ng-repeat="result in search_results track by $index">{{result[0]}} {{result[2]}} {{result[3]}} <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
                     </div>
-                    <div id="views"></div>
+
+                    <div id="views">
+                      <div class='row'>
+                        <div class='col col-md-2'></div>
+                        <div class='col col-md-2'></div>
+                        <div class='col col-md-3'>Name</div>
+                        <div class='col col-md-3'>Artist/Channel</div>
+                        <div class='col col-md-2'>Playlist/Album</div>
+                      </div>
+
+                      <div class="row" ng-repeat="song in tracks track by $index">
+                          <div class="col col-md-2">{{song.track_name}}</div>
+                          <div class="col col-md-2">{{song.channel_artist}}</div>
+                          <div class="col col-md-2">{{song.runtime}}</div>
+                          <div class="col col-md-2">{{song.source}}</div>
+                          <div class="col col-md-2">
+                            <div ng-if="song.source=='youtube'">
+                              <iframe width="420" height="315"
+                                src="{{song.url | trustAsResourceUrl}}">
+                              </iframe>
+                          </div>
+                          <div ng-if="song.source=='napster'">
+                            <button ng-click="play_napster_track(song.track_id)" class="btn btn-primary">Play</button></li></ul>
+                          </div>
+                      </div>
+                    </div>
+
+
+
                   </div>
                 </div>
               </div>
@@ -262,10 +290,27 @@ document.getElementById('search-form').addEventListener('submit', function(e) {
   console.log(document.getElementById("audio-player"));
  }
 </script>
+<script src="playlist_resources/napster.js"></script>
+<script src="playlist_resources/napster_client.js"></script>
 
 <script>
-var app = angular.module("playlists", ['ngSanitize']);
+$(document).ready(function() {
+  player();
+  console.log('testing BIG');
+})
+
+var app = angular.module("playlists", []);
+  // app.config(function($sceProvider){
+  //     $sceProvider.enabled(false);
+  // });
+  app.filter('trustAsResourceUrl', ['$sce', function($sce) {
+    return function(val) { 
+      return $sce.trustAsResourceUrl(val)
+    };
+  }])
+
   app.controller("mainController", ['$scope','$http','$compile','$timeout', function($scope, $http, $compile, $timeout) {
+
 
     $scope.query = ""; //Parameter for searching new songs or videos
     $scope.playlist_name = ""; //Name of new playlist
@@ -283,26 +328,20 @@ var app = angular.module("playlists", ['ngSanitize']);
         $scope.custom = $scope.custom === false ? true: false;
     };
 
+
+    $scope.play_napster_track = function(id){
+      console.log("ID: " + id);
+      Napster.player.play(id);
+    }
+
     //Load playlists into view when user clicks on a specific playlist
     $scope.load_playlist_view = function(i){
         $('#search_field').show();
         $scope.tracks = $scope.user_playlists[i].tracks;
         console.log($scope.tracks);
+        console.log("-----------------------------")
         $scope.current_playlist = $scope.user_playlists[i]._id;
         console.log($scope.current_playlist);
-        var headerString = "<div class='row'>";
-        headerString += "<div class='col col-md-2'></div>";
-        headerString += "<div class='col col-md-2'></div>";
-        headerString += "<div class='col col-md-3'>Name</div>";
-        headerString += "<div class='col col-md-3'>Artist/Channel</div>";
-        headerString += "<div class='col col-md-2'>Playlist/Album</div>";
-        headerString += "</div>";
-        $('#views').html(headerString);
-        var str = "";
-        for(i = 0; i < $scope.tracks.length; i++){
-          str+= "<div class='row'><p>" + $scope.tracks[i] + "</p></div>"
-        }
-        $('#views').append(str);
     }
 
     //Retrieve all custom playlists from backend
@@ -319,6 +358,21 @@ var app = angular.module("playlists", ['ngSanitize']);
     //On page load, hide the search field for adding new songs to an existing playlist
     angular.element(document).ready(function () {
       $('#search_field').hide();
+      var API_KEY = 'YWQzNWQxZWMtNDU5Mi00NjJjLThkNTAtNjcwN2M4Yjc5NWM4';
+      // var req = {
+      //     method: 'GET',
+      //     url: '/tracks_info',
+      // }
+      // $http(req).success(function(data){
+      //     Napster.init({ consumerKey: API_KEY });
+      //     Napster.player.on('ready', function(e) {
+      //       Napster.member.set({accessToken: data.access_token, refreshToken: data.refresh_token});
+      //       //Napster.player.auth();
+      //       console.log("Hey this is a test!");
+      //   });
+      // });
+      player();
+      console.log('testing BIG');
       $timeout($scope.add_playlists, 10);
     });
 
@@ -367,7 +421,7 @@ var app = angular.module("playlists", ['ngSanitize']);
           $('#noResult').show()
 
         }
-        
+
         else {
           $scope.search_results = data;
           console.log(data);
