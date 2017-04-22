@@ -118,6 +118,7 @@ module.exports = function(app, passport) {
 
                 //Check to make sure there is an access and refresh token
                 if(tokens.access_token.length > 1 && tokens.refresh_token != undefined){
+                    user.error = ""; 
                     user.google.refreshToken = tokens.refresh_token;
                 }
                 //If there is not, this probably means the user is logged in already to SingleStream via another account
@@ -384,10 +385,20 @@ function rest(session_user_id, api_call, res, post_parameters){
 
         if(api_call == "search"){
             var songs = [];
+            var errors = [];
             //songs array, napster auth boolean, token obect, query, callback
-            napster_songs(songs,napster_set,nTokenProvider,post_parameters,function(done_1) {
-                google_videos(songs,google_set,gTokenProvider,post_parameters,function(done_2){
-                    res.send(songs);
+            napster_songs(songs,napster_set,nTokenProvider,post_parameters, session_user_id, errors, function(done_1) {
+                google_videos(songs,google_set,gTokenProvider,post_parameters,session_user_id, errors, function(done_2){
+                    console.log(errors);
+                    if (errors.length != 0) {
+                        res.send(errors);
+                    }
+                    else if (songs.length == 0) {
+                        res.send('none');
+                    }
+                    else {
+                        res.send(songs);
+                    }
                 });
             });    
         }
@@ -437,7 +448,12 @@ function rest(session_user_id, api_call, res, post_parameters){
         }
 
         if(api_call == "add_to_playlist"){
-            var track = {track_id: post_parameters.result[0], channel_artist: post_parameters.result[1], track_name: post_parameters.result[2], url: post_parameters.result[3]};
+            var track = {track_id: post_parameters.result[0], 
+                        channel_artist: post_parameters.result[1], 
+                        track_name: post_parameters.result[2], 
+                        url: post_parameters.result[3],
+                        runtime: post_parameters.result[4],
+                        source: post_parameters.result[5]};
 
             Playlist.findByIdAndUpdate(post_parameters.playlist_id, {
               $push: { tracks: track }
@@ -499,50 +515,104 @@ function rest(session_user_id, api_call, res, post_parameters){
 //-----------------------------
 //Search API Call
 //-----------------------------
-function napster_songs(songs,napster_set,nTokenProvider,post_parameters,callback){
+function napster_songs(songs,napster_set,nTokenProvider,post_parameters, reqUser, errors, callback){
     if(napster_set){
         nTokenProvider.getToken(function (err, token) {
-            var tracks = {
-                url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=track&limit=5',
-                headers: { 'Authorization': 'Bearer ' + token },
-                json: true
-            };
-            request.get(tracks, function(error, response, body) {
-               console.log("Tracks");
-               for(i = 0; i < body.data.length; i++){
-                    songs.push([body.data[i].id, body.data[i].artistName, body.data[i].name, body.data[i].albumId]);
-                    if(i == body.data.length-1){
-                        callback("done");
+
+            
+            if (err) {
+                User.findOne({ '_id' :  reqUser }, function(err, user) {
+                    console.log(err);
+                    console.log("ERROR 101");
+                    console.log("UNLINKED NAPSTER");
+                    user.napster.refreshToken = undefined;
+                    //inform user
+                    errors = "101";
+                    user.save(function(err) {
+                        if(err) console.log(err);
+                        callback('reset');
+                    });
+                });
+            }
+
+            else {
+                var tracks = {
+                    url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=track&limit=5',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    json: true
+                };
+                request.get(tracks, function(error, response, body) {
+                   console.log("Tracks");
+                   for(i = 0; i < body.data.length; i++){
+                        songs.push([body.data[i].id, 
+                                    body.data[i].artistName, 
+                                    body.data[i].name, 
+                                    body.data[i].href,
+                                    0,
+                                    "napster"]);
+                        if(i == body.data.length-1){
+                            callback("done");
+                        }
                     }
-                }
-            });   
+                }); 
+            }  
         });  
+    }
+    else {
+        callback("done");
     }
 
 }
-function google_videos(songs,google_set,gTokenProvider,post_parameters,callback){
+function google_videos(songs,google_set,gTokenProvider,post_parameters, reqUser, errors, callback){
     if(google_set){
         gTokenProvider.getToken(function (err, token) {
-            var videos = {
-                url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&q='+post_parameters+'&type=video',
-                headers: { 'Authorization': 'Bearer ' + token },
-                json: true
-            }
-            request.get(videos, function(error, response, body) {
-                //Parse body and add each video to an array with the needed data/metadata
-                var youtube_videos = [];
-                console.log("Google");
 
-                for(i = 0; i < body.items.length; i++){
-                    // Save important data for each video to master array
-                    songs.push([body.items[i].id.videoId, body.items[i].snippet.channelTitle, body.items[i].snippet.title, body.items[i].snippet.thumbnails.default.url]);
-                    if(i == body.items.length-1){
-                        console.log("Google")
-                        callback("done");
+            
+            if (err) {
+                User.findOne({ '_id' :  reqUser }, function(err, user) {
+                    console.log(err);
+                    console.log("ERROR 102")
+                    console.log("UNLINKED GOOGLE");
+                    user.google.refreshToken = undefined;
+                    //inform user
+                    errors.push("102");
+                    user.save(function(err) {
+                        if(err) console.log(err);
+                        callback('reset');
+                    });
+                });
+            }
+
+            else {
+                var videos = {
+                    url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&q='+post_parameters+'&type=video',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    json: true
+                };
+                request.get(videos, function(error, response, body) {
+                    //Parse body and add each video to an array with the needed data/metadata
+                    var youtube_videos = [];
+                    console.log("Google");
+
+                    for(i = 0; i < body.items.length; i++){
+                        // Save important data for each video to master array
+                        songs.push([body.items[i].id.videoId, 
+                                    body.items[i].snippet.channelTitle, 
+                                    body.items[i].snippet.title, 
+                                    "http://www.youtube.com/watch?v=" + body.items[i].id.videoId,
+                                    0,
+                                    "youtube"]);
+                        if(i == body.items.length-1){
+                            console.log("Google")
+                            callback("done");
+                        }
                     }
-                }
-            });
+                });
+            }
         });
+    }
+    else {
+        callback('done');
     }
 }
 

@@ -209,8 +209,9 @@
                       <input type="submit" class="btn btn-primary" value="Search" ng-click="search()">
                       <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
                     </div>
-                    <div id="well yellow-well">
-                      <ul><li ng-repeat="result in search_results track by $index">{{result[1]}}, {{result[2]}}, {{result[3]}}, <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
+                    <div id="noResult" class ="well yellow-well"></div>
+                    <div id="searh_results" class="well yellow-well">
+                      <ul><li ng-repeat="result in search_results track by $index">{{result[0]}} {{result[2]}} {{result[3]}} <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
                     </div>
                     <div id="views"></div>
                   </div>
@@ -347,8 +348,28 @@ var app = angular.module("playlists", ['ngSanitize']);
           data: {'q': $scope.query}
         }
       $http(req).success(function(data){
+        console.log(data);
+
+        if (data == "101" || data == "102") {
+          var source = "";
+          if (data == "101") {source = "Napster"}
+          else if (data == "102") {source = "Google"}
+
+          var errors = "Refresh token is stored in the database, but is not valid. This may have occured because you revoked SingleStream's access to your" + source + " account. Please visit the profile page and re-authenticate."
+
+          $('#noResult').append(errors);
+          $('#noResult').show()
+        }
+        else if (data == "none") {
+          var noResult = "Sorry, no results were found. Please verify service authentication";
+          $('#noResult').append(noResult);
+          $('#noResult').show()
+
+        }
+        else {
           $scope.search_results = data;
           console.log(data);
+        }
       });
     }
 
