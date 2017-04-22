@@ -450,20 +450,55 @@ function rest(session_user_id, api_call, res, post_parameters){
         }
 
         if(api_call == "add_to_playlist"){
-            var track = {track_id: post_parameters.result[0], 
-                        channel_artist: post_parameters.result[1], 
-                        track_name: post_parameters.result[2], 
-                        url: post_parameters.result[3],
-                        runtime: post_parameters.result[4],
-                        source: post_parameters.result[5]};
+            if(google_set){
+                gTokenProvider.getToken(function (err, token) {
+                    var contentDetails = {
+                        url: 'https://www.googleapis.com/youtube/v3/videos?id='+ post_parameters.result[0] +'&part=snippet,contentDetails',
+                        headers: { 'Authorization': 'Bearer ' + token },
+                        json: true
+                    };
+                    request.get(contentDetails, function(error, response, contents) {
+                       console.log(contents);
+                       var runtime = "";
+                       if(post_parameters.result[5] == 'youtube'){
+                        runtime = contents.items[0].contentDetails.duration;
+                       }
+                       else{
+                        runtime = post_parameters.result[4];
+                       }
+                        var track = {track_id: post_parameters.result[0], 
+                            channel_artist: post_parameters.result[1], 
+                            track_name: post_parameters.result[2], 
+                            url: post_parameters.result[3],
+                            runtime: runtime,
+                            source: post_parameters.result[5]};
 
-            Playlist.findByIdAndUpdate(post_parameters.playlist_id, {
-              $push: { tracks: track }
-            }, function (err, playlist) {
-                console.log(err);
-                console.log(playlist);
-            });
-            res.end();
+                        Playlist.findByIdAndUpdate(post_parameters.playlist_id, {
+                          $push: { tracks: track }
+                        }, function (err, playlist) {
+                            console.log(err);
+                            console.log(playlist);
+                        });
+                        res.end();
+                    });
+               });
+            }
+            else{
+                var track = {track_id: post_parameters.result[0], 
+                    channel_artist: post_parameters.result[1], 
+                    track_name: post_parameters.result[2], 
+                    url: post_parameters.result[3],
+                    runtime: post_parameters.result[4],
+                    source: post_parameters.result[5]};
+
+                Playlist.findByIdAndUpdate(post_parameters.playlist_id, {
+                  $push: { tracks: track }
+                }, function (err, playlist) {
+                    console.log(err);
+                    console.log(playlist);
+                });
+                res.end();
+            }
         }
 
         if(api_call == "find_followers"){
@@ -550,7 +585,7 @@ function napster_songs(songs,napster_set,nTokenProvider,post_parameters, reqUser
                                     body.data[i].artistName, 
                                     body.data[i].name, 
                                     body.data[i].href,
-                                    0,
+                                    body.data[i].playbackSeconds,
                                     "napster"]);
                         if(i == body.data.length-1){
                             callback("done");
@@ -602,7 +637,7 @@ function google_videos(songs,google_set,gTokenProvider,post_parameters, reqUser,
                                     body.items[i].snippet.channelTitle, 
                                     body.items[i].snippet.title, 
                                     "http://www.youtube.com/embed/" + body.items[i].id.videoId,
-                                    0,
+                                    '0',
                                     "youtube"]);
                         if(i == body.items.length-1){
                             console.log("Google")
