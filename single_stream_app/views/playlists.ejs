@@ -360,12 +360,14 @@ var app = angular.module("playlists", ['ngSanitize']);
           $('#noResult').append(errors);
           $('#noResult').show()
         }
+
         else if (data == "none") {
           var noResult = "Sorry, no results were found. Please verify service authentication";
           $('#noResult').append(noResult);
           $('#noResult').show()
 
         }
+        
         else {
           $scope.search_results = data;
           console.log(data);
