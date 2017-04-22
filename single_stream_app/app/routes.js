@@ -303,7 +303,7 @@ module.exports = function(app, passport) {
         rest(req.user._id, "add_following",res,req.body);
     });
 /////////////////////
-    app.get('/get_followers_following' isLoggedIn, function(req, res) {
+    app.get('/get_followers_following', isLoggedIn, function(req, res) {
         rest(req.user._id, 'get_followers_following', res, req.body);
     });
 
