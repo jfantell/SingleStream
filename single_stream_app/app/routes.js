@@ -389,16 +389,18 @@ function rest(session_user_id, api_call, res, post_parameters){
             //songs array, napster auth boolean, token obect, query, callback
             napster_songs(songs,napster_set,nTokenProvider,post_parameters, session_user_id, errors, function(done_1) {
                 google_videos(songs,google_set,gTokenProvider,post_parameters,session_user_id, errors, function(done_2){
-                    console.log(errors);
-                    if (errors.length != 0) {
-                        res.send(errors);
-                    }
-                    else if (songs.length == 0) {
-                        res.send('none');
-                    }
-                    else {
-                        res.send(songs);
-                    }
+                    // google_content_details(songs,google_set,gTokenProvider,post_parameters,session_user_id, contentDetails, errors, function(done_3){
+                        // console.log(errors);
+                        if (errors.length != 0) {
+                            res.send(errors);
+                        }
+                        else if (songs.length == 0) {
+                            res.send('none');
+                        }
+                        else {
+                            res.send(songs);
+                        }
+                    // });
                 });
             });    
         }
@@ -594,7 +596,7 @@ function google_videos(songs,google_set,gTokenProvider,post_parameters, reqUser,
                     var youtube_videos = [];
                     console.log("Google");
 
-                    for(i = 0; i < body.items.length; i++){
+                    for(i=0; i < body.items.length; i++){
                         // Save important data for each video to master array
                         songs.push([body.items[i].id.videoId, 
                                     body.items[i].snippet.channelTitle, 
@@ -615,6 +617,23 @@ function google_videos(songs,google_set,gTokenProvider,post_parameters, reqUser,
         callback('done');
     }
 }
+
+// function google_content_details(songs,google_set,gTokenProvider,post_parameters, reqUser, errors, contentDetails, callback){
+//     for(i=0; i < songs.length; i++){
+//         if(songs[i][6] == "youtube"){
+//             var contentDetails = {
+//                 url: 'https://www.googleapis.com/youtube/v3/videos?id='+ songs[i][0] +'&part=snippet,contentDetails',
+//                 headers: { 'Authorization': 'Bearer ' + token },
+//                 json: true
+//             };
+//             request.get(contentDetails, function(error, response, contents) {
+//                console.log(contents.items[i].contentDetails.duration);
+//             });
+//         }
+//     }
+// }
+
+
 
 //-----------------------------
 //Playlists

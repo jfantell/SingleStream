@@ -82,7 +82,7 @@
               .attr('frameborder', 'no')
               .attr('style', 'display:none;')
               .appendTo($(document.body))
-              .on('load',function() {
+              .load(function() {
                 that.player.win = f.get(0);
               });
           });
