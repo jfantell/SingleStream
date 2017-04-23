@@ -33,11 +33,6 @@
         <!-- jQuery -->
 <!--         <script src="profile_resources/js/jquery-2.1.4.js"></script> -->
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
-        <!-- lined-icons -->
-
-<!--         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script> -->
-<!--         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.min.js"></script> -->
-
 
     </head>
 
@@ -183,7 +178,11 @@
       <!-- Intro Header -->
             <div class="container" ng-app="myApp" > 
                 <div class="container" ng-controller="mainController">
-                  <div class="well">
+                  <div class="form-group">
+                    <label for="usr">Artist Search</label>
+                    <input type="text" class="form-control" placeholder="Artist Name - Required" id="artist_name" ng-model="artist_name">
+                  </div>
+                  <input type="submit" id="login" class="btn btn-primary" value="Search" ng-click="artist_search()">
                   <div class="row">
                        <div class="col-md-3">
                             <button ng-click="show('table')" class="btnSearch btn btn-default" style="background-color:#222222;color:white;"> Draw Table </button>
@@ -202,7 +201,6 @@
                         </div>
    
                     </div> <!-- Ends the Row class -->
-                  </div>
 
                   <!-- Charts -->
                       <div id="graphs" style="margin-top: 10px;width: 400px; height: 300px;color:black"></div>
@@ -403,7 +401,18 @@
           var chart = new google.visualization.PieChart(document.getElementById('graphs'));
           chart.draw(data, options);
     }
-    angular.module('myApp', []).controller('mainController', ['$scope', function ($scope) {
+    angular.module('myApp', []).controller('mainController', ['$scope','$http', function ($scope, $http) {
+        $scope.artist_search = function(){
+          var req = {
+            method: 'POST',
+            url: '/analytics_artist_search',
+            data: {'artist': $scope.artist_name} //pass in artist name
+          }
+          $http(req).success(function(data){
+            alert(data);
+          });
+        };
+
         $scope.show = function(item){
           // console.log("Hey I am here");
           console.log(item);
