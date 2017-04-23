@@ -432,9 +432,6 @@ function rest(session_user_id, api_call, res, post_parameters){
         }
 
 
-        // This is just using a GET right now, so it'll work if you type in 
-        // "/create_playlist" in the URL. Using the myFunction to redirect
-        //  back to the /playlists page because there is nothing to show yet.
         if(api_call == "create_playlist"){
 
             // create the playlist
@@ -459,6 +456,15 @@ function rest(session_user_id, api_call, res, post_parameters){
                 console.log("done");
             });  
         }
+
+        if(api_call == "delete_playlist"){
+            console.log(session_user_id, post_parameters.playlist_name);
+            Playlist.remove({'user_id': session_user_id, 'name' : post_parameters.playlist_name}, function(){
+                res.send("Done");
+            });
+            console.log("playlist deleted");
+        }
+
         if(api_call == "get_playlists"){
             Playlist.find({ 'user_id' :  session_user_id }, function(err, playlists) {
                 res.send(playlists);
