@@ -166,13 +166,13 @@ a {
 
 .btn-default {
   border: 1px solid #3772ba;
-  color: #3772ba;
+  color: #276f84;
   background-color: transparent; }
   .btn-default:hover, .btn-default:focus {
-    border: 1px solid #3772ba;
+    border: 1px solid #477d8c;
     outline: none;
     color: black;
-    background-color: #3772ba; }
+    background-color: #477d8c; }
 
 ul.banner-social-buttons {
   margin-top: 0; }
@@ -243,7 +243,7 @@ body {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #025aa5;
+  background: #1f6e84;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -254,7 +254,7 @@ body {
   cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-  background: #004d91;
+  background: #264d58;
 }
 .form .message {
   margin: 15px 0 0;
