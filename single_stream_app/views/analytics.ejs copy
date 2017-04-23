@@ -31,7 +31,7 @@
         <!-- Custom css file for this page (mostly the sidebar and menu)-->
         <link href="profile_resources/css/style.css" rel='stylesheet' type='text/css' /> 
         <!-- jQuery -->
-<!--         <script src="profile_resources/js/jquery-2.1.4.js"></script> -->
+        <script src="profile_resources/js/jquery-2.1.4.js"></script>
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
         <!-- lined-icons -->
 
@@ -194,7 +194,7 @@
                         </div>
 
                         <div class="col-md-3">
-                            <button ng-click="show('gauge')" class="btnSearch btn btn-default" style="background-color:#222222;color:white; opacity:1"> Draw Gauge </button>
+                            <button ng-click="show('guage')" class="btnSearch btn btn-default" style="background-color:#222222;color:white; opacity:1"> Draw Gauge </button>
                         </div>
 
                         <div class="col-md-3">
@@ -205,7 +205,8 @@
                   </div>
 
                   <!-- Charts -->
-                      <div id="graphs" style="margin-top: 10px;width: 400px; height: 300px;color:black"></div>
+                      <div id="graphs" style="margin-top: 10px;width: 400px; height: 300px;"></div>
+                      <div id="chart_div" style="width: 400px; height: 120px;"></div>
 <!--                       <div id="table_div"></div> -->
 <!--                       <div id="gauge_div" style="width: 400px; height: 120px;"></div>
                       <div id="donutchart" style="width: 900px; height: 500px;"></div> -->
@@ -368,7 +369,7 @@
               minorTicks: 5
             };
 
-            var chart = new google.visualization.Gauge(document.getElementById('graphs'));
+            var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 
             chart.draw(data, options);
 

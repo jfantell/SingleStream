@@ -216,10 +216,17 @@
  
                     <div id="views">
                       <div ng-if="isFlashEnabled()==1">
-                        <div class="well">
-                          Flash is required to play napster content. Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
+                        <div class="row">
+                          <div class="well">
+                            Flash is required to play napster content. Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
+                          </div>
                         </div>
                       </div>
+                      <!--NEW-->
+                      <div class='row' id="autoplay">
+                        <button ng-click="auto_play()" class="btn btn-primary">Auto Play</button>
+                      </div>
+                      <!--NEW-->
                       <div class='row'>
                         <div class='col col-md-2'>Name</div>
                         <div class='col col-md-2'>Artist/Channel</div>
@@ -312,7 +319,7 @@ $(document).ready(function() {
   // app.config(function($sceProvider){
   //     $sceProvider.enabled(false);
   // });
-  app.controller("mainController", ['$scope','$http','$compile','$timeout', function($scope, $http, $compile, $timeout) {
+  app.controller("mainController", ['$scope','$http','$compile','$timeout','$interval' function($scope, $http, $compile, $timeout,$interval) {
 
 
     $scope.query = ""; //Parameter for searching new songs or videos
@@ -325,6 +332,13 @@ $(document).ready(function() {
     $scope.search_results = [];
     $scope.current_playlist = "";
     $scope.flash_enabled = false;
+
+    // $scope.auto_play = function(){
+    //   $interval(function(){
+    //     console.log("timer");
+    //   }, 50, 1);
+    // }
+
 
     //Toggle create new playlist button
     $scope.custom = true;
@@ -339,7 +353,6 @@ $(document).ready(function() {
     }
 
     $scope.play_napster_track = function(id){
-      // player(id,'play');
        Napster.player.play(id);
     }
 
