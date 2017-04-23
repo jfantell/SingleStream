@@ -271,6 +271,10 @@ module.exports = function(app, passport) {
     app.post('/create_playlist', isLoggedIn, function(req, res) {
         rest(req.user._id, "create_playlist",res,req.body);
     });
+    //==DELETE A PLAYLIST==
+    app.post('/delete_playlist', isLoggedIn, function(req, res) {
+        rest(req.user._id, "delete_playlist",res,req.body);
+    });
     //==RETRIEVE ALL CUSTOM PLAYLISTS (EMPTY)==
     app.get('/get_playlists', isLoggedIn, function(req, res) {
         rest(req.user._id, "get_playlists",res,'');
