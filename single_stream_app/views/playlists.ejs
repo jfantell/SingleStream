@@ -138,15 +138,24 @@
                       <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
                       <div class="col-md-4 login-pop">
                         <div id="loginpop"> <a href="#" id="loginButton"><span>+Add Playlist</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-
                             <div id="loginBox">  
-                        <form action="#" method="post" id="loginForm">
+                             <form id="loginForm">
                                   <fieldset id="body">
                                     <fieldset>
-                                        <label for="email">Playlist Name</label>
-                                        <input type="text" name="email" id="email">
+                                      <div class="form-group">
+                                        <label for="usr">Create a new playlist:</label>
+                                        <input type="text" class="form-control" placeholder="Playlist Name - Required" id="playlist_name" ng-model="playlist_name">
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="comment">Description:</label>
+                                          <textarea class="form-control" rows="5" placeholder="Optional Description" id="description" ng-model="description"></textarea>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="usr">Tags (comma seperated):</label>
+                                        <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
+                                      </div>
                                     </fieldset>
-                                    <input type="submit" id="login" value="Go">
+                                    <input type="submit" id="login" class="btn btn-primary" value="Create" ng-click="create()">
                                   </fieldset>
                              </form>
                           </div>
@@ -170,26 +179,6 @@
 
       <!-- Intro Header -->
             <div class="container">
-              <div class="container">
-                <div class="row">
-                  <div class="well">
-                    <button type="button" ng-click="toggleCustom()" class="btn btn-primary btn-block">Create New Playlist</button>
-                    <span ng-hide="custom">
-                    <div class="form-group">
-                      <label for="usr">Create a new playlist:</label>
-                      <input type="text" class="form-control" placeholder="Playlist Name - Required" id="playlist_name" ng-model="playlist_name">
-                      <div class="form-group">
-                          <label for="comment">Description:</label>
-                          <textarea class="form-control" rows="5" placeholder="Optional Description" id="description" ng-model="description"></textarea>
-                      </div>
-                      <label for="usr">Tags (comma seperated):</label>
-                      <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
-                      <input type="submit" class="btn btn-primary" value="Create" ng-click="create()">
-                    </span>
-                    </div>
-                  </div>
-                </div>
-              </div><!--End of container-->
               <!--Playlists added here-->
               <div class="container">
                 <div class="row">
@@ -216,10 +205,20 @@
  
                     <div id="views">
                       <div ng-if="isFlashEnabled()==1">
-                        <div class="well">
-                          Flash is required to play napster content. Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
+                        <div class="row">
+                          <div class="well">
+                            Flash is required to play napster content. Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
+                          </div>
                         </div>
                       </div>
+                      <!--NEW-->
+                      <div class='row' id="autoplay">
+                        <button ng-click="build_autoplay()" class="btn btn-primary">Auto Play</button>
+                      </div>
+                      <div class='row' id="kill_autoplay">
+                        <button ng-click="kill_autoplay()" class="btn btn-warning">Stop Auto Play</button>
+                      </div>
+                      <!--NEW-->
                       <div class='row'>
                         <div class='col col-md-2'>Name</div>
                         <div class='col col-md-2'>Artist/Channel</div>
@@ -235,7 +234,8 @@
                           <div class="col col-md-2">{{song.source}}</div>
                           <div class="col col-md-2">
                             <div ng-if="song.source=='youtube'">
-                              <iframe width="420" height="315"
+                              <!--Track ID For YouTube-->
+                              <iframe id="{{song.track_id}}" width="420" height="315"
                                 src="{{song.url | trustAsResourceUrl}}">
                               </iframe>
                             </div>
@@ -250,7 +250,6 @@
                               <button ng-click="pause_napster_track(song.track_id)" class="btn btn-primary">Pause</button>
                             </div>
                           </div>
-                          <a href="http://get.adobe.com/flashplayer/" target="_blank">Get Flash.</a>
                       </div>
                     </div>
                   </div>
@@ -282,25 +281,6 @@
 
 </body>
 
-<script>
-//This grabs the word you searched
-document.getElementById('search-form').addEventListener('submit', function(e) {
-
-  console.log(document.getElementById('query').value); //prints the query to the conosle
-
-  //alert(document.getElementById('query').value); //alerts the window of the query
-
-  document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + media/breathe.mp3 + '" type="audio/mpeg"></source>' + '</audio>'
-
-}, false);
-
-
- function myFunction() {
-  // document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + 'media/breathe.mp3' + '" type="audio/mpeg"></source>' + '</audio>';
-  //document.getElementById("audio-player").innerHTML = '<p>yo</p>';
-  console.log(document.getElementById("audio-player"));
- }
-</script>
 <script src="playlist_resources/napster.js"></script>
 <script src="playlist_resources/napster_client.js"></script>
 
@@ -309,11 +289,20 @@ $(document).ready(function() {
   player();
 })
 
+  ///youtube player info https://codepen.io/chriscoyier/pen/zawHg
+  // Inject YouTube API script
+  var tag = document.createElement('script');
+  tag.src = "//www.youtube.com/player_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+
+
   var app = angular.module("playlists", []);
   // app.config(function($sceProvider){
   //     $sceProvider.enabled(false);
   // });
-  app.controller("mainController", ['$scope','$http','$compile','$timeout', function($scope, $http, $compile, $timeout) {
+  app.controller("mainController", ['$scope','$http','$compile','$timeout','$interval',function($scope, $http, $compile, $timeout,$interval) {
 
 
     $scope.query = ""; //Parameter for searching new songs or videos
@@ -326,12 +315,53 @@ $(document).ready(function() {
     $scope.search_results = [];
     $scope.current_playlist = "";
     $scope.flash_enabled = false;
+    $scope.current_track_index = ""; //index in the track in the current playlist array
+
+    function recursive_play(i){
+      var duration = 200;
+      //base case
+      if(i == $scope.tracks.length){
+          console.log("Yipppeee");
+          return;
+      }
+      if(i!= 0){
+        console.log($scope.tracks[i].runtime);
+        duration = parseInt($scope.tracks[i].runtime)*1000;
+        console.log(duration);
+      }
+      else if($scope.tracks[i].source == "youtube"){
+        $timeout(function() {
+          var url = $('#' + $scope.tracks[i].track_id).attr('src')
+          url = url+'?autoplay=1';
+          console.log(url);
+          $('#' + $scope.tracks[i].track_id).attr('src', url)
+        }, duration).then(function() {
+          recursive_play(i+1);
+        });
+      }
+      else if($scope.tracks[i].source == "napster"){
+        $timeout(function() {
+          Napster.player.play($scope.tracks[i].track_id);
+        }, duration).then(function() {
+          recursive_play(i+1);
+        });
+      }
+    }
+
+
+    //Current track id
+    $scope.build_autoplay = function(){
+      $('#kill_autoplay').show();
+      $('#autoplay').hide();
+      var i = 0;
+      recursive_play(i);
+    }
+
+    $scope.kill_autoplay = function(){
+       location.reload();
+    }
 
     //Toggle create new playlist button
-    $scope.custom = true;
-    $scope.toggleCustom = function() {
-        $scope.custom = $scope.custom === false ? true: false;
-    };
 
     $scope.isFlashEnabled = function(){
         var flash = navigator.plugins.namedItem('Shockwave Flash');
@@ -340,8 +370,8 @@ $(document).ready(function() {
     }
 
     $scope.play_napster_track = function(id){
-      // player(id,'play');
        Napster.player.play(id);
+       // $scope.build_auto_play(id);
     }
 
     $scope.pause_napster_track = function(id){
@@ -358,7 +388,7 @@ $(document).ready(function() {
     }
 
     //Retrieve all custom playlists from backend
-    $scope.add_playlists = function(){
+    $scope.get_playlists = function(){
       var req = {
           method: 'GET',
           url: '/get_playlists',
@@ -372,7 +402,8 @@ $(document).ready(function() {
     angular.element(document).ready(function () {
       $('#search_field').hide();
       $('#views').hide();
-      $timeout($scope.add_playlists, 10);
+      $('#kill_autoplay').hide();
+      $timeout($scope.get_playlists, 10);
     });
 
     //Create new custom playlist
@@ -410,13 +441,13 @@ $(document).ready(function() {
 
           var errors = "Refresh token is stored in the database, but is not valid. This may have occured because you revoked SingleStream's access to your" + source + " account. Please visit the profile page and re-authenticate."
 
-          $('#noResult').append(errors);
+          $('#noResult').html(errors);
           $('#noResult').show()
         }
 
         else if (data == "none") {
           var noResult = "Sorry, no results were found. Please verify service authentication";
-          $('#noResult').append(noResult);
+          $('#noResult').html(noResult);
           $('#noResult').show()
 
         }

@@ -202,7 +202,7 @@ module.exports = function(app, passport) {
 
             //NOTE: Napster API always sends a refresh token back, unlike Google
             User.findOne({ '_id' :  req.query.state}, function(err, user) {
-            	
+                
                 user.napster.refreshToken = result.refresh_token;
 
                 user.save(function(err) {
@@ -312,26 +312,14 @@ module.exports = function(app, passport) {
     app.get('/analytics', isLoggedIn, function(req, res) {
         res.render('analytics.ejs')
     });
-    //== RENDER ANALYTICS PAGE ==
+    //
+    app.post('/analytics_artist_search', isLoggedIn, function(req, res){
+        analytics(req.user._id, 'analytics_artist_search', res, req.body);
+    });
+    //== RENDER CONTACT PAGE ==
     app.get('/contact', isLoggedIn, function(req, res) {
         res.render('contact.ejs')
     });
-
-
-
-
-    // //== TEST
-    // app.get('/playlists_test', isLoggedIn, function(req, res) {
-    //     res.render('playlists_test.ejs')
-    // });
-
-
-
-    // //== RENDER SEARCH PAGE ==
-    // app.get('/search_page', isLoggedIn, function(req, res) {
-    //     res.render('testing.ejs');
-    // });
-
 
     //UNFINISHED STUFF
 
@@ -350,6 +338,25 @@ module.exports = function(app, passport) {
     // });
      
 };
+
+function analytics(session_user_id, api_call, res, post_parameters){
+    User.findOne({ '_id' :  session_user_id }, function(err, user) {
+        if(api_call == 'analytics_artist_search'){
+            var following = user.following;
+            // var followers = user.followers;
+            for(i=0; i< following.length; i++){
+                Playlist.find({ 'user_id' :  following[i]._id }, function(err, playlists) {
+                    console.log(playlists);
+                });
+            }
+            var str = "Hello the best artist is Michael Jackson in the world";
+            if(str.includes(post_parameters.artist)){
+                console.log("true");
+            }
+            res.send("Hey man!");
+        }
+    });
+}
 
 //The following function will be used to make all api calls that require an access token.
 //Using the node refresh-token api module, which gets a valid access token using the refresh tokens
@@ -548,8 +555,8 @@ function rest(session_user_id, api_call, res, post_parameters){
         }
 
         if(api_call == 'get_followers_following') {
-
-            User.findOne({ 'user_id' :  session_user_id }, function(err, user) {
+            console.log("Hell0");
+            User.findOne({ '_id' :  session_user_id }, function(err, user) {
                 res.send([user.followers, user.following]);
             });
         }
@@ -688,22 +695,6 @@ function google_videos(songs,google_set,gTokenProvider,post_parameters, reqUser,
         callback('done');
     }
 }
-
-// function google_content_details(songs,google_set,gTokenProvider,post_parameters, reqUser, errors, contentDetails, callback){
-//     for(i=0; i < songs.length; i++){
-//         if(songs[i][6] == "youtube"){
-//             var contentDetails = {
-//                 url: 'https://www.googleapis.com/youtube/v3/videos?id='+ songs[i][0] +'&part=snippet,contentDetails',
-//                 headers: { 'Authorization': 'Bearer ' + token },
-//                 json: true
-//             };
-//             request.get(contentDetails, function(error, response, contents) {
-//                console.log(contents.items[i].contentDetails.duration);
-//             });
-//         }
-//     }
-// }
-
 
 
 //-----------------------------

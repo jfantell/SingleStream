@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 */
 h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}
-ul, ol {margin: 0;}
+ul, ol {margin: 0; padding:0;}
 
 
 html, body{
@@ -134,7 +134,7 @@ h1, h2, h3, h4, h5 {
     display: none;
 }
 div#page-wrapper {
-    padding:3em 2em;
+    padding: 3em 0em 2em 0em;
     
 }
 .left-side-collapsed .logo-icon {
@@ -1190,14 +1190,14 @@ fieldset#body {
 	font-family: 'Open Sans', sans-serif;
 }
 #loginForm #login {
-  width: auto;
+  width: 100%;
   float: left;
-  background:#45B39D;
+  background:#477d8c;
   color: #fff;
   font-size: 0.8725em;
   padding: 7px 20px;
   border: none;
-  margin: 0 12px 0 0;
+  margin-top: 5%;
   cursor: pointer;
   transition: all .5s;
   -webkit-transition: all .5s;
@@ -1213,7 +1213,7 @@ fieldset#body {
   
 }
 #loginForm #login:hover{
-     background:#477d8c;
+     background:#3a5b65;
 }
 #loginForm input {
    width: 100%;
@@ -4559,4 +4559,16 @@ i.logout {
 }
 ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
     background:url(../images/logout3.png) no-repeat 0px 0px;
+}
+
+.container {
+  margin-left:0;
+  margin-right:0;
+  width:100%;
+}
+
+.add {
+  margin-left: 3%;
+  background-color: #1f6e84;
+  border-color: #1f6e84;
 }
