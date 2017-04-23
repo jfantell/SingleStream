@@ -455,7 +455,7 @@ function rest(session_user_id, api_call, res, post_parameters){
         }
 
         if(api_call == "add_to_playlist"){
-            if(google_set){
+            if(google_set && post_parameters.result[5] == "youtube"){
                 gTokenProvider.getToken(function (err, token) {
                     var contentDetails = {
                         url: 'https://www.googleapis.com/youtube/v3/videos?id='+ post_parameters.result[0] +'&part=snippet,contentDetails',
@@ -466,23 +466,22 @@ function rest(session_user_id, api_call, res, post_parameters){
                     request.get(contentDetails, function(error, response, contents) {
                        console.log(contents);
                        var runtime = "";
+                       console.log(contents);
+                       console.log('-------------------------------------------');
                        var duration = contents.items[0].contentDetails.duration;
-                       if(post_parameters.result[5] == 'youtube'){
-                            //convert Youtube iso format to seconds
-                            var total = 0;
-                            var hours = duration.match(/(\d+)H/);
-                            var minutes = duration.match(/(\d+)M/);
-                            var seconds = duration.match(/(\d+)S/);
-                            if (hours) total += parseInt(hours[1]) * 3600;
-                            if (minutes) total += parseInt(minutes[1]) * 60;
-                            if (seconds) total += parseInt(seconds[1]);
-                            duration = total;
-                            runtime = duration;
-                       }
-                       else{
-                        //otherwise its a napster song and just keep format
-                        runtime = post_parameters.result[4];
-                       }
+                       
+                        //convert Youtube iso format to seconds
+                        var total = 0;
+                        var hours = duration.match(/(\d+)H/);
+                        var minutes = duration.match(/(\d+)M/);
+                        var seconds = duration.match(/(\d+)S/);
+                        if (hours) total += parseInt(hours[1]) * 3600;
+                        if (minutes) total += parseInt(minutes[1]) * 60;
+                        if (seconds) total += parseInt(seconds[1]);
+                        duration = total;
+                        runtime = duration;
+                       
+                       
                         var track = {track_id: post_parameters.result[0], 
                             channel_artist: post_parameters.result[1], 
                             track_name: post_parameters.result[2], 
@@ -500,7 +499,7 @@ function rest(session_user_id, api_call, res, post_parameters){
                     });
                });
             }
-            else{
+            else if (post_parameters.result[5] == "napster") {
                 var track = {track_id: post_parameters.result[0], 
                     channel_artist: post_parameters.result[1], 
                     track_name: post_parameters.result[2], 
@@ -515,6 +514,10 @@ function rest(session_user_id, api_call, res, post_parameters){
                     console.log(playlist);
                 });
                 res.end();
+            }
+
+            else {
+                res.send("Something went wrond: error103");
             }
         }
 
@@ -604,15 +607,20 @@ function napster_songs(songs,napster_set,nTokenProvider,post_parameters, reqUser
                 };
                 request.get(tracks, function(error, response, body) {
                    console.log("Tracks");
-                   for(i = 0; i < body.data.length; i++){
-                        songs.push([body.data[i].id, 
-                                    body.data[i].artistName, 
-                                    body.data[i].name, 
-                                    body.data[i].href,
-                                    body.data[i].playbackSeconds,
-                                    "napster"]);
-                        if(i == body.data.length-1){
-                            callback("done");
+                   if (body.data.length == 0) {
+                        callback("done");
+                   }
+                   else {
+                       for(i = 0; i < body.data.length; i++){
+                            songs.push([body.data[i].id, 
+                                        body.data[i].artistName, 
+                                        body.data[i].name, 
+                                        body.data[i].href,
+                                        body.data[i].playbackSeconds,
+                                        "napster"]);
+                            if(i == body.data.length-1){
+                                callback("done");
+                            }
                         }
                     }
                 }); 
@@ -654,18 +662,22 @@ function google_videos(songs,google_set,gTokenProvider,post_parameters, reqUser,
                     //Parse body and add each video to an array with the needed data/metadata
                     var youtube_videos = [];
                     console.log("Google");
-
-                    for(i=0; i < body.items.length; i++){
-                        // Save important data for each video to master array
-                        songs.push([body.items[i].id.videoId, 
-                                    body.items[i].snippet.channelTitle, 
-                                    body.items[i].snippet.title, 
-                                    "http://www.youtube.com/embed/" + body.items[i].id.videoId,
-                                    '0',
-                                    "youtube"]);
-                        if(i == body.items.length-1){
-                            console.log("Google")
-                            callback("done");
+                    if (body.items.length == 0) {
+                        callback("done");
+                    }
+                    else {
+                        for(i=0; i < body.items.length; i++){
+                            // Save important data for each video to master array
+                            songs.push([body.items[i].id.videoId, 
+                                        body.items[i].snippet.channelTitle, 
+                                        body.items[i].snippet.title, 
+                                        "http://www.youtube.com/embed/" + body.items[i].id.videoId,
+                                        '0',
+                                        "youtube"]);
+                            if(i == body.items.length-1){
+                                console.log("Google")
+                                callback("done");
+                            }
                         }
                     }
                 });
