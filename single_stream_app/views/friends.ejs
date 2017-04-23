@@ -100,7 +100,7 @@
                                       <div id="search_field" class="form-group">
                                         <label for="usr">Enter a user's email</label>
                                         <input type="text" class="form-control" placeholder="Billy Joel" id="follower" ng-model="query">
-                                        <input type="submit" class="btn btn-primary" value="Search" ng-click="search()">
+                                        <input type="submit" id="login" class="btn btn-primary" value="Search" ng-click="search()">
                                       </div>
                                   </fieldset>
                                 </fieldset>
@@ -140,18 +140,17 @@
 
             <div class="container">
               <div class="row">
-                <div class="well col-md-6">
+                <div class="well col-md-4">
                   <p>{{statusMsg}}</p>
-                  <ul><li ng-repeat="result in users">{{result.local.email}} <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
-<!--                 <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()"> -->
+                  <ul><li ng-repeat="result in users">{{result.local.email}} <button ng-click="add(result)" class="btn btn-primary add">Add</button></li></ul>
                 </div>
-                <div class="well col-md-2">
+                <div class="well col-md-3">
                   <div>
                       <h3>Followers</h3>
                       <ul><li ng-repeat="user in followers track by $index">{{user.name}}</li></ul>
                   </div>
                 </div>
-                <div class="well col-md-2">
+                <div class="well col-md-3">
                     <div>
                       <h3>Following</h3>
                       <ul><li ng-repeat="user in following track by $index">{{user.name}}</li></ul>
@@ -226,11 +225,6 @@ var app = angular.module("playlists", ['ngSanitize']);
          location.reload();
       });
     }
-
-    //Applies new changes to playlist
-    // $scope.apply = function(){
-    //   location.reload();
-    // }
 
     //Search napster and youtube for new songs and videos to add to an existing custom playlist
     $scope.search = function(){
