@@ -555,8 +555,8 @@ function rest(session_user_id, api_call, res, post_parameters){
         }
 
         if(api_call == 'get_followers_following') {
-
-            User.findOne({ 'user_id' :  session_user_id }, function(err, user) {
+            console.log("Hell0");
+            User.findOne({ '_id' :  session_user_id }, function(err, user) {
                 res.send([user.followers, user.following]);
             });
         }
