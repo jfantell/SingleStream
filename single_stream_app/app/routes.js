@@ -295,14 +295,19 @@ module.exports = function(app, passport) {
         res.render('friends.ejs')
     });
     //== FIND FOLLOWERS ==
-    app.post('/find_followers', isLoggedIn, function(req, res) {
-        rest(req.user._id, "find_followers",res,req.body);
+    app.post('/find_users_to_follow', isLoggedIn, function(req, res) {
+        rest(req.user._id, "find_users_to_follow",res,req.body);
     });
     //== ADD FOLLOWERS ==
-    app.post('/add_follower', isLoggedIn, function(req, res) {
-        rest(req.user._id, "add_follower",res,req.body);
+    app.post('/add_following', isLoggedIn, function(req, res) {
+        rest(req.user._id, "add_following",res,req.body);
+    });
+/////////////////////
+    app.get('/get_followers_following', isLoggedIn, function(req, res) {
+        rest(req.user._id, 'get_followers_following', res, req.body);
     });
 
+////////////////////
     //== RENDER ANALYTICS PAGE ==
     app.get('/analytics', isLoggedIn, function(req, res) {
         res.render('analytics.ejs')
@@ -457,13 +462,25 @@ function rest(session_user_id, api_call, res, post_parameters){
                         headers: { 'Authorization': 'Bearer ' + token },
                         json: true
                     };
+                    //new youtube track request to get video duration (only if youtube source)
                     request.get(contentDetails, function(error, response, contents) {
                        console.log(contents);
                        var runtime = "";
+                       var duration = contents.items[0].contentDetails.duration;
                        if(post_parameters.result[5] == 'youtube'){
-                        runtime = contents.items[0].contentDetails.duration;
+                            //convert Youtube iso format to seconds
+                            var total = 0;
+                            var hours = duration.match(/(\d+)H/);
+                            var minutes = duration.match(/(\d+)M/);
+                            var seconds = duration.match(/(\d+)S/);
+                            if (hours) total += parseInt(hours[1]) * 3600;
+                            if (minutes) total += parseInt(minutes[1]) * 60;
+                            if (seconds) total += parseInt(seconds[1]);
+                            duration = total;
+                            runtime = duration;
                        }
                        else{
+                        //otherwise its a napster song and just keep format
                         runtime = post_parameters.result[4];
                        }
                         var track = {track_id: post_parameters.result[0], 
@@ -501,7 +518,7 @@ function rest(session_user_id, api_call, res, post_parameters){
             }
         }
 
-        if(api_call == "find_followers"){
+        if(api_call == "find_users_to_follow"){
             User.find({ 'local.email' :  post_parameters.q }, function(err, followers) {
                 res.send(followers);
             });
@@ -509,7 +526,7 @@ function rest(session_user_id, api_call, res, post_parameters){
 
         //add someone you want to follow/following
         //add your id to their account as a follower
-        if(api_call == "add_follower"){
+        if(api_call == "add_following"){
             var following = {_id: post_parameters.result._id, name: post_parameters.result.local.email};
             var followers = {_id: session_user_id, name: user.local.email};
             User.findByIdAndUpdate(session_user_id, {
@@ -525,6 +542,13 @@ function rest(session_user_id, api_call, res, post_parameters){
                 console.log(user);
             });
             res.end();
+        }
+
+        if(api_call == 'get_followers_following') {
+
+            User.findOne({ 'user_id' :  session_user_id }, function(err, user) {
+                res.send([user.followers, user.following]);
+            });
         }
 
         // //For the napster player, we need to send the access token and refresh token to the client

@@ -7,7 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}
 ul, ol {margin: 0;}
-p {margin: 0;}
+
 
 html, body{
   font-family: 'Lato-Regular';
@@ -36,6 +36,9 @@ a:focus, a:active, a:hover {
     -moz-transition: all 0.3s;
     transition: all 0.3s;
     color: #111;
+}
+body{
+  background: url(../images/profile_background.jpg);
 }
 a {
     background-color:none;
@@ -4527,7 +4530,7 @@ text-decoration:none;
   opacity: .5;
   border-radius: 0;
   border: none;
-  margin: 0;
+  margin: 2%;
 }
 
 #profileHeader {
@@ -4540,3 +4543,20 @@ text-decoration:none;
   width: 100%;
 }
 
+li {
+  margin-bottom: 5%;
+}
+i.logout {
+    width:16px;
+    height:16px;
+    background:url(../images/logout3.png) no-repeat 0px 0px;
+    display: inline-block;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+}
+ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
+    background:url(../images/logout3.png) no-repeat 0px 0px;
+}
