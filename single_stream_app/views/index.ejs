@@ -73,16 +73,18 @@
                         <div class="login-page">
                           <div class="form">
                             <form class="register-form" action="/signup" method="post">
-                              <input type="test" placeholder="name" name="name" required/>
-                              <input type="text" placeholder="email" name="email" required/>
-                              <input type="password" placeholder="password" name="password" required/>
-                              <button>create</button>
+                                <input type="text" placeholder="email" name="email" required/>
+                                <input type="text" placeholder="first name" name="firstName" required/>
+                                <input type="text" placeholder="last name" name="lastName" required/>
+                                <input type="password" placeholder="password" name="password" required/>
+                                <input type="password" placeholder="confirm password" name="confirmPassword" required/>
+                              <button>Create</button>
                               <p class="message">Already registered? <a href="#">Sign In</a></p>
                             </form>
                             <form class="login-form" action="/login" method="post">
-                              <input type="text" placeholder="email" name="email" required/>
-                              <input type="password" placeholder="password" name="password" required/>
-                              <button type="submit" class="btn btn-warning btn-lg">Login</button>
+                                <input type="text" placeholder="email" name="email" required/>
+                                <input type="password" placeholder="password" name="password" required/>
+                                <button type="submit" class="btn btn-warning btn-lg">Login</button>
                               <p class="message">Not registered? <a href="#">Create an account</a></p>
                             </form>
                           </div>
