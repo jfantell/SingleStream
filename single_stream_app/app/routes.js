@@ -332,6 +332,7 @@ module.exports = function(app, passport) {
     //
     app.post('/analytics_artist_search', isLoggedIn, function(req, res){
         analytics(req.user._id, 'analytics_artist_search', res, req.body);
+        console.log(req.body);
     });
     //== RENDER CONTACT PAGE ==
     app.get('/contact', isLoggedIn, function(req, res) {

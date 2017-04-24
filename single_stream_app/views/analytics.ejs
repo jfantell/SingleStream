@@ -320,12 +320,12 @@
          };
 
         $scope.artist_search = function(){
-          console.log("Selected Option " + $scope.analyticsOptions.selectedOption.name);
+          // console.log("Selected Option " + );
           // var option = String($scope.analyticsOptions.options.name);
           var req = {
             method: 'POST',
             url: '/analytics_artist_search',
-            data: {'checked': $scope.checkboxModel, 'option': 'Artists'}//pass in artist name
+            data: {'checked': $scope.checkboxModel, 'option': $scope.analyticsOptions.selectedOption.name}//pass in artist name
           }
           console.log("SEARCH");
           $http(req).success(function(data){
