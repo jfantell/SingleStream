@@ -135,9 +135,9 @@
 
                             <% if (user.local.email) { %>
                                 <p>
-                                    <strong>id</strong>: <%= user._id %><br>
-                                    <strong>email</strong>: <%= user.local.email %><br>
-                                    <strong>password</strong>: <%= user.local.password %>
+                                    <strong>Name</strong>: <%= user.local.firstName + " " + user.local.lastName %><br>
+                                    <strong>Email</strong>: <%= user.local.email %><br>
+                                    <strong>Bio</strong>: <%= user.local.biography %><br>
                                 </p>  
                             <% } %>
                         </div>
@@ -176,7 +176,7 @@
                                 </p>
                                 <a href="/unlink/napster" class="btn btn-default">Unlink</a>
                             <% } else { %>
-                                <a href="/auth/napster" class="btn btn-default"><span class="fa fa-google-plus"></span> Napster</a>
+                                <a href="/auth/napster" class="btn btn-default"><span class="fa fa-headphones"></span> Napster</a>
                             <% } %>
 
                         </div>
