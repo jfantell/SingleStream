@@ -4623,9 +4623,9 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
   padding: 19px;
   text-align: center;
   color: white;
-  background-color: #477d8c;
+  background-color: #1b1919;
   /*background-color: black;*/
-  opacity: .8;
+  opacity: .7;
   border-radius: 0;
   border: none;
   margin: 0;
@@ -4640,14 +4640,18 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
   }
 
   td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
+      border: 1px solid #555;
+      text-align: center;
       padding: 8px;
   }
 
+  tr:nth-child(odd){
+    background-color: #404142;
+  }
+
   tr:nth-child(even) {
-      background-image: url('profile_resources/images/profile_background.jpg');
-      /*background-color: #dddddd;*/
+      background-image: url('../images/profile_background.jpg');
+
 }
 .alert {
     padding: 20px;
@@ -4672,4 +4676,14 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
 
 .playlist_view:hover {
   background-color: gray;
+}
+
+.playlist-btn {
+    background-color:#313030;
+    border-color: #313030;
+}
+
+.playlist-btn:hover {
+    background-color: #1b1a1a;
+    color:white;
 }

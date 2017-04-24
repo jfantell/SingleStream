@@ -28,68 +28,7 @@
         <!-- jQuery -->
         <script src="profile_resources/js/jquery-2.1.4.js"></script>
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
-        <!-- lined-icons -->
-        <style>
-          li {
-            list-style: none;
-          }
-
-          #playbutton:hover {
-            background-color: green;
-          }
-
-                
-          .playlistwell {
-            padding: 19px;
-            text-align: center;
-            color: white;
-            background-color: #477d8c;
-            /*background-color: black;*/
-            opacity: .8;
-            border-radius: 0;
-            border: none;
-            margin: 0;
-          }
-
-
-            table {
-                opacity: 1;
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            td, th {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
-
-            tr:nth-child(even) {
-                background-image: url('profile_resources/images/profile_background.jpg');
-                /*background-color: #dddddd;*/
-          }
-          .alert {
-              padding: 20px;
-              background-color: #f44336;
-              color: white;
-
-          .closebtn {
-              margin-left: 15px;
-              color: white;
-              font-weight: bold;
-              float: right;
-              font-size: 22px;
-              line-height: 20px;
-              cursor: pointer;
-              transition: 0.3s;
-          }
-
-          .closebtn:hover {
-              color: black;
-          }
-
-        </style>
+        <!-- lined-icons -->  
 
     </head>
 
@@ -224,7 +163,7 @@
                       <div id="all_playlists">
                       <table>
                         <tr ng-repeat="playlist in user_playlists track by $index">
-                          <td ng-click="load_playlist_view($index)"> {{playlist.name}}
+                          <td class="playlist_view" ng-click="load_playlist_view($index)"> {{playlist.name}}
                         </td></tr>
                       </div>
                        
@@ -253,13 +192,13 @@
                     <th>Artist/Channel</th>
                     <th>Duration</th>
                     <th>Source</th>
-                    <th id="autoplay"> <button ng-click="build_autoplay()" class="btn">Auto Play</button></th>
+                    <th id="autoplay"> <button ng-click="build_autoplay()" class="btn playlist-btn">Auto Play</button></th>
                     <th id='delete_playlist'>
                         <button ng-click="delete_playlist()" class="btn btn-danger">Delete Playlist</button>
                     </th>
                     <th id="kill_autoplay"> <button ng-click="kill_autoplay()" class="btn btn-warning">Stop Auto Play</button></th>
                     <th id="search_field" class="form-group">
-                      <button data-toggle="modal" data-target="#myModal" class="btn">add</button> </th>
+                      <button data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add</button> </th>
                   </tr>
                   <tr ng-repeat="song in tracks track by $index">
                     <td>{{song.track_name}}</td>
@@ -272,14 +211,9 @@
                                 src="{{song.url | trustAsResourceUrl}}">
                               </iframe></td>
                     <td id="{{song.track_id}}"><button class="btn btn-danger" id="{{song.track_id}}" data-ng-click="delete_track($event)">-</button></td>
-
-
                 </table>
               </div>
             </div>
-
-         
-         
             </div>
 
         <!-- END PAGE CONTENT -->
