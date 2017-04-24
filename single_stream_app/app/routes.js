@@ -350,7 +350,7 @@ module.exports = function(app, passport) {
 /////RECUSIVE FIND TO ITERATE THROUGH FOLLOWERS/FOLLOWINGS -> ALL PLAYLISTS -> ALL TRACKS
 function recursive_find(i,concat,post_parameters,dict,keys,res){
     if(i == concat.length){
-        console.log(concat.length);
+        console.log("LENGTH " + concat.length);
         res.send([dict,keys]);
         return;
     }
@@ -436,7 +436,6 @@ function analytics(session_user_id, api_call, res, post_parameters){
                 res.send("Please check at least one box!");
                 return;
             }
-            console.log("OPTION : ");
             console.log(post_parameters);
             if(post_parameters.option == 'Artists' || post_parameters.option == 'Tracks'){
                 recursive_find(i,concat,post_parameters,dict,keys,res);

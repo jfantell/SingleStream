@@ -327,7 +327,7 @@
             url: '/analytics_artist_search',
             data: {'checked': $scope.checkboxModel, 'option': 'Artists'}//pass in artist name
           }
- 
+          console.log("SEARCH");
           $http(req).success(function(data){
             console.log(data);
             $scope.artist_dict = data[0];
@@ -350,6 +350,7 @@
 
 
         $scope.show = function(item){
+        	console.log("show");
           // console.log($scope.artist_mentions[$scope.artist_name]);
           // console.log("Hey I am here");
           if(item == 'table'){
