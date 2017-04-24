@@ -279,6 +279,15 @@ module.exports = function(app, passport) {
     app.get('/get_playlists', isLoggedIn, function(req, res) {
         rest(req.user._id, "get_playlists",res,'');
     });
+    app.post('/get_playlists_follower', isLoggedIn, function(req, res) {
+        rest(req.user._id, "get_playlists_follower",res,req.body);
+    });
+    app.post('/get_playlists_following', isLoggedIn, function(req, res) {
+        rest(req.user._id, "get_playlists_following",res,req.body);
+    });
+    app.post('/clone', isLoggedIn, function(req, res) {
+        rest(req.user._id, "clone",res,req.body);
+    });
     //== SEARCH NEW SONGS AND VIDEOS FROM NAPSTER AND GOOGLE
     app.post('/search', isLoggedIn, function(req, res) {
         if(req.body.q.length == 0){
@@ -558,6 +567,52 @@ function rest(session_user_id, api_call, res, post_parameters){
         if(api_call == "get_playlists"){
             Playlist.find({ 'user_id' :  session_user_id }, function(err, playlists) {
                 res.send(playlists);
+            });
+        }
+
+        if(api_call == "get_playlists_follower"){
+            console.log(post_parameters);
+            Playlist.find({ 'user_id' :  post_parameters.friend }, function(err, playlists) {
+                res.send(playlists);
+            });
+        }
+
+        if(api_call == "get_playlists_following"){
+            console.log(post_parameters);
+            Playlist.find({ 'user_id' :  post_parameters.friend }, function(err, playlists) {
+                res.send(playlists);
+            });
+        }
+
+        if(api_call == "clone"){
+            console.log(post_parameters);
+            Playlist.findOne({ 'user_id' :  post_parameters.friend, 
+                                'name':post_parameters.playlist_name }, function(err, cloned) {
+
+                newPlaylist = new Playlist();
+                newPlaylist.user_id = session_user_id;
+                newPlaylist.track_count = cloned.track_count;
+                newPlaylist.name = cloned.name;
+                newPlaylist.description = cloned.description;
+                newPlaylist.tags = cloned.tags;
+                newPlaylist.created = cloned.created;
+                newPlaylist.tracks = cloned.tracks;
+                newPlaylist.save(function(err) {
+                if (err)
+                    console.log(err);
+                    res.send("cloned");
+                    console.log("clone");
+                });  
+                // var newPlaylist = new Playlist();
+                // newPlaylist = cloned;
+                // newPlaylist.user_id = session_user_id;
+                // newPlaylist.save(function(err) {
+                //     if (err)
+                //         console.log(err);
+                //     res.send("cloned");
+                //     console.log("cloned");
+                // }); 
+
             });
         }
 

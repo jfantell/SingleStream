@@ -4634,6 +4634,7 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
   border-radius: 0;
   border: none;
   margin: 0;
+  overflow: scroll;
 }
 
 
