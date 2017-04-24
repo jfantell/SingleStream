@@ -31,7 +31,7 @@
         <!-- Custom css file for this page (mostly the sidebar and menu)-->
         <link href="profile_resources/css/style.css" rel='stylesheet' type='text/css' /> 
         <!-- jQuery -->
-<!--         <script src="profile_resources/js/jquery-2.1.4.js"></script> -->
+        <script src="profile_resources/js/jquery-2.1.4.js"></script>
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
 
     </head>
@@ -59,17 +59,19 @@
         <!-- These links are dead, not sure what the actual files names will end up being -->
           <ul class="nav nav-pills nav-stacked custom-nav">
             <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
-            <li><a href="/settings"><i class="camera"></i> <span>Settings</span></a>
+            <!-- <li><a href="/settings"><i class="camera"></i> <span>Settings</span></a>
               <ul class="sub-menu-list">
                   <li><a data-toggle="modal" data-target="#myModal">Change Password</a> <li>
                   <li><a data-toggle="modal" data-target="#LocationModal">Add Location</a> </li>
                   <li><a data-toggle="modal" data-target="#PicModal">Add Profile Picture </a></li>
               </ul>
-            </li>
+            </li> -->
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>Contact</span></a></li>
+                        <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
+
             </li>
           </ul>
         <!--sidebar nav end-->
@@ -88,78 +90,9 @@
       <!--notification menu start -->
         <div class="menu-right">
           <div class="profile_details">   
-              <div class="col-md-4 serch-part">
-                <div id="sb-search" class="sb-search">
-                  <form id="search-form" action="#" method="post">
-
-                    <input class="sb-search-input" placeholder="Search" type="search" name="search" id="query"> 
-                    <!-- id used to be "search" -->
-                    <input class="sb-search-submit" type="submit" value="">
-                    <span class="sb-icon-search"> </span>
-                  </form>
-                </div>
+              <div class="col-md-3">
               </div>
-                <!-- search-scripts -->
-                  <script src="js/classie.js"></script>
-                  <script src="js/uisearch.js"></script>
-                    <script>
-                      new UISearch( document.getElementById( 'sb-search' ) );
-                    </script>
-                  <!-- //search-scripts -->
-                       <!---->
-                        <div class="col-md-4 player">
-                          <div class="audio-player">
-                            <audio id="audio-player"  controls="controls">
-                             <!--  <source ng-bind-html="myHTML"></source> -->
-                                <source src="media/bdaysx.mp3" type="audio/mpeg"></source>
-                                </audio>
-                            </div>
-                        <!---->
-                        <script type="text/javascript">
-                          $(function(){
-                            $('#audio-player').mediaelementplayer({
-                            alwaysShowControls: true,
-                            features: ['playpause','progress','volume'],
-                            audioVolume: 'horizontal',
-                            iPadUseNativeControls: true,
-                            iPhoneUseNativeControls: true,
-                            AndroidUseNativeControls: true
-                          });
-                         });
-                        </script>
-                        <!--audio-->
-                          <link rel="stylesheet" type="text/css" media="all" href="css/audio.css">
-                          <script type="text/javascript" src="js/mediaelement-and-player.min.js"></script>
-                          <!---->
-
-
-                        <!--//-->
-                        <ul class="next-top">
-                          <li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
-                          <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></i></a></li>
-                            
-                       </ul>  
-                      </div>
-
-                      <!-- This is the login button, this should probably end up throwing you the our own specific login page -->
-                      <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
-                      <div class="col-md-4 login-pop">
-                        <div id="loginpop"> <a href="#" id="loginButton"><span>+Add Playlist</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-
-                            <div id="loginBox">  
-                        <form action="#" method="post" id="loginForm">
-                                  <fieldset id="body">
-                                    <fieldset>
-                                        <label for="email">Playlist Name</label>
-                                        <input type="text" name="email" id="email">
-                                    </fieldset>
-                                    <input type="submit" id="login" value="Go">
-                                  </fieldset>
-                             </form>
-                          </div>
-                        </div>
-
-                      </div>
+                     
                     <div class="clearfix"> </div>
                 </div>
               </div>
@@ -178,40 +111,63 @@
       <!-- Intro Header -->
             <div class="container" ng-app="myApp" > 
                 <div class="container" ng-controller="mainController">
+                  <div class="well">
+                  <div class="row">
+                    <!-- <div class="span"> -->
                   <!-- <form class="form-group"> -->
+                  <div class="col-md-2">
                     <label>Following:
                       <input type="checkbox" ng-model="checkboxModel.following"
                               ng-true-value="'YES'" ng-false-value="'NO'">
                     </label><br/>
+                  </div>
+                    <div class="col-md-2">
                     <label>Followers:
                       <input type="checkbox" ng-model="checkboxModel.followers"
                              ng-true-value="'YES'" ng-false-value="'NO'">
                     </label><br/>
+                    </div>
+                    <div class="col-md-2">
                     </label>My Playlists:
                       <input type="checkbox" ng-model="checkboxModel.me"
                              ng-true-value="'YES'" ng-false-value="'NO'">
                      </label><br/>
+                     </div>
+
+                    <div class="col-md-3">
                      <label for="mySelect">Make a choice:</label>
                      <select name="analytics_select" id="analytics_select" ng-options="option.name for option in analyticsOptions.options track by option.id" ng-model="analyticsOptions.selectedOption"></select>
+                   </div>
+                   <div class="col-md-2">
                     <input type="submit" id="login" class="btn btn-primary" value="Search" ng-click="artist_search()">
+                  </div>
                    </form>
+                 </div>
+               </div>
+               <!-- <div class="well"> -->
                   <div class="row">
-                       <div class="col-md-3">
+                    <div class="col-md-3">
+                    </div>
+                       <div class="col-md-2">
                             <button ng-click="show('table')" class="btnSearch btn btn-default" style="background-color:#222222;color:white;"> Draw Table </button>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <button ng-click="show('gauge')" class="btnSearch btn btn-default" style="background-color:#222222;color:white; opacity:1"> Draw Gauge </button>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <button ng-click="show('donut')" class="btnSearch btn btn-default" style="background-color:#222222;color:white; opacity:1"> Draw Donut </button>
+                        </div>
+                        <div class="col-md-3">
                         </div>
    
                   </div> <!-- Ends the Row class -->
-
-                  <!-- Charts -->
-                  <div id="graphs" style="margin-top: 10px;width: 400px; height: 300px;color:black"></div>
+                  <div class="row">
+                    <div class="col col-md-3"></div>
+                    <div class="col col-md-6"><div id="graphs" style="margin-top: 10px;width: 100%; height: 600px;color:black"></div></div>
+                    <div class="col col-md-3"></div>
+                  </div>
               </div>
             </div>
           </div>
@@ -234,7 +190,7 @@
 <script src="profile_resources/js/bootstrap.js"></script>
 
 <!--For playlists-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- <script type="text/javascript" src="angular.min.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
@@ -276,7 +232,7 @@
               console.log(arr);
               var data = google.visualization.arrayToDataTable(arr);
               var options = {
-                width: 400, height: 120,
+                width: 400, height: 300,
                 redFrom: 90, redTo: 100,
                 yellowFrom:75, yellowTo: 90,
                 minorTicks: 5
