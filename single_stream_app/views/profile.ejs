@@ -135,9 +135,9 @@
 
                             <% if (user.local.email) { %>
                                 <p>
-                                    <strong>id</strong>: <%= user._id %><br>
-                                    <strong>email</strong>: <%= user.local.email %><br>
-                                    <strong>password</strong>: <%= user.local.password %>
+                                    <strong>Name</strong>: <%= user.local.firstName + " " + user.local.lastName %><br>
+                                    <strong>Email</strong>: <%= user.local.email %><br>
+                                    <strong>Bio</strong>: <%= user.local.biography %>
                                 </p>  
                             <% } %>
                         </div>
@@ -186,8 +186,8 @@
 
 
             <div class="well">
-              <button class="btn btn-defualt" href="#" data-toggle="modal" data-target="#myModal"> Write Biography </button>
-              <button class="btn btn-defualt" href="#" data-toggle="modal" data-target="#myModal"> Edit Biography </button>
+              <button class="btn playlist-btn" href="#" data-toggle="modal" data-target="#myModal"> Write Biography </button>
+              <button class="btn playlist-btn" href="#" data-toggle="modal" data-target="#myModal"> Edit Biography </button>
             </div>
 
 
