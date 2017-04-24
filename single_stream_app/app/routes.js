@@ -356,21 +356,108 @@ module.exports = function(app, passport) {
      
 };
 
+/////RECUSIVE FIND TO ITERATE THROUGH FOLLOWERS/FOLLOWINGS -> ALL PLAYLISTS -> ALL TRACKS
+function recursive_find(i,concat,post_parameters,dict,keys,res){
+    if(i == concat.length){
+        console.log(concat.length);
+        res.send([dict,keys]);
+        return;
+    }
+    Playlist.find({ 'user_id' :  concat[i]._id }, function(err, playlists) {
+        for(j=0; j<playlists.length; j++){
+            for(k=0; k<playlists[j].tracks.length; k++){
+
+                //Artists
+                if(post_parameters.option == "Artists"){
+                    if(dict[playlists[j].tracks[k].channel_artist] == undefined){
+                        dict[playlists[j].tracks[k].channel_artist] = 1;
+                        keys.push(playlists[j].tracks[k].channel_artist);
+                        console.log(playlists[j].tracks[k].channel_artist);
+                    }
+                    else{
+                        dict[playlists[j].tracks[k].channel_artist] += 1;
+                        console.log(playlists[j].tracks[k].channel_artist);
+                    }
+                }
+                //Tracks
+                else if(post_parameters.option == "Tracks"){
+                    if(dict[playlists[j].tracks[k].track_name] == undefined){
+                        dict[playlists[j].tracks[k].track_name] = 1;
+                        keys.push(playlists[j].tracks[k].track_name);
+                        console.log(playlists[j].tracks[k].track_name);
+                    }
+                    else{
+                        dict[playlists[j].tracks[k].track_name] += 1;
+                        console.log(playlists[j].tracks[k].track_name);
+                    }
+                }
+                
+                //double for loop finished for one user, move to the next user
+                if(j == (playlists.length-1) && k == (playlists[j].tracks.length-1)) {
+                    console.log("THIS IS I", i);
+                    recursive_find(i+1,concat,post_parameters,dict,keys,res);
+                }
+            }
+        }
+    });
+}
+
 function analytics(session_user_id, api_call, res, post_parameters){
     User.findOne({ '_id' :  session_user_id }, function(err, user) {
+        //search domain
         if(api_call == 'analytics_artist_search'){
+            var concat = "";
             var following = user.following;
-            // var followers = user.followers;
-            for(i=0; i< following.length; i++){
-                Playlist.find({ 'user_id' :  following[i]._id }, function(err, playlists) {
-                    console.log(playlists);
-                });
+            var followers = user.followers;
+            var i=0;
+            var dict = {}; //dictionary where keys are artists, values are count of mentions among followers, followings, and/or the user
+            var keys = []; //list of keys
+            var me = [{ _id : String(session_user_id), name: user.local.email }];
+            if(post_parameters.checked.following == 'YES' && post_parameters.checked.followers && post_parameters.checked.me == 'YES'){
+                console.log("1");
+                concat = (following.concat(followers)).concat(me);
             }
-            var str = "Hello the best artist is Michael Jackson in the world";
-            if(str.includes(post_parameters.artist)){
-                console.log("true");
+            else if(post_parameters.checked.following == 'YES' && post_parameters.checked.followers == 'YES' ){
+                console.log("2");
+                concat = following.concat(followers);
             }
-            res.send("Hey man!");
+            else if(post_parameters.checked.following == 'YES' && post_parameters.checked.me == 'YES' ){
+                console.log("3");
+                concat = following.concat(me);
+            }
+            else if(post_parameters.checked.followers == 'YES' && post_parameters.checked.me == 'YES' ){
+                console.log("4");
+                concat = followers.concat(me);
+            }
+            else if(post_parameters.checked.followers == 'YES'){
+                console.log("5");
+                concat = followers;
+            }
+            else if(post_parameters.checked.following == 'YES'){
+                console.log("6");
+                concat = following;
+            }
+            else if(post_parameters.checked.me == 'YES'){
+                console.log("7");
+                concat = me;
+            }
+            else{
+                res.send("Please check at least one box!");
+                return;
+            }
+            console.log("OPTION : ");
+            console.log(post_parameters);
+            if(post_parameters.option == 'Artists' || post_parameters.option == 'Tracks'){
+                recursive_find(i,concat,post_parameters,dict,keys,res);
+                console.log("I made it here");
+            }
+            // else if(post_parameters.option == 'Tags'){
+            //     recursive_find(i,concat,post_parameters,dict,keys,res);
+            // }
+            else{
+                res.send("There was an error!");
+            }
+            
         }
     });
 }

@@ -178,18 +178,26 @@
       <!-- Intro Header -->
             <div class="container" ng-app="myApp" > 
                 <div class="container" ng-controller="mainController">
-                  <div class="form-group">
-                    <label for="usr">Artist Search</label>
-                    <input type="text" class="form-control" placeholder="Artist Name - Required" id="artist_name" ng-model="artist_name">
-                  </div>
-                  <input type="submit" id="login" class="btn btn-primary" value="Search" ng-click="artist_search()">
+                  <!-- <form class="form-group"> -->
+                    <label>Following:
+                      <input type="checkbox" ng-model="checkboxModel.following"
+                              ng-true-value="'YES'" ng-false-value="'NO'">
+                    </label><br/>
+                    <label>Followers:
+                      <input type="checkbox" ng-model="checkboxModel.followers"
+                             ng-true-value="'YES'" ng-false-value="'NO'">
+                    </label><br/>
+                    </label>My Playlists:
+                      <input type="checkbox" ng-model="checkboxModel.me"
+                             ng-true-value="'YES'" ng-false-value="'NO'">
+                     </label><br/>
+                     <label for="mySelect">Make a choice:</label>
+                     <select name="analytics_select" id="analytics_select" ng-options="option.name for option in analyticsOptions.options track by option.id" ng-model="analyticsOptions.selectedOption"></select>
+                    <input type="submit" id="login" class="btn btn-primary" value="Search" ng-click="artist_search()">
+                   </form>
                   <div class="row">
                        <div class="col-md-3">
                             <button ng-click="show('table')" class="btnSearch btn btn-default" style="background-color:#222222;color:white;"> Draw Table </button>
-                        </div>
-
-                        <div class="col-md-3">
-                            <button ng-click="show('map')"  class="btnSearch btn btn-default" style="background-color:#222222;color:white; opacity:1"> Draw Map </button>
                         </div>
 
                         <div class="col-md-3">
@@ -200,77 +208,14 @@
                             <button ng-click="show('donut')" class="btnSearch btn btn-default" style="background-color:#222222;color:white; opacity:1"> Draw Donut </button>
                         </div>
    
-                    </div> <!-- Ends the Row class -->
+                  </div> <!-- Ends the Row class -->
 
                   <!-- Charts -->
-                      <div id="graphs" style="margin-top: 10px;width: 400px; height: 300px;color:black"></div>
-<!--                       <div id="table_div"></div> -->
-<!--                       <div id="gauge_div" style="width: 400px; height: 120px;"></div>
-                      <div id="donutchart" style="width: 900px; height: 500px;"></div> -->
-                  <!-- </div> Ends well class  -->
-               
-              
-            <!-- </div> -->
-
-
-                                  <!-- Settings Modals -->
-                                    <!-- Password Modal -->
-<!--                   <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog"> -->
-                      <!-- Modal content-->
-<!--                       <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title" style="color: black;">Change Password</h4>
-                        </div>
-                        <div class="modal-body" style="color:black;">
-                          <p>Enter New Password:</p>
-                           <input type="text", ng-model="pass" class="form-control" placeholder="New Password" />
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                      </div> 
-                    </div>
-                  </div> -->
-                  
-                  <!-- Password Modal -->
-<!--                   <div class="modal fade" id="PicModal" role="dialog" style='' background-image: url("profile_resources/images/radio1.png");''>
-                    <div class="modal-dialog"> -->
-                      <!-- Modal content-->
-<!--                       <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title" style="color: black;">Upload Picture</h4>
-                        </div>
-                        <div class="modal-body" style="color:black;">
-                          <p>Find New Photo:</p> -->
-
-                           <!-- <form action="/action_page.php">
-                            <input type="file" name="pic" accept="image/*">
-                            <input type="submit"> -->
-                            <!-- trying to push this file to angular controller -->
-<!--                             <img ng-if="image" src="{{image}}" alt="">
-                            <form action="">
-                                <input my-upload type="file" name="upload">
-                            </form> -->
-                            <!-- <input type="file" id="file" name="file"/>
-                            <button ng-click="upload()">Add</button>
-                          </form> -->
-<!--                         </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                      </div> 
-                    </div>
-                  </div>
-                  <img ng-if="image" src="{{image}}" alt=""> -->
-<!--         <form action="">
-            <input my-upload type="file" name="upload">
-        </form> -->
-      </div>
-    </div>
- </div>        
+                  <div id="graphs" style="margin-top: 10px;width: 400px; height: 300px;color:black"></div>
+              </div>
+            </div>
+          </div>
+        </div>        
 
         <!-- END PAGE CONTENT -->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
@@ -304,160 +249,123 @@
 
 <script type="text/javascript">
     //Variables/info we need to populate data visualizatons
-
-        //Names
-        var Name1 = "Will";
-        var Name2 = "Roshni";
-        var Name3 = "John";
-        var Name4 = "Rob";
-        var Name5 = "Ryan";
-        //Number of Songs they have
-
-        function drawTable() {
-
-          var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Name');
-          data.addColumn('number', 'Number of Songs');
-          data.addColumn('boolean', 'Friends?');
-          data.addRows([
-            [Name1,  400, false],
-            ['Roshni', 350 ,  false],
-            ['John', 500, true],
-            ['Rob',600   , true],
-            ['Ryan', 200 , true]
-          ]);
-
-          var table = new google.visualization.Table(document.getElementById('graphs'));
-
-          table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      function drawTable(dic,keys) {
+        var arr = [];
+        for(i=0; i< keys.length; i++){
+          arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
+          if(i == keys.length-1){
+            setTimeout(function(){ 
+              console.log(arr);
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'Artist');
+              data.addColumn('number', 'Frequency');
+              data.addRows(arr);
+              var table = new google.visualization.Table(document.getElementById('graphs'));
+              table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+            }, 3000);
+          }
+        }      
       }
 
-      function drawMap() {
-        var data = google.visualization.arrayToDataTable([
-          ['Country', 'Name'],
-          ['Japan', 'John'],
-          ['India', 'Roshni'],
-          ['Hawaii', 'Will']
-
-        ]);
-
-          var options = {
-            showTooltip: true,
-            showInfoWindow: true
-          };
-
-          var map = new google.visualization.Map(document.getElementById('graphs'));
-
-          map.draw(data, options);
-      };
-      function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-              ['Label', 'Value'],
-              ['Memory', 80],
-              ['CPU', 55],
-              ['Network', 68]
-            ]);
-
-            var options = {
-              width: 400, height: 120,
-              redFrom: 90, redTo: 100,
-              yellowFrom:75, yellowTo: 90,
-              minorTicks: 5
-            };
-
-            var chart = new google.visualization.Gauge(document.getElementById('graphs'));
-
-            chart.draw(data, options);
-
-            setInterval(function() {
-              data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+      function drawChart(dic,keys) {
+        var arr = [['Artist','# of Mentions']];
+        for(i=0; i< keys.length; i++){
+          arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
+          if(i == keys.length-1){
+            setTimeout(function(){ 
+              console.log(arr);
+              var data = google.visualization.arrayToDataTable(arr);
+              var options = {
+                width: 400, height: 120,
+                redFrom: 90, redTo: 100,
+                yellowFrom:75, yellowTo: 90,
+                minorTicks: 5
+              };
+              var chart = new google.visualization.Gauge(document.getElementById('graphs'));
               chart.draw(data, options);
-            }, 13000);
-            setInterval(function() {
-              data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-              chart.draw(data, options);
-            }, 5000);
-            setInterval(function() {
-              data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-              chart.draw(data, options);
-            }, 26000);
+            }, 3000);
           }
-    function drawPie() {
-          var data = google.visualization.arrayToDataTable([
-            ['Song', 'Number of Plays'],
-            ['Sugar',     11],
-            ['Dream On',      2],
-            ['Let Me Love You',  2],
-            ['Hotel California', 2],
-            ['Clocks',    7]
-          ]);
+        }      
+      }
+            
 
-          var options = {
-            title: 'Top Played Songs',
-            pieHole: 0.4,
-          };
-
-          var chart = new google.visualization.PieChart(document.getElementById('graphs'));
-          chart.draw(data, options);
+    function drawPie(dic, keys) {
+      var arr = [['Aritst', '# Of Mentions']];
+      for(i=0; i< keys.length; i++){
+        arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
+        if(i == keys.length-1){
+          setTimeout(function(){ 
+            var data = google.visualization.arrayToDataTable(arr);
+            var options = {
+              title: 'Artist Share',
+              pieHole: 0.4,
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('graphs'));
+            chart.draw(data, options);
+          }, 3000);
+        }
+      }  
     }
+
     angular.module('myApp', []).controller('mainController', ['$scope','$http', function ($scope, $http) {
+
+        $scope.artist_name = "";
+        $scope.artist_dict = ""; //dictionary of all artists (keys) and frequency amongst users
+        $scope.artist_keys = ""; //list of keys (artists)
+
+        $scope.checkboxModel = {
+           following : 'YES',
+           followers : 'YES',
+           me : 'YES'
+         };
+
         $scope.artist_search = function(){
+          console.log("Selected Option " + $scope.analyticsOptions.selectedOption.name);
+          // var option = String($scope.analyticsOptions.options.name);
           var req = {
             method: 'POST',
             url: '/analytics_artist_search',
-            data: {'artist': $scope.artist_name} //pass in artist name
+            data: {'checked': $scope.checkboxModel, 'option': 'Artists'}//pass in artist name
           }
+ 
           $http(req).success(function(data){
-            alert(data);
+            console.log(data);
+            $scope.artist_dict = data[0];
+            $scope.artist_keys = data[1];
+            console.log($scope.artist_keys.length);
+            for(i=0; i<$scope.artist_keys.length; i++){
+              console.log($scope.artist_dict[$scope.artist_keys[i]]);
+            }
           });
         };
 
+        $scope.analyticsOptions = {
+          options: [
+            {id: '1', name: 'Artists'},
+            {id: '2', name: 'Tracks'},
+            {id: '3', name: 'Tags'}
+          ],
+          selectedOption: {id: '1', name: 'Artists'} //This sets the default value of the select in the ui
+        };
+
+
         $scope.show = function(item){
+          // console.log($scope.artist_mentions[$scope.artist_name]);
           // console.log("Hey I am here");
-          console.log(item);
           if(item == 'table'){
             google.charts.load('current', {'packages':['table']});
-            google.charts.setOnLoadCallback(drawTable);
-          }
-          else if(item == 'map'){
-            google.charts.load('current', { 'packages': ['map'] });
-            google.charts.setOnLoadCallback(drawMap);
+            google.charts.setOnLoadCallback(drawTable($scope.artist_dict,$scope.artist_keys));
           }
           else if(item == 'gauge'){
             google.charts.load('current', {'packages':['gauge']});
-            google.charts.setOnLoadCallback(drawChart);
+            google.charts.setOnLoadCallback(drawChart($scope.artist_dict,$scope.artist_keys));
           }
           else if(item == 'donut'){
             google.charts.load("current", {packages:['corechart']});
-            google.charts.setOnLoadCallback(drawPie);
+            google.charts.setOnLoadCallback(drawPie($scope.artist_dict,$scope.artist_keys));
           }
         };
     }]);
-
-  //Chart creation functions//
-  /////////////////////////////////////////
-
-      
-
-  // function draw3DPie() {
-  //       var data = google.visualization.arrayToDataTable([
-  //         ['Song', 'Number of Plays'],
-  //         ['Sugar',     11],
-  //         ['Dream On',      2],
-  //         ['Let Me Love You',  2],
-  //         ['Hotel California', 2],
-  //         ['Clocks',    7]
-  //       ]);
-
-  //       var options = {
-  //         title: 'Top Played Songs',
-  //         is3D: true,
-  //       };
-
-  //       var chart = new google.visualization.PieChart(document.getElementById('graphs'));
-  //       chart.draw(data, options);
-  //     }
 
 </script>
 

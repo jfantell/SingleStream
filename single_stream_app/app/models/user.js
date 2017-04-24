@@ -8,6 +8,8 @@ var userSchema = mongoose.Schema({
 
     local            : {
         email        : String,
+        firstName    : String,
+        lastName     : String,
         password     : String,
     },
     google           : {
@@ -20,15 +22,20 @@ var userSchema = mongoose.Schema({
     followers : [
         {
             _id: String,
-            name: String
+            name: String,
+            biography: String
         }
     ],
     following: [
         {
             _id: String,
-            name: String
+            name: String,
+            biography: String
         }
-    ]
+    ],
+    biography: String,
+    favorite_artists: String,
+    favorite_songs: String
 });
 
 // methods ======================
