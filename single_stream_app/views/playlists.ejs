@@ -28,12 +28,7 @@
         <!-- jQuery -->
         <script src="profile_resources/js/jquery-2.1.4.js"></script>
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
-        <!-- lined-icons -->
-        <style>
-          li {
-            list-style: none;
-          }
-        </style>
+        <!-- lined-icons -->  
 
     </head>
 
@@ -63,6 +58,7 @@
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>Contact</span></a></li>
+            <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
             </li>
           </ul>
         <!--sidebar nav end-->
@@ -78,65 +74,16 @@
       <!--toggle button start-->
       <a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
       <!--toggle button end-->
+
+
       <!--notification menu start -->
         <div class="menu-right">
-          <div class="profile_details">   
-              <div class="col-md-4 serch-part">
-                <div id="sb-search" class="sb-search">
-                  <form id="search-form" action="#" method="post">
-
-                    <input class="sb-search-input" placeholder="Search" type="search" name="search" id="query"> 
-                    <!-- id used to be "search" -->
-                    <input class="sb-search-submit" type="submit" value="">
-                    <span class="sb-icon-search"> </span>
-                  </form>
-                </div>
-              </div>
-                <!-- search-scripts -->
-                  <script src="profile_resources/js/classie.js"></script>
-                  <script src="profile_resources/js/uisearch.js"></script>
-                    <script>
-                      new UISearch( document.getElementById( 'sb-search' ) );
-                    </script>
-                  <!-- //search-scripts -->
-                       <!---->
-                        <div class="col-md-4 player">
-                          <div class="audio-player">
-                            <audio id="audio-player"  controls="controls">
-                             <!--  <source ng-bind-html="myHTML"></source> -->
-                                <source src="media/bdaysx.mp3" type="audio/mpeg"></source>
-                                </audio>
-                            </div>
-                        <!---->
-                        <script type="text/javascript">
-                         //  $(function(){
-                         //    $('#audio-player').mediaelementplayer({
-                         //    alwaysShowControls: true,
-                         //    features: ['playpause','progress','volume'],
-                         //    audioVolume: 'horizontal',
-                         //    iPadUseNativeControls: true,
-                         //    iPhoneUseNativeControls: true,
-                         //    AndroidUseNativeControls: true
-                         //  });
-                         // });
-                        </script>
-                        <!--audio-->
-                          <link rel="stylesheet" type="text/css" media="all" href="profile_resources/css/audio.css">
-                          <script type="text/javascript" src="profile_resources/js/mediaelement-and-player.min.js"></script>
-                          <!---->
-
-
-                        <!--//-->
-                        <ul class="next-top">
-                          <li><a class="ar" href="#"> <img src="profile_resources/images/arrow.png" alt=""/></a></li>
-                          <li><a class="ar2" href="#"><img src="profile_resources/images/arrow2.png" alt=""/></i></a></li>
-                            
-                       </ul>  
-                      </div>
-
+          <div class="profile_details">  
+            <div class="col-md-9">
+            </div> 
                       <!-- This is the login button, this should probably end up throwing you the our own specific login page -->
                       <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
-                      <div class="col-md-4 login-pop">
+                      <div class="col-md-3 login-pop">
                         <div id="loginpop"> <a href="#" id="loginButton"><span>+Add Playlist</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                             <div id="loginBox">  
                              <form id="loginForm">
@@ -175,86 +122,109 @@
         
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
-      <!-- PAGE CONTENT GOES HERE  -->
 
-      <!-- Intro Header -->
-            <div class="container">
-              <!--Playlists added here-->
-              <div class="container">
-                <div class="row">
-                  <div class="well">
-                    <div id="all_playlists">
-                      <ul><li ng-repeat="playlist in user_playlists track by $index">
-                        <button ng-click="load_playlist_view($index)" class="btn btn-primary">{{playlist.name}}</button>
-                      </li></ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="well">
-                    <div id="search_field" class="form-group">
-                      <label for="usr">Search for a new song or video to your playlist:</label>
-                      <input type="text" class="form-control" placeholder="Billie Jean" id="query" ng-model="query">
-                      <input type="submit" class="btn btn-primary" value="Search" ng-click="search()">
-                      <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
-                    </div>
-                    <div id="noResult" class ="well yellow-well"></div>
-                    <div id="searh_results" class="well yellow-well">
-                      <ul><li ng-repeat="result in search_results track by $index">{{result[0]}} {{result[2]}} {{result[3]}} <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
-                    </div>
- 
-                    <div id="views">
-                      <div ng-if="isFlashEnabled()==1">
-                        <div class="row">
-                          <div class="well">
-                            Flash is required to play napster content. Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
-                          </div>
+
+
+                  <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title" style="color: black;">Add Songs</h4>
                         </div>
+                        <div class="modal-body" style="color:black;">
+                          <div id="search_field" class="form-group">
+                      <label for="usr">Search for a new song or video to your playlist:</label>
+
+                      <div class="row">
+                      <input class="col-sm-8" type="text" class="form-control" placeholder="Billie Jean" id="query" ng-model="query">
+                      <input class="col-sm-2" type="submit" class="btn btn-primary" value="Search" ng-click="search()">
+                      <input class="col-sm-2" type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
                       </div>
-                      <!--NEW-->
-                      <div class='row' id="autoplay">
-                        <button ng-click="build_autoplay()" class="btn btn-primary">Auto Play</button>
+
+                    </div>
+                    <div id="noResult" class ="well" style="background-color:white;color:black;opacity:1;"></div>
+                    <div id="searh_results" class="well yellow-well" style="background-color:white;color:black;opacity:1;">
+                     <!--  <ul style="list-style:none;"><li ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul> -->
+                     <!--  <table><tr ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></tr></table> -->
+
+                      <table class="resultstable">
+                        <tr style="background-color:white;" ng-repeat="result in search_results track by $index">
+                          <td>"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></td>
+                        </tr>
+                      </table>
+                    </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div> 
+                    </div>
+                  </div>
+
+
+
+
+ <!-- =====================LEFT TABLE OF PLAYLIST NAMES============================== -->
+                <!-- <div class="container"> -->
+                  <div class="col-md-3">
+                    <div class="playlistwell">
+                      <h3> Playlists </h3>
+                      <div id="all_playlists">
+                      <table>
+                        <tr ng-repeat="playlist in user_playlists track by $index">
+                          <td class="playlist_view" ng-click="load_playlist_view($index)"> {{playlist.name}}
+                        </td></tr>
                       </div>
-                      <div class='row' id="kill_autoplay">
-                        <button ng-click="kill_autoplay()" class="btn btn-warning">Stop Auto Play</button>
-                      </div>
-                      <!--NEW-->
-                      <div class='row'>
-                        <div class='col col-md-2'>Name</div>
-                        <div class='col col-md-2'>Artist/Channel</div>
-                        <div class='col col-md-2'>Duration</div>
-                        <div class='col col-md-2'>Source</div>
-                        <div class='col col-md-2'></div>
-                        <div class='col col-md-2'></div>
-                      </div>
-                      <div class="row" ng-repeat="song in tracks track by $index">
-                          <div class="col col-md-2">{{song.track_name}}</div>
-                          <div class="col col-md-2">{{song.channel_artist}}</div>
-                          <div class="col col-md-2">{{song.runtime}}</div>
-                          <div class="col col-md-2">{{song.source}}</div>
-                          <div class="col col-md-2">
-                            <div ng-if="song.source=='youtube'">
-                              <!--Track ID For YouTube-->
-                              <iframe id="{{song.track_id}}" width="420" height="315"
-                                src="{{song.url | trustAsResourceUrl}}">
-                              </iframe>
-                            </div>
-                            <div ng-if="song.source=='napster'">
-<!--                               <div ng-if="isFlashEnabled()==0"> -->
-                              <button ng-click="play_napster_track(song.track_id)" class="btn btn-primary">Play</button>
-<!--                               </div> -->
-                            </div>
-                          </div>
-                          <div class="col col-md-2">
-                            <div ng-if="song.source=='napster'">
-                              <button ng-click="pause_napster_track(song.track_id)" class="btn btn-primary">Pause</button>
-                            </div>
-                          </div>
-                      </div>
+                       
+                      </table>
                     </div>
                   </div>
                 </div>
+
+        <!-- ===================View the current playlist ============================ -->
+         <div id="views">           
+        <div class="col-md-9">
+
+              <div ng-if="isFlashEnabled()==1">
+                  <div class="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                    <strong> Flash is required to play napster content.</strong> Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
+                  </div>
+                </div>
+
+              <div class="playlistwell">
+                <table>
+                  <tr><h1>{{current_playlist_name}}</h1></tr>
+                  <tr><p>{{current_playlist_description}}</p></tr>
+                  <tr>
+                    <th>Name</th>
+                    <th>Artist/Channel</th>
+                    <th>Duration</th>
+                    <th>Source</th>
+                    <th id="autoplay"> <button ng-click="build_autoplay()" class="btn playlist-btn">Auto Play</button></th>
+                    <th id='delete_playlist'>
+                        <button ng-click="delete_playlist()" class="btn btn-danger">Delete Playlist</button>
+                    </th>
+                    <th id="kill_autoplay"> <button ng-click="kill_autoplay()" class="btn btn-warning">Stop Auto Play</button></th>
+                    <th id="search_field" class="form-group">
+                      <button id="addsong" data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add</button> </th>
+                  </tr>
+                  <tr ng-repeat="song in tracks track by $index">
+                    <td>{{song.track_name}}</td>
+                    <td>{{song.channel_artist}}</td>
+                    <td>{{msTime(song.runtime)}}</td>
+                    <td>{{song.source}}</td>
+                    <td> <div id="playbutton" ng-if="song.source=='napster'" ng-click="play_napster_track(song.track_id)">Play</div>
+                    <div id="pausebutton" ng-if="song.source=='napster'" ng-click="pause_napster_track(song.track_id)">Pause</div>
+                    <div ng-if="song.source=='youtube'"><iframe id="{{song.track_id}}" width="315" height="236"
+                                src="{{song.url | trustAsResourceUrl}}">
+                              </iframe></div></td>
+                    <td id="{{song.track_id}}"><button class="btn btn-danger" id="{{song.track_id}}" data-ng-click="delete_track($event)">-</button></td>
+                </table>
               </div>
+            </div>
             </div>
 
         <!-- END PAGE CONTENT -->
@@ -274,15 +244,74 @@
 <script src="profile_resources/js/bootstrap.js"></script>
 
 <!--For playlists-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ --><script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
 
 </body>
 
 <script src="playlist_resources/napster.js"></script>
 <script src="playlist_resources/napster_client.js"></script>
+
+<script>
+$(document).ready(function(){
+    $("#hide").click(function(){
+        $("p").hide();
+    });
+    $("#show").click(function(){
+        $("p").show();
+    });
+});
+</script>
+
+<script>
+// popup examples
+$( document ).on( "pagecreate", function() {
+    // The window width and height are decreased by 30 to take the tolerance of 15 pixels at each side into account
+    function scale( width, height, padding, border ) {
+        var scrWidth = $( window ).width() - 30,
+            scrHeight = $( window ).height() - 30,
+            ifrPadding = 2 * padding,
+            ifrBorder = 2 * border,
+            ifrWidth = width + ifrPadding + ifrBorder,
+            ifrHeight = height + ifrPadding + ifrBorder,
+            h, w;
+        if ( ifrWidth < scrWidth && ifrHeight < scrHeight ) {
+            w = ifrWidth;
+            h = ifrHeight;
+        } else if ( ( ifrWidth / scrWidth ) > ( ifrHeight / scrHeight ) ) {
+            w = scrWidth;
+            h = ( scrWidth / ifrWidth ) * ifrHeight;
+        } else {
+            h = scrHeight;
+            w = ( scrHeight / ifrHeight ) * ifrWidth;
+        }
+        return {
+            'width': w - ( ifrPadding + ifrBorder ),
+            'height': h - ( ifrPadding + ifrBorder )
+        };
+    };
+    $( ".ui-popup iframe" )
+        .attr( "width", 0 )
+        .attr( "height", "auto" );
+    $( "#popupVideo" ).on({
+        popupbeforeposition: function() {
+            // call our custom function scale() to get the width and height
+            var size = scale( 497, 298, 15, 1 ),
+                w = size.width,
+                h = size.height;
+            $( "#popupVideo iframe" )
+                .attr( "width", w )
+                .attr( "height", h );
+        },
+        popupafterclose: function() {
+            $( "#popupVideo iframe" )
+                .attr( "width", 0 )
+                .attr( "height", 0 );
+        }
+    });
+});
+</script>
 
 <script>
 $(document).ready(function() {
@@ -304,6 +333,11 @@ $(document).ready(function() {
   // });
   app.controller("mainController", ['$scope','$http','$compile','$timeout','$interval',function($scope, $http, $compile, $timeout,$interval) {
 
+    $scope.msTime = function(string) {
+      var minuteValue = parseInt(parseInt(string)/60);
+      var secondsValue = parseInt(string)%60;
+      return minuteValue + ":" + secondsValue;
+    }
 
     $scope.query = ""; //Parameter for searching new songs or videos
     $scope.playlist_name = ""; //Name of new playlist
@@ -313,7 +347,9 @@ $(document).ready(function() {
     $scope.tracks = null; //Tracks from custom playlists
     $scope.trustedHtml = "";
     $scope.search_results = [];
-    $scope.current_playlist = "";
+    $scope.current_playlist = ""; //object id
+    $scope.current_playlist_name = "";
+    $scope.current_playlist_description = "";
     $scope.flash_enabled = false;
     $scope.current_track_index = ""; //index in the track in the current playlist array
 
@@ -411,6 +447,8 @@ $(document).ready(function() {
         $('#views').show();
         $scope.tracks = $scope.user_playlists[i].tracks;
         $scope.current_playlist = $scope.user_playlists[i]._id;
+        $scope.current_playlist_name = $scope.user_playlists[i].name;
+        $scope.current_playlist_description = $scope.user_playlists[i].description;
     }
 
     //Retrieve all custom playlists from backend
@@ -448,16 +486,41 @@ $(document).ready(function() {
 
     // Delete a custom playlist
     $scope.delete_playlist = function(){
+      if (confirm('Are you sure you want to delete this playlist?')) {
+      // Delete it!
       var req = {
-          method: 'POST',
-          url: '/delete_playlist',
-          data: {'playlist_name': $scope.playlist_name}
+            method: 'POST',
+            url: '/delete_playlist',
+            data: {'playlist_name': $scope.current_playlist_name}
+          }
+        $http(req).success(function(data){
+              if(data == "Done"){
+                  location.reload();
+              }
+        });
+        } else {
+      // Do nothing!
         }
-      $http(req).success(function(data){
-            if(data == "Done"){
-                location.reload();
-            }
-      });
+    }
+
+    $scope.delete_track = function(element) {
+      if (confirm('Are you sure you want to delete this track?')) {
+      // Delete it!
+      var track_id = element.target.id;
+      console.log(track_id);
+      var req = {
+            method: 'POST',
+            url: '/delete_track',
+            data: {'track_id': track_id, 'playlist_name': $scope.current_playlist_name}
+          }
+        $http(req).success(function(data){
+              if(data == "Done"){
+                  location.reload();
+              }
+        });
+        } else {
+      // Do nothing!
+        }
     }
 
     //Search napster and youtube for new songs and videos to add to an existing custom playlist
@@ -507,7 +570,7 @@ $(document).ready(function() {
           data: {'result': result, "playlist_id": $scope.current_playlist}
       }
       $http(req).success(function(data){
-          alert(data);
+          alert("Song Ready to Add!");
       });
     }
 

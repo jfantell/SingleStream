@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 */
 h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}
-ul, ol {margin: 0;}
+ul, ol {margin: 0; padding:0;}
 
 
 html, body{
@@ -38,7 +38,7 @@ a:focus, a:active, a:hover {
     color: #111;
 }
 body{
-  background: url(../images/profile_background.jpg);
+  background: url(../images/profile_background.jpg) no-repeat;
 }
 a {
     background-color:none;
@@ -134,7 +134,7 @@ h1, h2, h3, h4, h5 {
     display: none;
 }
 div#page-wrapper {
-    padding:3em 2em;
+    padding: 3em 0em 0em 0em;
     
 }
 .left-side-collapsed .logo-icon {
@@ -366,8 +366,24 @@ i.camera {
     -o-transition: 0.5s all;
     -ms-transition: 0.5s all;
 }
+
+i.settings {
+    width:16px;
+    height:16px;
+    background:url(../images/settings.png) no-repeat 0px 0px;
+    display: inline-block;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+}
 ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.camera {
     background:url(../images/radio.png) no-repeat 0px 0px;
+}
+
+ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.settings {
+    background:url(../images/settings2.png) no-repeat 0px 0px;
 }
 @media (max-width:767px){
 	.hidden-xs{display:none!important}
@@ -608,7 +624,7 @@ ul.nav li a span {
     background: #477d8c;
     border-bottom: 1px #477d8c;
     text-align: center;
-        padding: 1.25em 0 1.2em;
+        padding: .9em 0 1em;
 }
 .logo h1 {
     margin-bottom: 0;
@@ -645,7 +661,7 @@ ul.nav li a span {
 .main-content {
     margin-left: 200px;
     /*background:#F8F8F8;*/
-    background: url(../images/profile_background.jpg) no-repeat bottom center scroll;
+    /*background: url(../images/profile_background.jpg) no-repeat bottom center scroll;*/
     min-height: 1000px;
 }
 .main-content2{
@@ -1081,6 +1097,7 @@ a.trend:hover {
 #loginpop {
 	    position: relative;
     float:left;
+    width: 62%;
 }
 i.arrow {
     font-size: 0.9em;
@@ -1190,14 +1207,14 @@ fieldset#body {
 	font-family: 'Open Sans', sans-serif;
 }
 #loginForm #login {
-  width: auto;
+  width: 100%;
   float: left;
-  background:#45B39D;
+  background:#477d8c;
   color: #fff;
   font-size: 0.8725em;
   padding: 7px 20px;
   border: none;
-  margin: 0 12px 0 0;
+  margin-top: 5%;
   cursor: pointer;
   transition: all .5s;
   -webkit-transition: all .5s;
@@ -1213,7 +1230,7 @@ fieldset#body {
   
 }
 #loginForm #login:hover{
-     background:#477d8c;
+     background:#3a5b65;
 }
 #loginForm input {
    width: 100%;
@@ -4559,4 +4576,131 @@ i.logout {
 }
 ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
     background:url(../images/logout3.png) no-repeat 0px 0px;
+}
+
+.container {
+  margin-left:0;
+  margin-right:0;
+  width:100%;
+  padding:0;
+}
+
+.add {
+  margin-left: 3%;
+  background-color: #1f6e84;
+  border-color: #1f6e84;
+}
+
+.profile {
+  text-align: center;
+}
+
+.profilePic {
+  border-radius: 50%;
+  width:100%;
+}
+
+.about {
+  background-color: black;
+  opacity: .3;
+  text-align: center;
+  width:100%;
+  padding: 5%;
+  margin-top: 5%;
+}
+
+.about p {
+  color:white;
+}
+
+
+
+#playbutton:hover {
+  background-color: green;
+}
+
+#pausebutton:hover {
+    background-color: #d9534f;
+}
+
+      
+.playlistwell {
+  padding: 19px;
+  text-align: center;
+  color: white;
+  background-color: #1b1919;
+  /*background-color: black;*/
+  opacity: .7;
+  border-radius: 0;
+  border: none;
+  margin: 0;
+}
+
+
+  table {
+      opacity: 1;
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+  }
+
+  td, th {
+      border: 1px solid #555;
+      text-align: center;
+      padding: 8px;
+  }
+
+  tr:nth-child(odd){
+    background-color: #404142;
+  }
+
+  tr:nth-child(even) {
+      background-color: #222020;
+
+}
+.resultstable td {
+    border: .5px solid #ececec;
+}
+
+.resultstable tr{
+    background-color: white;
+  }
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white; 
+  }
+  
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
+.playlist_view:hover {
+  background-color: gray;
+}
+
+.playlist-btn {
+    background-color:#313030;
+    border-color: #313030;
+}
+
+.playlist-btn:hover {
+    background-color: #1b1a1a;
+    color:white;
+}
+
+#addsong{
+    background-color: #477d8c;
 }

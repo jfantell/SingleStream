@@ -33,6 +33,10 @@
           li {
             list-style: none;
           }
+
+          .clickyclack:hover{
+              background-color: #477d8c;
+          }
         </style>
 
     </head>
@@ -64,6 +68,13 @@
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>Contact</span></a></li>
+            <li><a href="/settings"><i class="settings"></i><span>Settings</span></a>
+              <ul class="sub-menu-list">
+                  <li><a data-toggle="modal" data-target="#myModal">Change Password</a> <li>
+                  <li><a data-toggle="modal" data-target="#LocationModal">Add Location</a> </li>
+                  <li><a data-toggle="modal" data-target="#PicModal">Add Profile Picture </a></li>
+              </ul>
+            </li>
             <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
 
             </li>
@@ -138,6 +149,8 @@
               </div>
             </div> --> 
 
+            
+
             <div class="container">
               <div class="row">
                 <div class="well col-md-4">
@@ -147,16 +160,40 @@
                 <div class="well col-md-3">
                   <div>
                       <h3>Followers</h3>
-                      <ul><li ng-repeat="user in followers track by $index">{{user.name}}</li></ul>
+                      <ul><li ng-repeat="user in followers track by $index" ng-click="load_friends_view($index)" class="clickyclack">{{user.name}}</li></ul>
                   </div>
                 </div>
                 <div class="well col-md-3">
                     <div>
                       <h3>Following</h3>
-                      <ul><li ng-repeat="user in following track by $index">{{user.name}}</li></ul>
+                      <ul><li ng-repeat="user in following track by $index" ng-click="load_following_view($index)">{{user.name}}</li></ul>
                     </div>
                 </div>
               </div>
+            </div>
+
+            <div id="views"> 
+              <div class="well">
+              <table>
+                <th>Follower Information</th>
+              <!-- <tr ng-repeat="follower in followers track by $index"> -->
+              <tr>
+              <td ng-click="load_friends_view($index)"> {{please.name}} </td>
+            </table>
+
+                </div>
+            </div>
+
+             <div id="views2"> 
+              <div class="well">
+              <table>
+                <th>Following Information</th>
+                <tr>
+             <!--  <tr ng-repeat="follower in following track by $index"> -->
+              <td ng-click="load_following_view($index)"> {{prettyplease.name}} </td>
+            </table>
+
+                </div>
             </div>
 
         <!-- END PAGE CONTENT -->
@@ -211,6 +248,7 @@ var app = angular.module("playlists", ['ngSanitize']);
     $scope.users = "";
     $scope.followers = [];
     $scope.following = [];
+    $scope.please = "";
 
     //Add a new user to your following list
     $scope.add = function(result){
@@ -244,6 +282,7 @@ var app = angular.module("playlists", ['ngSanitize']);
       });
     }
 
+
     // Get the current followers and following from the back end
     $scope.get_followers_following = function(){
       var req = {
@@ -255,10 +294,30 @@ var app = angular.module("playlists", ['ngSanitize']);
           $scope.following = data[1];
       });
     }
+    //Load playlists into view when user clicks on a specific playlist
+    $scope.load_friends_view = function(i){
+        // $('#search_field').show();
+        $('#views').show();
+        $scope.please = $scope.followers[i];
+        $scope.tracks = $scope.followers[i];
+        // $scope.current_playlist = $scope.user_playlists[i]._id;
+        // $scope.current_playlist_name = $scope.user_playlists[i].name;
+    }
+    $scope.load_following_view = function(i){
+        // $('#search_field').show();
+        $('#views2').show();
+        $scope.prettyplease = $scope.following[i];
+        $scope.tracks = $scope.following[i];
+        // $scope.current_playlist = $scope.user_playlists[i]._id;
+        // $scope.current_playlist_name = $scope.user_playlists[i].name;
+    }
 
     //On page load, hide the search field for adding new songs to an existing playlist
     angular.element(document).ready(function () {
       $timeout($scope.get_followers_following, 10);
+      $('#views').hide();
+      $('#views2').hide();
+
     });
 
 
