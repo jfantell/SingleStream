@@ -120,7 +120,7 @@
                                 <p>
                                     <strong>Name</strong>: <%= user.local.firstName + " " + user.local.lastName %><br>
                                     <strong>Email</strong>: <%= user.local.email %><br>
-                                    <strong>Bio</strong>: <%= user.local.biography %>
+                                    <strong>Bio</strong>: <%= user.biography %>
                                 </p>  
                             <% } %>
                         </div>
@@ -191,12 +191,12 @@
                           <div id="search_field" class="form-group">
                       <div class="form-group">
                         <label for="comment">Text:</label>
-                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                        <textarea class="form-control" rows="5" id="comment" ng-model="bio"></textarea>
                       </div>
                     </form>
                     </div>
                         <div class="modal-footer">
-                          <button type="button" onclick="closeandsave()" class="btn btn-default" data-dismiss="modal">Save</button>
+                          <button type="button" ng-click="closeandsave()" class="btn btn-default" data-dismiss="modal">Save</button>
                         </div>
                       </div> 
                     </div>
@@ -248,6 +248,11 @@ document.getElementById('search-form').addEventListener('submit', function(e) {
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope) {
     $scope.biography = 0;
+
+    $scope.closeandsave = function() {
+      $scope.biography = $scope.bio;
+    }
+
 });
 
 
