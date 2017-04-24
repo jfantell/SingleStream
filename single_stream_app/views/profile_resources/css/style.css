@@ -38,7 +38,7 @@ a:focus, a:active, a:hover {
     color: #111;
 }
 body{
-  background: url(../images/profile_background.jpg);
+  background: url(../images/profile_background.jpg) no-repeat;
 }
 a {
     background-color:none;
@@ -661,7 +661,7 @@ ul.nav li a span {
 .main-content {
     margin-left: 200px;
     /*background:#F8F8F8;*/
-    background: url(../images/profile_background.jpg) no-repeat bottom center scroll;
+    /*background: url(../images/profile_background.jpg) no-repeat bottom center scroll;*/
     min-height: 1000px;
 }
 .main-content2{
@@ -1097,6 +1097,7 @@ a.trend:hover {
 #loginpop {
 	    position: relative;
     float:left;
+    width: 62%;
 }
 i.arrow {
     font-size: 0.9em;
@@ -4618,6 +4619,10 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
   background-color: green;
 }
 
+#pausebutton:hover {
+    background-color: #d9534f;
+}
+
       
 .playlistwell {
   padding: 19px;
@@ -4650,9 +4655,17 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
   }
 
   tr:nth-child(even) {
-      background-image: url('../images/profile_background.jpg');
+      background-color: #222020;
 
 }
+.resultstable td {
+    border: .5px solid #ececec;
+}
+
+.resultstable tr{
+    background-color: white;
+  }
+
 .alert {
     padding: 20px;
     background-color: #f44336;
@@ -4686,4 +4699,8 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
 .playlist-btn:hover {
     background-color: #1b1a1a;
     color:white;
+}
+
+#addsong{
+    background-color: #477d8c;
 }
