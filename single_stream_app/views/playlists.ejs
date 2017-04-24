@@ -203,7 +203,7 @@
                     </div>
                     <div id="noResult" class ="well yellow-well"></div>
                     <div id="searh_results" class="well yellow-well">
-                      <ul><li ng-repeat="result in search_results track by $index">{{result[0]}} {{result[2]}} {{result[3]}} <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
+                      <ul><li ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
                     </div>
                         </div>
                         <div class="modal-footer">
@@ -597,7 +597,7 @@ $(document).ready(function() {
           data: {'result': result, "playlist_id": $scope.current_playlist}
       }
       $http(req).success(function(data){
-          alert(data);
+          alert("Song Ready to Add!");
       });
     }
 
