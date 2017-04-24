@@ -567,12 +567,12 @@ ul.nav li a span {
     padding: 9px 0 0;
     width: 40px;
     height: 42px;
-    margin: 0.75em 0 0 2em;
+    margin: .5%;
     text-align: center;
     cursor: pointer;
     float: left;
     color: #fff;
-    background: #111;
+/*    background: #111;*/
     border: none;
     border-radius: 5px;
     -moz-transition: all 0.2s ease-out 0s;
@@ -581,7 +581,7 @@ ul.nav li a span {
 }
 
 .toggle-btn:hover {
-    background:#477d8c;
+    background:#000000;
     color: #fff;
 }
 
@@ -4704,4 +4704,10 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
 
 #addsong{
     background-color: #477d8c;
+    margin-top: -2%;
+    margin-bottom:2%;
+}
+
+#analytics_select {
+    color:black;
 }
