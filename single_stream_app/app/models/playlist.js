@@ -8,7 +8,7 @@ var playlistSchema = mongoose.Schema({
 
     user_id : String, 
     created : String,
-    track_count : Number,
+    playlist_length : Number,
     description : String,
     tracks : 
         [
@@ -18,11 +18,13 @@ var playlistSchema = mongoose.Schema({
                 track_name : String,
                 url : String,
                 runtime: String,
-                source: String
+                source: String,
+                track_count: String
             }
         ],
     name: String,
     running_time: Number,
+    playlist_count: String,
     tags: [String]
 
 });
