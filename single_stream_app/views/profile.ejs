@@ -45,7 +45,7 @@
         <h1><a href="/profile">Single<span>Stream</span></a></h1>
       </div>
       <div class="logo-icon text-center">
-        <a href="index.html">SS </a>
+        <a href="/profile">SS </a>
       </div>
    <!-- /w3l-agile -->
 
@@ -135,9 +135,9 @@
 
                             <% if (user.local.email) { %>
                                 <p>
-                                    <strong>Name</strong>: <%= user.local.firstName + " " + user.local.lastName %><br>
-                                    <strong>Email</strong>: <%= user.local.email %><br>
-                                    <strong>Bio</strong>: <%= user.local.biography %><br>
+                                    <strong>id</strong>: <%= user._id %><br>
+                                    <strong>email</strong>: <%= user.local.email %><br>
+                                    <strong>password</strong>: <%= user.local.password %>
                                 </p>  
                             <% } %>
                         </div>
@@ -176,7 +176,7 @@
                                 </p>
                                 <a href="/unlink/napster" class="btn btn-default">Unlink</a>
                             <% } else { %>
-                                <a href="/auth/napster" class="btn btn-default"><span class="fa fa-headphones"></span> Napster</a>
+                                <a href="/auth/napster" class="btn btn-default"><span class="fa fa-google-plus"></span> Napster</a>
                             <% } %>
 
                         </div>
@@ -184,6 +184,39 @@
                 </div>
             </div>
 
+
+            <div class="well">
+              <button class="btn btn-defualt" href="#" data-toggle="modal" data-target="#myModal"> Write Biography </button>
+              <button class="btn btn-defualt" href="#" data-toggle="modal" data-target="#myModal"> Edit Biography </button>
+            </div>
+
+
+
+<!-- ////////////////////////// Modal to add biography content /////////////////////////// -->
+               <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title" style="color: black;">Add Biography</h4>
+                        </div>
+
+                        <div class="modal-body" style="color:black;">
+                          <div id="search_field" class="form-group">
+                      <div class="form-group">
+                        <label for="comment">Text:</label>
+                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                      </div>
+                    </form>
+                    </div>
+                        <div class="modal-footer">
+                          <button type="button" onclick="closeandsave()" class="btn btn-default" data-dismiss="modal">Save</button>
+                        </div>
+                      </div> 
+                    </div>
+                  </div>
+<!-- /////////////////////////////////////////////////////////////////////////////// -->
         <!-- END PAGE CONTENT -->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
       </div>
@@ -229,9 +262,7 @@ document.getElementById('search-form').addEventListener('submit', function(e) {
 
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope) {
-    $scope.song = 'bdaysx';
-    $scope.myHTML = 'src="media/"' + 'bdaysx' + '.mp3" type="audio/mpeg">'
-    // <input id="button" type="submit" name="button" value="Change Song" onclick="myFunction();"/>
+    $scope.biography = 0;
 });
 
 
