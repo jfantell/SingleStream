@@ -198,6 +198,7 @@
                 <table>
                   <tr><h1>{{current_playlist_name}}</h1></tr>
                   <tr><p>{{current_playlist_description}}</p></tr>
+                  <button id="addsong" data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add songs</button>
                   <tr>
                     <th>Name</th>
                     <th>Artist/Channel</th>
@@ -208,8 +209,8 @@
                         <button ng-click="delete_playlist()" class="btn btn-danger">Delete Playlist</button>
                     </th>
                     <th id="kill_autoplay"> <button ng-click="kill_autoplay()" class="btn btn-warning">Stop Auto Play</button></th>
-                    <th id="search_field" class="form-group">
-                      <button id="addsong" data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add</button> </th>
+                    <!-- <th id="search_field" class="form-group">
+                      <button id="addsong" data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add</button> </th> -->
                   </tr>
                   <tr ng-repeat="song in tracks track by $index">
                     <td>{{song.track_name}}</td>
