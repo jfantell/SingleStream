@@ -269,6 +269,7 @@
                     <td ng-if="song.source=='youtube'"><iframe id="{{song.track_id}}" width="420" height="315"
                                 src="{{song.url | trustAsResourceUrl}}">
                               </iframe></td>
+                    <td id="{{song.track_id}}"><button class="btn btn-danger" id="{{song.track_id}}" data-ng-click="delete_track($event)">-</button></td>
 
 
                 </table>
@@ -532,22 +533,40 @@ $(document).ready(function() {
     // Delete a custom playlist
     $scope.delete_playlist = function(){
       if (confirm('Are you sure you want to delete this playlist?')) {
-    // Save it!
-    var req = {
-          method: 'POST',
-          url: '/delete_playlist',
-          data: {'playlist_name': $scope.current_playlist_name}
+      // Delete it!
+      var req = {
+            method: 'POST',
+            url: '/delete_playlist',
+            data: {'playlist_name': $scope.current_playlist_name}
+          }
+        $http(req).success(function(data){
+              if(data == "Done"){
+                  location.reload();
+              }
+        });
+        } else {
+      // Do nothing!
         }
-      $http(req).success(function(data){
-            if(data == "Done"){
-                location.reload();
-            }
-      });
-      } else {
-    // Do nothing!
-      }
+    }
 
-      
+    $scope.delete_track = function(element) {
+      if (confirm('Are you sure you want to delete this track?')) {
+      // Delete it!
+      var track_id = element.target.id;
+      console.log(track_id);
+      var req = {
+            method: 'POST',
+            url: '/delete_track',
+            data: {'track_id': track_id, 'playlist_name': $scope.current_playlist_name}
+          }
+        $http(req).success(function(data){
+              if(data == "Done"){
+                  location.reload();
+              }
+        });
+        } else {
+      // Do nothing!
+        }
     }
 
     //Search napster and youtube for new songs and videos to add to an existing custom playlist
