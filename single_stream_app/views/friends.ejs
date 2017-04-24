@@ -67,7 +67,7 @@
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
-            <li><a href="/contact"><i class="lnr lnr-book"></i><span>Contact</span></a></li>
+            <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
             <!-- <li><a href="/settings"><i class="settings"></i><span>Settings</span></a>
               <ul class="sub-menu-list">
                   <li><a data-toggle="modal" data-target="#myModal">Change Password</a> <li>
@@ -166,7 +166,7 @@
                 <div class="well col-md-3">
                     <div>
                       <h3>Following</h3>
-                      <ul><li ng-repeat="user in following track by $index" ng-click="load_following_view($index)">{{user.name}}</li></ul>
+                      <ul><li ng-repeat="user in following track by $index" ng-click="load_following_view($index)" class="clickyclack">{{user.name}}</li></ul>
                     </div>
                 </div>
               </div>
