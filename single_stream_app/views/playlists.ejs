@@ -136,13 +136,24 @@
                         <div class="modal-body" style="color:black;">
                           <div id="search_field" class="form-group">
                       <label for="usr">Search for a new song or video to your playlist:</label>
-                      <input type="text" class="form-control" placeholder="Billie Jean" id="query" ng-model="query">
-                      <input type="submit" class="btn btn-primary" value="Search" ng-click="search()">
-                      <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
+
+                      <div class="row">
+                      <input class="col-sm-8" type="text" class="form-control" placeholder="Billie Jean" id="query" ng-model="query">
+                      <input class="col-sm-2" type="submit" class="btn btn-primary" value="Search" ng-click="search()">
+                      <input class="col-sm-2" type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
+                      </div>
+
                     </div>
-                    <div id="noResult" class ="well yellow-well"></div>
-                    <div id="searh_results" class="well yellow-well">
-                      <ul><li ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
+                    <div id="noResult" class ="well" style="background-color:white;color:black;opacity:1;"></div>
+                    <div id="searh_results" class="well yellow-well" style="background-color:white;color:black;opacity:1;">
+                     <!--  <ul style="list-style:none;"><li ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul> -->
+                     <!--  <table><tr ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></tr></table> -->
+
+                      <table class="resultstable">
+                        <tr style="background-color:white;" ng-repeat="result in search_results track by $index">
+                          <td>"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></td>
+                        </tr>
+                      </table>
                     </div>
                         </div>
                         <div class="modal-footer">
@@ -198,18 +209,18 @@
                     </th>
                     <th id="kill_autoplay"> <button ng-click="kill_autoplay()" class="btn btn-warning">Stop Auto Play</button></th>
                     <th id="search_field" class="form-group">
-                      <button data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add</button> </th>
+                      <button id="addsong" data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add</button> </th>
                   </tr>
                   <tr ng-repeat="song in tracks track by $index">
                     <td>{{song.track_name}}</td>
                     <td>{{song.channel_artist}}</td>
                     <td>{{msTime(song.runtime)}}</td>
                     <td>{{song.source}}</td>
-                    <td id="playbutton" ng-if="song.source=='napster'" ng-click="play_napster_track(song.track_id)" >Play</td>
-                    <td ng-if="song.source=='napster'" ng-click="pause_napster_track(song.track_id)">Pause</td>
-                    <td ng-if="song.source=='youtube'"><iframe id="{{song.track_id}}" width="420" height="315"
+                    <td> <div id="playbutton" ng-if="song.source=='napster'" ng-click="play_napster_track(song.track_id)">Play</div>
+                    <div id="pausebutton" ng-if="song.source=='napster'" ng-click="pause_napster_track(song.track_id)">Pause</div>
+                    <div ng-if="song.source=='youtube'"><iframe id="{{song.track_id}}" width="315" height="236"
                                 src="{{song.url | trustAsResourceUrl}}">
-                              </iframe></td>
+                              </iframe></div></td>
                     <td id="{{song.track_id}}"><button class="btn btn-danger" id="{{song.track_id}}" data-ng-click="delete_track($event)">-</button></td>
                 </table>
               </div>
