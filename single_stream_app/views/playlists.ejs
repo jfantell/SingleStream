@@ -246,6 +246,8 @@
 
               <div class="playlistwell">
                 <table>
+                  <tr><h1>{{current_playlist_name}}</h1></tr>
+                  <tr><p>{{current_playlist_description}}</p></tr>
                   <tr>
                     <th>Name</th>
                     <th>Artist/Channel</th>
@@ -262,7 +264,7 @@
                   <tr ng-repeat="song in tracks track by $index">
                     <td>{{song.track_name}}</td>
                     <td>{{song.channel_artist}}</td>
-                    <td>{{song.runtime}}</td>
+                    <td>{{msTime(song.runtime)}}</td>
                     <td>{{song.source}}</td>
                     <td id="playbutton" ng-if="song.source=='napster'" ng-click="play_napster_track(song.track_id)" >Play</td>
                     <td ng-if="song.source=='napster'" ng-click="pause_napster_track(song.track_id)">Pause</td>
@@ -386,6 +388,11 @@ $(document).ready(function() {
   // });
   app.controller("mainController", ['$scope','$http','$compile','$timeout','$interval',function($scope, $http, $compile, $timeout,$interval) {
 
+    $scope.msTime = function(string) {
+      var minuteValue = parseInt(parseInt(string)/60);
+      var secondsValue = parseInt(string)%60;
+      return minuteValue + ":" + secondsValue;
+    }
 
     $scope.query = ""; //Parameter for searching new songs or videos
     $scope.playlist_name = ""; //Name of new playlist
@@ -397,6 +404,7 @@ $(document).ready(function() {
     $scope.search_results = [];
     $scope.current_playlist = ""; //object id
     $scope.current_playlist_name = "";
+    $scope.current_playlist_description = "";
     $scope.flash_enabled = false;
     $scope.current_track_index = ""; //index in the track in the current playlist array
 
@@ -495,6 +503,7 @@ $(document).ready(function() {
         $scope.tracks = $scope.user_playlists[i].tracks;
         $scope.current_playlist = $scope.user_playlists[i]._id;
         $scope.current_playlist_name = $scope.user_playlists[i].name;
+        $scope.current_playlist_description = $scope.user_playlists[i].description;
     }
 
     //Retrieve all custom playlists from backend
