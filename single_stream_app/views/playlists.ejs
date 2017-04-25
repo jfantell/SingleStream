@@ -32,7 +32,7 @@
 
     </head>
 
-<body ng-controller="mainController" class="sticky-header left-side-collapsed">
+<body ng-controller="mainController" class="sticky-header">
   <!-- onload="initMap() --> 
     <section>
       <!-- left side start-->
@@ -59,11 +59,31 @@
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
             <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
-            </li>
+
+            <li class="active"><a href="#" data-toggle="modal" data-target="#AddModal" ><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Add Playlist</span></a></li>
+
+            <li ng-repeat="playlist in user_playlists track by $index" ng-click="load_playlist_view($index)" >
+                <a style="color:#477d8c" href="#"><i class="fa fa-music"></i><span>{{playlist.name}}</span></a>
+            </li> 
           </ul>
         <!--sidebar nav end-->
       </div>
-    </div>
+
+
+  <!-- <div class="left-side-inner">
+    <ul class="nav nav-pills nav-stacked custom-nav"> -->
+    <!--   <div> -->
+     <!--  <li ng-repeat="playlist in user_playlists track by $index"  ng-click="load_playlist_view($index)">
+       <a href=""><i class="fa fa-music"></i><span>{{playlist.name}}</span></a>
+      </li>  -->
+    <!-- </div> -->
+
+    <!-- </ul>
+  </div> -->
+
+   
+      </div>   <!-- ends left sticky side -->
+
 
 
 
@@ -82,7 +102,7 @@
             <div class="col-md-9">
             </div> 
                       <!-- This is the login button, this should probably end up throwing you the our own specific login page -->
-                      <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
+                     <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
                       <div class="col-md-3 login-pop">
                         <div id="loginpop"> <a href="#" id="loginButton"><span>+Add Playlist</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                             <div id="loginBox">  
@@ -166,9 +186,91 @@
 
 
 
+
+                  <div class="modal fade" id="AddModal" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content" style="background:white;">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                          <h4 class="modal-title" style="color: black;"></h4>
+                        </div> 
+
+
+                        <div class="modal-body" style="color:black;height:350px">
+
+                            <label for="usr">Create a new playlist:</label>
+                            <input type="text" class="form-control" placeholder="Playlist Name - Required" id="playlist_name" ng-model="playlist_name" style="margin-bottom: 20px">
+
+                        <div class="form-group">
+                            <label for="comment">Description:</label>
+                            <textarea class="form-control" rows="5" placeholder="Optional Description" id="description" ng-model="description" style="margin-bottom: 20px"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="usr">Tags (comma seperated):</label>
+                          <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
+                        </div>
+                                    
+                        </div>
+                      
+                         <div class="modal-footer" style="background:white;">
+                          <input type="submit" id="login" class="btn btn-primary" value="Create" ng-click="create()">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                          </div>
+                    </div>     
+              </div>
+
+              <!-- Experimental Search Song Modal -->
+
+                <div class="modal fade" id="SearchModal" role="dialog">
+
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        <div class="modal-body">
+                          <main>
+                          <div class="input">  
+                             <form id="search-form"> 
+                              <input class="col-md-8" type="text" id="query" class="form-control" ng-model="query" autofocus placeholder="Type Artist Name.." autocomplete="off">
+                              <input class="col-md-2" type="submit" id="search" class="btn btn-primary" value="Search" ng-click="search()" />
+                              <input class="col-md-2" type="submit" id="search" class="btn btn-primary" value="Apply" ng-click="apply()" />
+                            </div>
+                            </form>
+                             <div id="noResult"></div>
+                            <div id="results"></div>
+                            <h1 ng-show="query">Searching for ... {{query}}</h1>
+
+                          </main>
+                            
+                        </div>
+                      
+                         <div class="modal-footer">
+                          <div id="searh_results" >
+                     <!--  <ul style="list-style:none;"><li ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul> -->
+                     <!--  <table><tr ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></tr></table> -->
+
+                      <table class="resultstable">
+                        <tr ng-repeat="result in search_results track by $index">
+                          <td>"{{result[2]}}" - {{result[1]}}  [{{result[5]}}]</td><td> <button style="background-color:#477d8c"ng-click="add(result)" class="btn btn-primary">Add</button></td>
+                        </tr>
+                      </table>
+                    </div>
+                         
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                          </div>
+                    </div>     
+              </div>
+
+
+
+
+
  <!-- =====================LEFT TABLE OF PLAYLIST NAMES============================== -->
                 <!-- <div class="container"> -->
-                  <div class="col-md-3">
+                  <!-- <div class="col-md-3">
                     <div class="playlistwell">
                       <h3> Playlists </h3>
                       <div id="all_playlists">
@@ -182,10 +284,10 @@
                     </div>
                   </div>
                 </div>
-
+ -->
         <!-- ===================View the current playlist ============================ -->
          <div id="views">           
-        <div class="col-md-9">
+        <div class="col-md-12">
 
               <div ng-if="isFlashEnabled()==1">
                   <div class="alert">
@@ -198,7 +300,7 @@
                 <table>
                   <tr><h1>{{current_playlist_name}}</h1></tr>
                   <tr><p>{{current_playlist_description}}</p></tr>
-                  <button id="addsong" data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add songs</button>
+                  <button id="addsong" data-toggle="modal" data-target="#SearchModal" class="btn playlist-btn">add songs</button>
                   <tr>
                     <th>Name</th>
                     <th>Artist/Channel</th>
