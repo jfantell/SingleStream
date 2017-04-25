@@ -190,9 +190,17 @@
                         </div>
    
                   </div> <!-- Ends the Row class -->
-                  <div class="row">
+
+                  <!--Graphs-->
+                  <div class="row" id="graphView">
                     <div class="col col-md-3"></div>
                     <div class="col col-md-6"><div id="graphs" style="margin-top: 10px;width: 100%; height: 600px;color:black"></div></div>
+                    <div class="col col-md-3"></div>
+                  </div>
+                  <!--Show when loading-->
+                  <div class="row" id="loadingView">
+                    <div class="col col-md-3"></div>
+                    <div class="col col-md-6"><img src="Moomwalk.gif" alt="Loading" height="400" width="600"></div>
                     <div class="col col-md-3"></div>
                   </div>
               </div>
@@ -234,15 +242,23 @@
     //Variables/info we need to populate data visualizatons
       function drawTable(dic,keys) {
         var arr = [];
+        if(keys.length == 0){
+          alert("Please select the appropriate filters and then press the search button to visualize your music!");
+          return;
+        }
         for(i=0; i< keys.length; i++){
           arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
+          console.log([String(keys[i]),parseInt(dic[keys[i]])]);
           if(i == keys.length-1){
-            setTimeout(function(){ 
+            setTimeout(function(){
+              console.log("Hey what up"); 
               console.log(arr);
               var data = new google.visualization.DataTable();
               data.addColumn('string', 'Artist');
               data.addColumn('number', 'Frequency');
               data.addRows(arr);
+              $('#graphView').show();
+              $('#loadingView').hide();
               var table = new google.visualization.Table(document.getElementById('graphs'));
               table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
             }, 3000);
@@ -254,6 +270,10 @@
 
       function drawChart(dic,keys) {
         var arr = [['Artist','# of Mentions']];
+        if(keys.length == 0){
+          alert("Please select the appropriate filters and then press the search button to visualize your music!");
+          return;
+        }
         for(i=0; i< keys.length; i++){
           arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
           if(i == keys.length-1){
@@ -266,6 +286,8 @@
                 yellowFrom:75, yellowTo: 90,
                 minorTicks: 5
               };
+              $('#graphView').show();
+              $('#loadingView').hide();
               var chart = new google.visualization.Gauge(document.getElementById('graphs'));
               chart.draw(data, options);
             }, 3000);
@@ -276,15 +298,22 @@
 
     function drawPie(dic, keys) {
       var arr = [['Aritst', '# Of Mentions']];
+      if(keys.length == 0){
+          alert("Please select the appropriate filters and then press the search button to visualize your music!");
+          return;
+        }
       for(i=0; i< keys.length; i++){
         arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
         if(i == keys.length-1){
           setTimeout(function(){ 
+            console.log(arr);
             var data = google.visualization.arrayToDataTable(arr);
             var options = {
               title: 'Artist Share',
               pieHole: 0.4,
             };
+            $('#graphView').show();
+            $('#loadingView').hide();
             var chart = new google.visualization.PieChart(document.getElementById('graphs'));
             chart.draw(data, options);
           }, 3000);
@@ -297,6 +326,7 @@
         $scope.artist_name = "";
         $scope.artist_dict = ""; //dictionary of all artists (keys) and frequency amongst users
         $scope.artist_keys = ""; //list of keys (artists)
+        $('#loadingView').hide(); //Only show when graph being loaded
 
         $scope.checkboxModel = {
            following : 'YES',
@@ -336,6 +366,9 @@
 
         $scope.show = function(item){
         	console.log("show");
+          $('#graphView').hide();
+          $('#loadingView').show();
+
           // console.log($scope.artist_mentions[$scope.artist_name]);
           // console.log("Hey I am here");
           if(item == 'table'){
