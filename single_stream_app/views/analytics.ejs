@@ -12,7 +12,8 @@
         <!-- To Use Angular -->
 
         <!-- To use google visualizatoin -->
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+        
       
         <!-- Custom fonts for this template -->
         <link href="profile_resources/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -33,6 +34,32 @@
         <!-- jQuery -->
         <script src="profile_resources/js/jquery-2.1.4.js"></script>
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
+
+        <style>
+
+          table {
+            opacity: 1;
+            font-family: arial, sans-serif;
+            font-size:25pt !important;
+            border-collapse: collapse;
+            width: 100%;
+          }
+
+          td, th {
+              border: 1px solid #555;
+              text-align: center;
+              padding: 8px;
+          }     
+
+          tr:nth-child(odd){
+            background-color: white;
+          }
+
+          tr:nth-child(even) {
+              background-color: white;
+
+        }
+        </style>
 
     </head>
 
@@ -69,8 +96,8 @@
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
-            <li><a href="/contact"><i class="lnr lnr-book"></i><span>Contact</span></a></li>
-                        <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
+            <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
+            <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
 
             </li>
           </ul>
@@ -222,6 +249,8 @@
           }
         }      
       }
+
+      //edited the font size of the table //changed background to white
 
       function drawChart(dic,keys) {
         var arr = [['Artist','# of Mentions']];
