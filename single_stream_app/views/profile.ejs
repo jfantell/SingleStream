@@ -140,7 +140,7 @@
                                  <a href="/unlink/google" class="btn btn-default">Unlink</a>
                             <% } else { %>
                                 <a href="/auth/google" class="btn btn-default"><span class="fa fa-google-plus"></span> Google+</a>
-                            <% } if (user.error & !user.google.refreshToken) { %>
+                            <% } if (user.error) { %>
                                 <p>
                                     <strong>Error:</strong> <%= user.error %><br>
                                 </p>
