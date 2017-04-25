@@ -4664,7 +4664,7 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
 }
 
 .resultstable tr{
-    background-color: white;
+    background-color: transparent;
   }
 
 .alert {
@@ -4711,3 +4711,28 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
 #analytics_select {
     color:black;
 }
+
+.modal-content {
+    background: url(../images/profile_background.jpg) no-repeat;
+}
+.modal-body {
+    height: 180px;
+}
+
+.resultstable {
+    background-color: transparent;
+}
+
+
+main .input { margin-top: 30px; text-align: center; }
+main .input input { color: #222; border: none; line-height: 2; font-size: 1.5em; padding: 10px; border-radius: 0.25em; }
+main .input input:focus { border: none; outline: none; }
+main h1 { text-align: center; margin-bottom: 100px; }
+main .forecast { text-align: center; }
+main .forecast .today { width: 50%; float: left; margin-left: 25%; margin-right: 25%;  background: url(../images/profile_background.jpg) no-repeat; margin-bottom: 100px; }
+main .forecast div:nth-child(2) { display: none; }
+main .forecast div:nth-child(3) { width: 33.33333%; float: left; background: #292c2d; }
+main .forecast div:nth-child(4) { width: 33.33333%; float: left; background: #27292b; }
+main .forecast div:last-child { width: 33.33333%; float: right; margin-right: 0; background: #242728; }
+main .forecast h3 { padding: 10px 0; }
+main .switch { position: absolute; top: 10px; right: 10px; font-size: 0.9em; padding: 5px; background: #292c2d; }
