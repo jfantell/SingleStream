@@ -10,6 +10,7 @@ var playlistSchema = mongoose.Schema({
     created : String,
     playlist_length : Number,
     description : String,
+    icon : String,
     tracks : 
         [
             {
