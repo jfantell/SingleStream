@@ -548,6 +548,7 @@ function rest(session_user_id, api_call, res, post_parameters){
             newPlaylist.name = post_parameters.playlist_name;
             newPlaylist.description = post_parameters.description;
             newPlaylist.tags = tags;
+            newPlaylist.icon = post_parameters.icon;
             newPlaylist.created = date.toDateString();
             newPlaylist.save(function(err) {
                 if (err)
