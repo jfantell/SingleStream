@@ -56,7 +56,7 @@
             <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
-            <li><a href="/analytics_copy"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
+            <li><a href="/analytics`"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
             <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
 
@@ -68,19 +68,6 @@
           </ul>
         <!--sidebar nav end-->
       </div>
-
-
-  <!-- <div class="left-side-inner">
-    <ul class="nav nav-pills nav-stacked custom-nav"> -->
-    <!--   <div> -->
-     <!--  <li ng-repeat="playlist in user_playlists track by $index"  ng-click="load_playlist_view($index)">
-       <a href=""><i class="fa fa-music"></i><span>{{playlist.name}}</span></a>
-      </li>  -->
-    <!-- </div> -->
-
-    <!-- </ul>
-  </div> -->
-
    
       </div>   <!-- ends left sticky side -->
 
@@ -122,7 +109,7 @@
                                         <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
                                       </div>
                                     </fieldset>
-                                    <input type="submit" id="login" class="btn btn-primary" value="Create" ng-click="create()">
+                                    <input type="submit" id="login" class="btn btn-primary" value="Create" ng-disabled="!playlist_name" ng-click="create()">
                                   </fieldset>
                              </form>
                           </div>
@@ -219,7 +206,7 @@
                         </div>
                       
                          <div class="modal-footer" style="background:white;">
-                          <input type="submit" id="login" class="btn btn-primary" value="Create" ng-click="create()">
+                          <input type="submit" id="login" class="btn btn-primary" value="Create" ng-disabled="!playlist_name"ng-click="create()">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                           </div>
