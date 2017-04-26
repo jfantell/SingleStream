@@ -56,14 +56,14 @@
             <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
-            <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
+            <li><a href="/analytics_copy"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
             <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
 
             <li class="active"><a href="#" data-toggle="modal" data-target="#AddModal" ><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Add Playlist</span></a></li>
 
             <li ng-repeat="playlist in user_playlists track by $index" ng-click="load_playlist_view($index)" >
-                <a style="color:#477d8c" href="#"><i class="fa fa-music"></i><span>{{playlist.name}}</span></a>
+                <a style="color:#477d8c" href="#"><i class="fa fa-{{playlist.icon}}"></i><span>{{playlist.name}}</span></a>
             </li> 
           </ul>
         <!--sidebar nav end-->
@@ -197,7 +197,7 @@
                         </div> 
 
 
-                        <div class="modal-body" style="color:black;height:350px">
+                        <div class="modal-body" style="color:black;height:400px">
 
                             <label for="usr">Create a new playlist:</label>
                             <input type="text" class="form-control" placeholder="Playlist Name - Required" id="playlist_name" ng-model="playlist_name" style="margin-bottom: 20px">
@@ -209,6 +209,11 @@
                         <div class="form-group">
                           <label for="usr">Tags (comma seperated):</label>
                           <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
+                        </div>
+
+                        <div class="form-group">
+                          <a href="http://fontawesome.io/icons/" target="_blank"><label style="color:#477d8c" for="usr">Icon: (Click For Ideas)</label></a>
+                          <input type="text" class="form-control" placeholder="music, star, etc." id="icon" ng-model="icon">
                         </div>
                                     
                         </div>
@@ -238,6 +243,7 @@
                               <input class="col-md-2" type="submit" id="search" class="btn btn-primary" value="Apply" ng-click="apply()" />
                             </div>
                             </form>
+
                              <div id="noResult"></div>
                             <div id="results"></div>
                             <h1 ng-show="query">Searching for ... {{query}}</h1>
@@ -458,6 +464,7 @@ $(document).ready(function() {
     $scope.current_playlist_description = "";
     $scope.flash_enabled = false;
     $scope.current_track_index = ""; //index in the track in the current playlist array
+    $scope.icon = "music";
 
     function recursive_play(i){
       var duration = 200;
@@ -581,7 +588,7 @@ $(document).ready(function() {
       var req = {
           method: 'POST',
           url: '/create_playlist',
-          data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags}
+          data: {'playlist_name': $scope.playlist_name, 'description':$scope.description, 'tags': $scope.tags, 'icon': $scope.icon}
         }
       $http(req).success(function(data){
             if(data == "Done"){
@@ -631,6 +638,7 @@ $(document).ready(function() {
 
     //Search napster and youtube for new songs and videos to add to an existing custom playlist
     $scope.search = function(){
+      console.log("query: " + $scope.query);
       if($scope.query.length == 0){
         alert("Please enter a song!")
         return;
