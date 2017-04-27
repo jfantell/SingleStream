@@ -174,26 +174,31 @@
 
             <div id="views"> 
               <div class="well">
+
               <table>
                 <th>Follower Information</th>
-              <!-- <tr ng-repeat="follower in followers track by $index"> -->
-              <tr>
-              <td ng-click="load_friends_view($index)"> {{please.name}} </td>
-            </table>
-
-                </div>
+                <tr>
+                  <td> {{thisFollower.name}} </td>
+                </tr>
+                <tr ng-repeat="playlist in follower_playlists track by $index">
+                  <td>PLAYLIST:  {{playlist.name}} <button id="{{playlist.name}}" class="btn btn-success" ng-click="clone_follower($event, playlist.user_id)">Clone</button></td>
+                </tr>
+               </table>
+              </div>
             </div>
 
              <div id="views2"> 
               <div class="well">
-              <table>
-                <th>Following Information</th>
-                <tr>
-             <!--  <tr ng-repeat="follower in following track by $index"> -->
-              <td ng-click="load_following_view($index)"> {{prettyplease.name}} </td>
-            </table>
-
-                </div>
+                <table>
+                  <th>Following Information</th>
+                  <tr>
+                  <td> {{thisFollowing.name}} </td>
+                  </tr>
+                  <tr ng-repeat="playlist in following_playlists track by $index">
+                    <td>PLAYLIST:  {{playlist.name}} <button id="{{playlist.name}}" class="btn btn-success" ng-click="clone_following($event, playlist.user_id)">Clone</button></td>
+                 </tr>
+               </table>
+              </div>
             </div>
 
         <!-- END PAGE CONTENT -->
@@ -242,25 +247,29 @@ document.getElementById('search-form').addEventListener('submit', function(e) {
 var app = angular.module("playlists", ['ngSanitize']);
   app.controller("mainController", ['$scope','$http','$compile', '$timeout', function($scope, $http, $compile,$timeout) {
 
-    $scope.statusMsg = "Please use the add follower button above to search for a user by their email address. Then click Search to display the corresponding users."
+    $scope.statusMsg = "Please use the '+FOLLOW A USER' above to search for a user by their email address. Then click Search to display the corresponding users.";
 
     $scope.query = ""; //Parameter for searching users
     $scope.users = "";
     $scope.followers = [];
     $scope.following = [];
-    $scope.please = "";
+    $scope.thisFollower = "";
+    $scope.thisFollowing = "";
+    $scope.following_playlist = [];
+    $scope.follower_playlists = [];
+    $scope.friend = "";
 
     //Add a new user to your following list
     $scope.add = function(result){
       var req = {
-          method: 'POST',
-          url: '/add_following',
-          data: {'result': result}
+        method: 'POST',
+        url: '/add_following',
+        data: {'result': result}
       }
       $http(req).success(function(data){
-         console.log("Hey");
-         $scope.statusMsg = "This user has been added to your friends."
-         location.reload();
+        console.log("Hey");
+        $scope.statusMsg = "This user has been added to your friends."
+        location.reload();
       });
     }
 
@@ -271,16 +280,76 @@ var app = angular.module("playlists", ['ngSanitize']);
         return;
       }
       var req = {
-          method: 'POST',
-          url: '/find_users_to_follow',
-          data: {'q': $scope.query}
-        }
+        method: 'POST',
+        url: '/find_users_to_follow',
+        data: {'q': $scope.query}
+      }
       $http(req).success(function(data){
-           $scope.users = data;
-           console.log(data);
-           $scope.statusMsg = "The results are displayed below. Click 'Add' to add the friend."
+          $scope.users = data;
+          console.log(data);
+          $scope.statusMsg = "The results are displayed below. Click 'Add' to add the friend."
       });
     }
+
+
+
+    $scope.clone_follower = function(element, id) {
+      console.log("cloning");
+      var playlist_name = element.target.id;
+      console.log(playlist_name);
+      var req = {
+          method: 'POST',
+          url: '/clone',
+          data: {'friend': id, 'playlist_name': playlist_name}
+      }
+      $http(req).success(function(data){
+        console.log(data);
+        alert("Cloned Successfully");
+      });
+    }
+ 
+    $scope.clone_following = function(element, id) {
+      console.log("cloning");
+ 
+      var playlist_name = element.target.id;
+      console.log(playlist_name);
+      var req = {
+          method: 'POST',
+          url: '/clone',
+          data: {'friend': id, 'playlist_name': playlist_name}
+         }
+       $http(req).success(function(data){
+          console.log(data);
+          alert("Cloned Successfully");
+       });
+     }
+ 
+      $scope.get_playlists_follower = function(){
+        console.log("get request"+  $scope.thisFollower._id);
+        var req = {
+          method: 'POST',
+          url: '/get_playlists_follower',
+          data: {'friend': $scope.thisFollower._id},
+      }
+         
+        $http(req).success(function(data){
+          $scope.follower_playlists = data;
+        });
+      }
+ 
+      $scope.get_playlists_following = function(){
+        console.log("get request"+  $scope.thisFollowing._id);
+        var req = {
+          method: 'POST',
+          url: '/get_playlists_following',
+          data: {'friend': $scope.thisFollowing._id},
+        }
+         
+        $http(req).success(function(data){
+          $scope.following_playlists = data;
+        });
+      }
+ 
 
 
     // Get the current followers and following from the back end
@@ -298,16 +367,18 @@ var app = angular.module("playlists", ['ngSanitize']);
     $scope.load_friends_view = function(i){
         // $('#search_field').show();
         $('#views').show();
-        $scope.please = $scope.followers[i];
+        $scope.thisFollower = $scope.followers[i];
         $scope.tracks = $scope.followers[i];
+        $scope.get_playlists_follower();
         // $scope.current_playlist = $scope.user_playlists[i]._id;
         // $scope.current_playlist_name = $scope.user_playlists[i].name;
     }
     $scope.load_following_view = function(i){
         // $('#search_field').show();
         $('#views2').show();
-        $scope.prettyplease = $scope.following[i];
+        $scope.thisFollowing = $scope.following[i];
         $scope.tracks = $scope.following[i];
+        $scope.get_playlists_following();
         // $scope.current_playlist = $scope.user_playlists[i]._id;
         // $scope.current_playlist_name = $scope.user_playlists[i].name;
     }
@@ -322,5 +393,6 @@ var app = angular.module("playlists", ['ngSanitize']);
 
 
   }]);
+
 </script>
 </html>

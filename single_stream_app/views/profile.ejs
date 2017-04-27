@@ -30,8 +30,6 @@
         <script src="profile_resources/js/jquery-2.1.4.js"></script>
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
         <!-- lined-icons -->
-
-
     </head>
 
 <body class="sticky-header left-side-collapsed" ng-app="myApp" ng-controller="myCtrl">
@@ -111,6 +109,7 @@
             <div class="container">
                 <div class="row">
                     <h2 id="profileHeader">Welcome to your profile</h2>
+
                     <!-- LOCAL INFORMATION -->
                     <div class="col-sm-4">
                         <div class="well">
@@ -161,7 +160,7 @@
  -->                                </p>
                                 <a href="/unlink/napster" class="btn btn-default">Unlink</a>
                             <% } else { %>
-                                <a href="/auth/napster" class="btn btn-default"><span class="fa fa-google-plus"></span> Napster</a>
+                                <a href="/auth/napster" class="btn btn-default"><span class="fa fa-headphones"></span> Napster</a>
                             <% } %>
 
                         </div>
@@ -257,8 +256,5 @@ app.controller('myCtrl', function($scope) {
 
 
 </script>
-
-
-
 
 </html>
