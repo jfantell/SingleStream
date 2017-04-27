@@ -192,7 +192,7 @@ module.exports = function(app, passport) {
                     return;
                 });
 
-                console.log("ERROR 101");
+                console.log("Error 103");
                 return;
             }
 
@@ -357,14 +357,53 @@ module.exports = function(app, passport) {
      
 };
 
-/////RECUSIVE FIND TO ITERATE THROUGH FOLLOWERS/FOLLOWINGS -> ALL PLAYLISTS -> ALL TRACKS
-function recursive_find(i,concat,post_parameters,dict,keys,res){
+
+function recursive_find_tags(i,concat,post_parameters,dict,keys,res){
     if(i == concat.length){
         console.log("LENGTH " + concat.length);
         res.send([dict,keys]);
         return;
     }
     Playlist.find({ 'user_id' :  concat[i]._id }, function(err, playlists) {
+        //Iterate over all playlists for a particular user i
+        for(j=0; j<playlists.length; j++){
+            //Iterate over all tags for a particular playlist j
+            for(k=0; k<playlists[j].tags.length; k++){
+
+                if(dict[playlists[j].tags[k]] == undefined){
+                    dict[playlists[j].tags[k]] = 1;
+                    keys.push(playlists[j].tags[k]);
+                    console.log("Tracks =====\n");
+                    console.log(playlists[j].tags[k]);
+                }
+                else{
+                    dict[playlists[j].tags[k]] += 1;
+                    console.log("Tracks =====\n");
+                    console.log(playlists[j].tags[k]);
+                }
+
+                //double for loop finished for one user, move to the next user
+                if(j == (playlists.length-1) && k == (playlists[j].tags.length-1)) {
+                    console.log("THIS IS I", i);
+                    recursive_find_tags(i+1,concat,post_parameters,dict,keys,res);
+                }
+            }
+        }
+    });
+}
+
+
+/////RECUSIVE FIND TO ITERATE THROUGH FOLLOWERS/FOLLOWINGS -> ALL PLAYLISTS -> ALL TRACKS
+function recursive_find(i,concat,post_parameters,dict,keys,res){
+    if(i == concat.length){
+        // console.log(dict);
+        // console.log(keys);
+        console.log("LENGTH " + concat.length);
+        res.send([dict,keys]);
+        return;
+    }
+    Playlist.find({ 'user_id' :  concat[i]._id }, function(err, playlists) {
+        console.log(playlists);
         for(j=0; j<playlists.length; j++){
             for(k=0; k<playlists[j].tracks.length; k++){
 
@@ -373,11 +412,11 @@ function recursive_find(i,concat,post_parameters,dict,keys,res){
                     if(dict[playlists[j].tracks[k].channel_artist] == undefined){
                         dict[playlists[j].tracks[k].channel_artist] = 1;
                         keys.push(playlists[j].tracks[k].channel_artist);
-                        console.log(playlists[j].tracks[k].channel_artist);
+                        // console.log(playlists[j].tracks[k].channel_artist);
                     }
                     else{
                         dict[playlists[j].tracks[k].channel_artist] += 1;
-                        console.log(playlists[j].tracks[k].channel_artist);
+                        // console.log(playlists[j].tracks[k].channel_artist);
                     }
                 }
                 //Tracks
@@ -385,11 +424,11 @@ function recursive_find(i,concat,post_parameters,dict,keys,res){
                     if(dict[playlists[j].tracks[k].track_name] == undefined){
                         dict[playlists[j].tracks[k].track_name] = 1;
                         keys.push(playlists[j].tracks[k].track_name);
-                        console.log(playlists[j].tracks[k].track_name);
+                        // console.log(playlists[j].tracks[k].track_name);
                     }
                     else{
                         dict[playlists[j].tracks[k].track_name] += 1;
-                        console.log(playlists[j].tracks[k].track_name);
+                        // console.log(playlists[j].tracks[k].track_name);
                     }
                 }
                 
@@ -446,14 +485,14 @@ function analytics(session_user_id, api_call, res, post_parameters){
                 res.send("Please check at least one box!");
                 return;
             }
-            console.log(post_parameters);
+            // console.log(post_parameters);
             if(post_parameters.option == 'Artists' || post_parameters.option == 'Tracks'){
                 recursive_find(i,concat,post_parameters,dict,keys,res);
                 console.log("I made it here");
             }
-            // else if(post_parameters.option == 'Tags'){
-            //     recursive_find(i,concat,post_parameters,dict,keys,res);
-            // }
+            else if(post_parameters.option == 'Tags'){
+                recursive_find_tags(i,concat,post_parameters,dict,keys,res);
+            }
             else{
                 res.send("There was an error!");
             }
@@ -863,70 +902,71 @@ function google_videos(songs,google_set,gTokenProvider,post_parameters, reqUser,
 //-----------------------------
 //Playlists
 //-----------------------------
-function napster_playlist(playlists, napster_set, nTokenProvider, callback){
-    if(napster_set){
-        //Get the valid access token
-        nTokenProvider.getToken(function (err, token) {
-            //Determine what operation do perform based on the second input in the rest function
-            var options = {
-                url: 'https://api.napster.com/v2.1/me/library/playlists?limit=10',
-                headers: { 'Authorization': 'Bearer ' + token },
-                json: true
-            };
-            request.get(options, function(error, response, body) {
-                var options = "";
-                //Go through all playlists
-                var remaining = body.playlists.length;
-                for(i=0; i < body.playlists.length; i++){
-                    options = {
-                        url: body.playlists[i].links.tracks.href + '?limit=10',
-                        headers: { 'Authorization': 'Bearer ' + token },
-                        json: true
-                    };
-                    request.get(options, function(error, response, playlist) {
-                        var songs = [];
-                        remaining--;
-                        //Go through all songs in a particular playlist
-                        for(j = 0; j < playlist.tracks.length; j++){
-                            songs.push([playlist.tracks[j].id, playlist.tracks[j].artistName, playlist.tracks[j].name, playlist.tracks[j].albumId]);
-                            if(j == playlist.tracks.length-1){
-                                playlists.push(songs);
-                                if(remaining == 0){
-                                    console.log(playlists);
-                                    callback("done");s
-                                }
-                            }
-                        }
-                    });
-                }
-            });   
-        });
-    }
-}
+// function napster_playlist(playlists, napster_set, nTokenProvider, callback){
+//     if(napster_set){
+//         //Get the valid access token
+//         nTokenProvider.getToken(function (err, token) {
+//             //Determine what operation do perform based on the second input in the rest function
+//             var options = {
+//                 url: 'https://api.napster.com/v2.1/me/library/playlists?limit=10',
+//                 headers: { 'Authorization': 'Bearer ' + token },
+//                 json: true
+//             };
+//             request.get(options, function(error, response, body) {
+//                 var options = "";
+//                 //Go through all playlists
+//                 var remaining = body.playlists.length;
+//                 for(i=0; i < body.playlists.length; i++){
+//                     options = {
+//                         url: body.playlists[i].links.tracks.href + '?limit=10',
+//                         headers: { 'Authorization': 'Bearer ' + token },
+//                         json: true
+//                     };
+//                     request.get(options, function(error, response, playlist) {
+//                         var songs = [];
+//                         remaining--;
+//                         //Go through all songs in a particular playlist
+//                         for(j = 0; j < playlist.tracks.length; j++){
+//                             songs.push([playlist.tracks[j].id, playlist.tracks[j].artistName, playlist.tracks[j].name, playlist.tracks[j].albumId]);
+//                             if(j == playlist.tracks.length-1){
+//                                 playlists.push(songs);
+//                                 if(remaining == 0){
+//                                     console.log(playlists);
+//                                     callback("done");s
+//                                 }
+//                             }
+//                         }
+//                     });
+//                 }
+//             });   
+//         });
+//     }
+// }
 
-function google_playlist(playlists, google_set, gTokenProvider, callback){
-    if(google_set){
-        //Get valid access token
-        gTokenProvider.getToken(function (err, token) {
-            var options = {
-                url: 'https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&mine=true',
-                headers: { 'Authorization': 'Bearer ' + token },
-                json: true
-            };
-            request.get(options, function(error, response, body) {
-                console.log(body);
-                callback("done");
-            });   
-        });
-    }
-}
+// function google_playlist(playlists, google_set, gTokenProvider, callback){
+//     if(google_set){
+//         //Get valid access token
+//         gTokenProvider.getToken(function (err, token) {
+//             var options = {
+//                 url: 'https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&mine=true',
+//                 headers: { 'Authorization': 'Bearer ' + token },
+//                 json: true
+//             };
+//             request.get(options, function(error, response, body) {
+//                 console.log(body);
+//                 callback("done");
+//             });   
+//         });
+//     }
+// }
 
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() || req.user != undefined) {
         return next();
     }
-
-    res.redirect('/');
+    else{
+        res.redirect('/');
+    }
 }
