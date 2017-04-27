@@ -176,12 +176,20 @@
               <div class="well">
 
               <table>
-                <th>Follower Information</th>
+                <th>FOLLOWER INFORMATION</th>
                 <tr>
                   <td> {{thisFollower.name}} </td>
                 </tr>
                 <tr ng-repeat="playlist in follower_playlists track by $index">
-                  <td>PLAYLIST:  {{playlist.name}} <button id="{{playlist.name}}" class="btn btn-success" ng-click="clone_follower($event, playlist.user_id)">Clone</button></td>
+                  <td>PLAYLIST:  {{playlist.name}} 
+                    <button id="{{playlist.name}}" class="btn btn-success" ng-click="clone_follower($event, playlist.user_id)">Clone</button>
+
+                    <button id="{{playlist.name}}" class="btn btn-primary" ng-click="show_tracks1($event)">View</button>
+
+                    <div class="well" ng-show="viewsongs1==playlist.name">
+                    <p ng-repeat="song in playlist.tracks track by $index">"{{song.track_name}}" -- {{song.channel_artist}}</p></div>
+
+                  </td>
                 </tr>
                </table>
               </div>
@@ -190,13 +198,21 @@
              <div id="views2"> 
               <div class="well">
                 <table>
-                  <th>Following Information</th>
+                  <th>FOLLOWING INFORMATION</th>
                   <tr>
                   <td> {{thisFollowing.name}} </td>
                   </tr>
                   <tr ng-repeat="playlist in following_playlists track by $index">
-                    <td>PLAYLIST:  {{playlist.name}} <button id="{{playlist.name}}" class="btn btn-success" ng-click="clone_following($event, playlist.user_id)">Clone</button></td>
-                 </tr>
+                  <td>PLAYLIST:  {{playlist.name}} 
+                    <button id="{{playlist.name}}" class="btn btn-success" ng-click="clone_follower($event, playlist.user_id)">Clone</button>
+
+                    <button id="{{playlist.name}}" class="btn btn-primary" ng-click="show_tracks2($event)">View</button>
+
+                    <div class="well" ng-show="viewsongs2==playlist.name">
+                    <p ng-repeat="song in playlist.tracks track by $index">"{{song.track_name}}" -- {{song.channel_artist}}</p></div>
+
+                  </td>
+                </tr>
                </table>
               </div>
             </div>
@@ -238,6 +254,8 @@ var app = angular.module("playlists", ['ngSanitize']);
     $scope.following_playlist = [];
     $scope.follower_playlists = [];
     $scope.friend = "";
+    $scope.viewsongs1 = 0;
+    $scope.viewsongs2 = 0;
 
     //Add a new user to your following list
     $scope.add = function(result){
@@ -271,7 +289,17 @@ var app = angular.module("playlists", ['ngSanitize']);
       });
     }
 
+    $scope.show_tracks1 = function(element) {
+      console.log('viewing tracks');
+      $scope.viewsongs1 = element.target.id;
+      $scope.viewsongs2 = 0;
+    }
 
+    $scope.show_tracks2 = function(element) {
+      console.log('viewing tracks');
+      $scope.viewsongs2 = element.target.id;
+      $scope.viewsongs1 = 0;
+    }
 
     $scope.clone_follower = function(element, id) {
       console.log("cloning");
@@ -349,6 +377,7 @@ var app = angular.module("playlists", ['ngSanitize']);
     $scope.load_friends_view = function(i){
         // $('#search_field').show();
         $('#views').show();
+        $('#views2').hide();
         $scope.thisFollower = $scope.followers[i];
         $scope.tracks = $scope.followers[i];
         $scope.get_playlists_follower();
@@ -358,6 +387,7 @@ var app = angular.module("playlists", ['ngSanitize']);
     $scope.load_following_view = function(i){
         // $('#search_field').show();
         $('#views2').show();
+        $('#views').hide();
         $scope.thisFollowing = $scope.following[i];
         $scope.tracks = $scope.following[i];
         $scope.get_playlists_following();
