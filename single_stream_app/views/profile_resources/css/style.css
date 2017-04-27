@@ -4724,7 +4724,7 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
 
 
 main .input { margin-top: 30px; text-align: center; }
-main .input input { color: #222; border: none; line-height: 2; font-size: 1.5em; padding: 10px; border-radius: 0.25em; }
+main .input input { color: #222; border: none; line-height: 2; font-size: 1.15em; border-radius: 0.15em; margin:1%;}
 main .input input:focus { border: none; outline: none; }
 main h1 { text-align: center; margin-bottom: 100px; }
 main .forecast { text-align: center; }
