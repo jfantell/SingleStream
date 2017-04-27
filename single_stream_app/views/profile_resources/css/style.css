@@ -2199,11 +2199,13 @@ li.list-group-item1 {
     border-bottom:none!important;
 }
 .modal-content {
-    background-color: rgb(255, 255, 255);
+    /*background-color: rgb(255, 255, 255);*/
     border: none;
     border-radius: 0px;
     -webkit-box-shadow: none;
     box-shadow: none;
+    background-color: #333;
+    opacity:.8;
 }
 .sign-right{
 	    float: left;
@@ -4712,9 +4714,6 @@ ul.nav.nav-pills.nav-stacked.custom-nav li:hover i.logout {
     color:black;
 }
 
-.modal-content {
-    background: url(../images/profile_background.jpg) no-repeat;
-}
 .modal-body {
     height: 180px;
 }
