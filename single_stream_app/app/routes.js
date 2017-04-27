@@ -345,6 +345,11 @@ module.exports = function(app, passport) {
         rest(req.user._id, "tracks_info",res,"");
     });
 
+    app.post('/attach_bio', isLoggedIn, function(req, res){
+        rest(req.user._id, 'attach_bio', res, req.body);
+        console.log(req.body);
+    });
+
     // //Display all playlist tracks Google and Napster
     // app.get('/testing', isLoggedIn, function(req, res) {
     //     rest(req.user._id, "testing",res,"");
@@ -780,6 +785,17 @@ function rest(session_user_id, api_call, res, post_parameters){
                 };
                 request.get(options, function(error, response, body) {
                 });  
+            });
+        }
+
+        if(api_call == "attach_bio"){
+            User.findOne({ '_id' :  session_user_id }, function(err, user) {
+                console.log(err);
+                user.biography = post_parameters.bio;
+                console.log("Test " + post_parameters.bio);
+                user.save(function(err) {
+                    if(err) console.log(err);
+                });
             });
         }
     });

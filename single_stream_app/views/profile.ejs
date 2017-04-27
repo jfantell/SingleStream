@@ -28,188 +28,167 @@
         <link href="profile_resources/css/style.css" rel='stylesheet' type='text/css' /> 
         <!-- jQuery -->
         <script src="profile_resources/js/jquery-2.1.4.js"></script>
+        <!--Additonal Font Styling-->
         <link href="profile_resources/css/font-awesome.css" rel="stylesheet"> 
-        <!-- lined-icons -->
     </head>
 
-<body class="sticky-header left-side-collapsed" ng-app="myApp" ng-controller="myCtrl">
-  <!-- onload="initMap() --> 
+  <body class="sticky-header left-side-collapsed" ng-app="myApp" ng-controller="myCtrl">
+    <!-- onload="initMap() --> 
     <section>
       <!-- left side start-->
-    <div class="left-side sticky-left-side">
-
-      <!--logo and iconic logo start-->
-      <div class="logo">
-        <h1><a href="/profile">Single<span>Stream</span></a></h1>
-      </div>
-      <div class="logo-icon text-center">
-        <a href="/profile">SS </a>
-      </div>
-   <!-- /w3l-agile -->
-
-
-
-  <div class="left-side-inner">
-
+      <div class="left-side sticky-left-side">
+        <!--logo and iconic logo start-->
+        <div class="logo">
+          <h1><a href="/profile">Single<span>Stream</span></a></h1>
+        </div>
+        <div class="logo-icon text-center">
+          <a href="/profile">SS </a>
+        </div>
+        <div class="left-side-inner">
         <!--sidebar nav start-->
-        <!-- These links are dead, not sure what the actual files names will end up being -->
           <ul class="nav nav-pills nav-stacked custom-nav">
             <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
- <!--            <li><a href="/friends"><i class="camera"></i> <span>Friends</span></a></li> -->
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
-            <!-- <li><a href="/settings"><i class="settings"></i><span>Settings</span></a>
-              <ul class="sub-menu-list">
-                  <li><a data-toggle="modal" data-target="#myModal">Change Password</a> <li>
-                  <li><a data-toggle="modal" data-target="#LocationModal">Add Location</a> </li>
-                  <li><a data-toggle="modal" data-target="#PicModal">Add Profile Picture </a></li>
-              </ul> -->
-            </li>
             <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
-
-            </li>
           </ul>
         <!--sidebar nav end-->
+        </div>
       </div>
-    </div>
 
-
-
-  <!-- main content start-->
-    <div class="main-content">
-      <!-- header-starts -->
-      <div class="header-section">
-      <!--toggle button start-->
-      <a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
-      <!--toggle button end-->
-      <!--notification menu start -->
-        <div class="menu-right">
-          <div class="profile_details">   
-            <div class="col-md-9">
-            </div>
-              
-                    <div class="clearfix"> </div>
-                </div>
+      <!-- main content start-->
+      <div class="main-content">
+        <!-- header-starts -->
+        <div class="header-section">
+          <!--toggle button start-->
+          <a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
+          <!--toggle button end-->
+          <!--notification menu start -->
+          <div class="menu-right">
+            <div class="profile_details">   
+              <div class="col-md-9">
               </div>
+              <div class="clearfix"> </div>
+            </div>
+          </div>
           <div class="clearfix"></div>
-          </div> <!-- Header Section -->
+        </div> <!-- Header Section -->
 
         <div id="page-wrapper">
-        <div class="inner-content">
+          <div class="inner-content">
         
         <!-- END MENU AND SIDEBAR -->
-        
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+          
+  <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
         <!-- PAGE CONTENT GOES HERE  -->
 
-      <!-- Intro Header -->
-            <div class="container">
-                <div class="row">
-                    <h2 id="profileHeader">Welcome to your profile</h2>
+        <!-- Intro Header -->
+          <div class="container">
+              <div class="row">
+                  <h2 id="profileHeader">Welcome to your profile</h2>
 
-                    <!-- LOCAL INFORMATION -->
-                    <div class="col-sm-4">
-                        <div class="well">
-                            <h3><span class="fa fa-user"></span> Local</h3>
+                  <!-- LOCAL INFORMATION -->
+                  <div class="col-sm-4">
+                      <div class="well">
+                          <h3><span class="fa fa-user"></span> Local</h3>
 
-                            <% if (user.local.email) { %>
-                                <p>
-                                    <strong>Name</strong>: <%= user.local.firstName + " " + user.local.lastName %><br>
-                                    <strong>Email</strong>: <%= user.local.email %><br>
-                                    <strong>Bio</strong>: <%= user.biography %>
-                                </p>  
-                            <% } %>
-                        </div>
-                    </div>
-
-                    <!-- GOOGLE INFORMATION -->
-                    <div class="col-sm-4">
-                        <div class="well">
-                            <h3 class="text-default"><span class="fa fa-google-plus"></span> Google+</h3>
-
-                            <!-- check if the user has this token (is the user authenticated with this social account) -->
-                            <% if (user.google.refreshToken) { %>
-                                <p>
-                                          Connected to Google
-<!--                                     <strong>Refresh Token</strong>: <%= user.google.refreshToken %><br>
- -->                                </p>
-                                 <a href="/unlink/google" class="btn btn-default">Unlink</a>
-                            <% } else { %>
-                                <a href="/auth/google" class="btn btn-default"><span class="fa fa-google-plus"></span> Google+</a>
-                            <% } if (user.error) { %>
-                                <p>
-                                    <strong>Error:</strong> <%= user.error %><br>
-                                </p>
-                            <% } %>
-                        </div>
-                    </div>
-
-                    <!-- NAPSTER INFORMATION -->
-                    <div class="col-sm-4">
-                        <div class="well">
-                            <h3 class="text-default"><span class=""></span> Napster</h3>
-
-                            <!-- check if the user has this token (is the user authenticated with this social account) -->
-                            <% if (user.napster.refreshToken) { %>
-                                <p>
-                                          Connected to Napster
-<!--                                     <strong>Refresh Token</strong>: <%= user.napster.refreshToken %><br>
- -->                                </p>
-                                <a href="/unlink/napster" class="btn btn-default">Unlink</a>
-                            <% } else { %>
-                                <a href="/auth/napster" class="btn btn-default"><span class="fa fa-headphones"></span> Napster</a>
-                            <% } %>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="well">
-              <button class="btn playlist-btn" href="#" data-toggle="modal" data-target="#myModal"> Write Biography </button>
-              <button class="btn playlist-btn" href="#" data-toggle="modal" data-target="#myModal"> Edit Biography </button>
-            </div>
-
-
-
-<!-- ////////////////////////// Modal to add biography content /////////////////////////// -->
-               <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                      <!-- Modal content-->
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title" style="color: black;">Add Biography</h4>
-                        </div>
-
-                        <div class="modal-body" style="color:black;">
-                          <div id="search_field" class="form-group">
-                      <div class="form-group">
-                        <label for="comment">Text:</label>
-                        <textarea class="form-control" rows="5" id="comment" ng-model="bio"></textarea>
+                          <% if (user.local.email) { %>
+                              <p>
+                                  <strong>Name</strong>: <%= user.local.firstName + " " + user.local.lastName %><br>
+                                  <strong>Email</strong>: <%= user.local.email %><br>
+                                  <strong>Bio</strong>: <%= user.biography %>
+                              </p>  
+                          <% } %>
                       </div>
-                    </form>
-                    </div>
-                        <div class="modal-footer">
-                          <button type="button" ng-click="closeandsave()" class="btn btn-default" data-dismiss="modal">Save</button>
+                  </div>
+
+                  <!-- GOOGLE INFORMATION -->
+                  <div class="col-sm-4">
+                      <div class="well">
+                          <h3 class="text-default"><span class="fa fa-google-plus"></span> Google+</h3>
+
+                          <!-- check if the user has this token (is the user authenticated with this social account) -->
+                          <% if (user.google.refreshToken) { %>
+                              <p>Connected to Google</p>
+                               <a href="/unlink/google" class="btn btn-default">Unlink</a>
+                          <% } else { %>
+                              <a href="/auth/google" class="btn btn-default"><span class="fa fa-google-plus"></span> Google+</a>
+                          <% } if (user.error) { %>
+                              <p>
+                                  <strong>Error:</strong> <%= user.error %><br>
+                              </p>
+                          <% } %>
+                      </div>
+                  </div>
+
+                  <!-- NAPSTER INFORMATION -->
+                  <div class="col-sm-4">
+                      <div class="well">
+                          <h3 class="text-default"><span class=""></span> Napster</h3>
+
+                          <!-- check if the user has this token (is the user authenticated with this social account) -->
+                          <% if (user.napster.refreshToken) { %>
+                              <p>Connected to Napster</p>
+                              <a href="/unlink/napster" class="btn btn-default">Unlink</a>
+                          <% } else { %>
+                              <a href="/auth/napster" class="btn btn-default"><span class="fa fa-headphones"></span> Napster</a>
+                          <% } %>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="well">
+            <button class="btn playlist-btn" href="#" data-toggle="modal" data-target="#myModal"> Write/Edit Biography </button>
+          </div>
+
+          <div class="well">
+            <% if (user.biography) { %>
+              <strong>Bio: </strong> <%= user.biography %>
+            <% } else { %>
+              <strong>Bio: </strong> No Biography Found
+            <% } %>
+          </div>
+
+
+  <!-- ////////////////////////// Modal to add biography content /////////////////////////// -->
+           <div class="modal fade" id="myModal" role="dialog">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="color: white;">Add Biography</h4>
+                  </div>
+                  <div class="modal-body" style="color:white;">
+                    <div id="search_field" class="form-group">
+                        <div class="form-group">
+                          <label for="comment">Text:</label>
+                          <textarea class="form-control" rows="5" id="comment" ng-model="bio"></textarea>
                         </div>
-                      </div> 
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" ng-click="closeandsave()" class="btn btn-default" data-dismiss="modal">Save</button>
                     </div>
                   </div>
-<!-- /////////////////////////////////////////////////////////////////////////////// -->
-        <!-- END PAGE CONTENT -->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-      </div>
-      </div>
-       <!-- <div id="page-end"> -->
- 
-    </div> <!--End main content -->
-
-  </section>
+                </div>
+              </div>
+            </div>
+  <!-- /////////////////////////////////////////////////////////////////////////////// -->
+          <!-- END PAGE CONTENT -->
+  <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+          </div>
+        </div>
+         <!-- <div id="page-end"> -->
+      </div> <!--End main content -->
+    </section>
+  </body>
+</html>
 
 
 <!-- Additional Scripts -->
@@ -217,44 +196,19 @@
 <script src="profile_resources/js/scripts.js"></script>
 <script src="profile_resources/js/bootstrap.js"></script>
 
-
-</body>
-
 <script>
-
-//This grabs the word you searched
-document.getElementById('search-form').addEventListener('submit', function(e) {
-
-  console.log(document.getElementById('query').value); //prints the query to the conosle
-
-  //alert(document.getElementById('query').value); //alerts the window of the query
-
-  document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + media/breathe.mp3 + '" type="audio/mpeg"></source>' + '</audio>'
-
-}, false);
-
-
- function myFunction() {
-  // document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + 'media/breathe.mp3' + '" type="audio/mpeg"></source>' + '</audio>';
-  //document.getElementById("audio-player").innerHTML = '<p>yo</p>';
-  console.log(document.getElementById("audio-player"));
- }
-
-</script>
-
-<script>
-
 var app = angular.module('myApp', []);
-app.controller('myCtrl', function($scope) {
-    $scope.biography = 0;
+app.controller('myCtrl', ['$scope','$http',function($scope, $http){
 
     $scope.closeandsave = function() {
-      $scope.biography = $scope.bio;
+      var req = {
+          method: 'POST',
+          url: '/attach_bio',
+          data: {'bio': $scope.bio}
+      }
+      $http(req).success(function(data){
+        console.log(data);
+      });
     }
-
-});
-
-
+}]);
 </script>
-
-</html>

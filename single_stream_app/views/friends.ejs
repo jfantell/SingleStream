@@ -224,26 +224,6 @@
 </body>
 
 <script>
-//This grabs the word you searched
-document.getElementById('search-form').addEventListener('submit', function(e) {
-
-  console.log(document.getElementById('query').value); //prints the query to the conosle
-
-  //alert(document.getElementById('query').value); //alerts the window of the query
-
-  document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + media/breathe.mp3 + '" type="audio/mpeg"></source>' + '</audio>'
-
-}, false);
-
-
- function myFunction() {
-  // document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + 'media/breathe.mp3' + '" type="audio/mpeg"></source>' + '</audio>';
-  //document.getElementById("audio-player").innerHTML = '<p>yo</p>';
-  console.log(document.getElementById("audio-player"));
- }
-</script>
-
-<script>
 var app = angular.module("playlists", ['ngSanitize']);
   app.controller("mainController", ['$scope','$http','$compile', '$timeout', function($scope, $http, $compile,$timeout) {
 
@@ -360,6 +340,8 @@ var app = angular.module("playlists", ['ngSanitize']);
       }
       $http(req).success(function(data){
           $scope.followers = data[0];
+          console.log("Followers");
+          console.log(data[0]);
           $scope.following = data[1];
       });
     }

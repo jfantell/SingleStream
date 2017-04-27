@@ -59,6 +59,9 @@
               background-color: white;
 
         }
+        .loading_ {
+          margin-top: 10px;
+        }
         </style>
 
     </head>
@@ -198,14 +201,19 @@
 
                   <!--Graphs-->
                   <div class="row" id="graphView">
-                    <div class="col col-md-3"></div>
+                    <div class="col col-md-3">
+                      <div class="well">
+                        <!--Description of graph-->
+                        <p id="description"></p>
+                      </div>
+                    </div>
                     <div class="col col-md-6"><div id="graphs" style="margin-top: 10px;width: 100%; height: 600px;color:black"></div></div>
                     <div class="col col-md-3"></div>
                   </div>
                   <!--Show when loading-->
                   <div class="row" id="loadingView">
                     <div class="col col-md-3"></div>
-                    <div class="col col-md-6"><img src="Moomwalk.gif" alt="Loading" height="400" width="600"></div>
+                    <div class="col col-md-6 loading_"><img src="analytics_resources/Moonwalk.gif" alt="Loading" height="400" width="600"></div>
                     <div class="col col-md-3"></div>
                   </div>
               </div>
@@ -245,12 +253,29 @@
 
 <script type="text/javascript">
     //Variables/info we need to populate data visualizatons
-      function drawTable(dic,keys) {
-        var arr = [];
+      function drawTable(dic,keys,option) {
         if(keys.length == 0){
           alert("Please select the appropriate filters and then press the search button to visualize your music!");
+          $('#loadingView').hide();
           return;
         }
+        //First column name will be different depending on the option the user selects to get analytics on
+        //Three options exist at this time: Artists, Tracks, Tags
+        var first_column = "";
+        var description = "";
+        if(option == "Artists"){
+          first_column = "Artists";
+          description = "<span style='color:red;'>Frequency of Artists Across Checked Categories.</span>";
+        }
+        else if(option == "Tracks"){
+          first_column = "Tracks";
+          description = "<span style='color:red;'>Frequency of Tracks Across Checked Categories.</span>";
+        }
+        else if(option == "Tags"){
+          first_column = "Tags";
+          description = "<span style='color:red;'>Frequency of Tags Across Checked Categories.</span>";
+        }
+        var arr = [];
         for(i=0; i< keys.length; i++){
           arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
           console.log([String(keys[i]),parseInt(dic[keys[i]])]);
@@ -259,9 +284,10 @@
               console.log("Hey what up"); 
               console.log(arr);
               var data = new google.visualization.DataTable();
-              data.addColumn('string', 'Artist');
+              data.addColumn('string', first_column);
               data.addColumn('number', 'Frequency');
               data.addRows(arr);
+              $('#description').html(description);
               $('#graphView').show();
               $('#loadingView').hide();
               var table = new google.visualization.Table(document.getElementById('graphs'));
@@ -273,12 +299,27 @@
 
       //edited the font size of the table //changed background to white
 
-      function drawChart(dic,keys) {
-        var arr = [['Artist','# of Mentions']];
+      function drawChart(dic,keys,option) {
         if(keys.length == 0){
           alert("Please select the appropriate filters and then press the search button to visualize your music!");
+          $('#loadingView').hide();
           return;
         }
+        var first_column = "";
+         var description = "";
+        if(option == "Artists"){
+          first_column = "Artists";
+          description = "<span style='color:red;'>Frequency of Artists Across Checked Categories.</span>  The Artist names are displayed above the blue dot in the center of the gauge. The frequency is displayed below the blue dot. Sometimes the Artist's name may be cutoff if it is too long.";
+        }
+        else if(option == "Tracks"){
+          first_column = "Tracks";
+          description = "<span style='color:red;'>Frequency of Tracks Across Checked Categories.</span> The Track names are displayed above the blue dot in the center of the gauge. The frequency is displayed below the blue dot. Sometimes the Track name may be cutoff if it is too long.";
+        }
+        else if(option == "Tags"){
+          first_column = "Tags";
+          description = "<span style='color:red;'>Frequency of Tags Across Checked Categories.</span> The Tag names are displayed above the blue dot in the center of the gauge. The frequency is displayed below the blue dot. Sometimes the Tag name may be cutoff if it is too long.";
+        }
+        var arr = [[first_column,'Frequency']];
         for(i=0; i< keys.length; i++){
           arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
           if(i == keys.length-1){
@@ -291,6 +332,7 @@
                 yellowFrom:75, yellowTo: 90,
                 minorTicks: 5
               };
+              $('#description').html(description);
               $('#graphView').show();
               $('#loadingView').hide();
               var chart = new google.visualization.Gauge(document.getElementById('graphs'));
@@ -301,12 +343,27 @@
       }
             
 
-    function drawPie(dic, keys) {
-      var arr = [['Aritst', '# Of Mentions']];
+    function drawPie(dic, keys,option) {
       if(keys.length == 0){
           alert("Please select the appropriate filters and then press the search button to visualize your music!");
+          $('#loadingView').hide();
           return;
-        }
+      }
+      var first_column = "";
+      var description = "";
+      if(option == "Artists"){
+        first_column = "Artists";
+        description = "<span style='color:red;'>Frequency of Artists Across Checked Categories.</span>  Each piece of the pie corresponds to a particular artist. The larger the piece, the greater the frequency of that artist.";
+      }
+      else if(option == "Tracks"){
+        first_column = "Tracks";
+        description = "<span style='color:red;'>Frequency of Tracks Across Checked Categories.</span> Each piece of the pie corresponds to a particular track. The larger the piece, the greater the frequency of that track.";
+      }
+      else if(option == "Tags"){
+        first_column = "Tags";
+        description = "<span style='color:red;'>Frequency of Tags Across Checked Categories.</span> Each piece of the pie corresponds to a particular tag. The larger the piece, the greater the frequency of that tag.";
+      }
+      var arr = [[first_column, 'Frequency']];
       for(i=0; i< keys.length; i++){
         arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
         if(i == keys.length-1){
@@ -314,9 +371,9 @@
             console.log(arr);
             var data = google.visualization.arrayToDataTable(arr);
             var options = {
-              title: 'Artist Share',
               pieHole: 0.4,
             };
+            $('#description').html(description);
             $('#graphView').show();
             $('#loadingView').hide();
             var chart = new google.visualization.PieChart(document.getElementById('graphs'));
@@ -328,10 +385,10 @@
 
     angular.module('myApp', []).controller('mainController', ['$scope','$http', function ($scope, $http) {
 
-        $scope.artist_name = "";
-        $scope.artist_dict = ""; //dictionary of all artists (keys) and frequency amongst users
-        $scope.artist_keys = ""; //list of keys (artists)
+        $scope.visual_dict = ""; //dictionary of artists, songs, or tags as keys and frequency as values
+        $scope.visual_keys = ""; //list of keys (artists)
         $('#loadingView').hide(); //Only show when graph being loaded
+        $('#graphView').hide();
 
         $scope.checkboxModel = {
            following : 'YES',
@@ -350,11 +407,11 @@
           console.log("SEARCH");
           $http(req).success(function(data){
             console.log(data);
-            $scope.artist_dict = data[0];
-            $scope.artist_keys = data[1];
-            console.log($scope.artist_keys.length);
-            for(i=0; i<$scope.artist_keys.length; i++){
-              console.log($scope.artist_dict[$scope.artist_keys[i]]);
+            $scope.visual_dict = data[0];
+            $scope.visual_keys = data[1];
+            console.log($scope.visual_keys.length);
+            for(i=0; i<$scope.visual_keys.length; i++){
+              console.log($scope.visual_dict[$scope.visual_keys[i]]);
             }
           });
         };
@@ -374,19 +431,17 @@
           $('#graphView').hide();
           $('#loadingView').show();
 
-          // console.log($scope.artist_mentions[$scope.artist_name]);
-          // console.log("Hey I am here");
           if(item == 'table'){
             google.charts.load('current', {'packages':['table']});
-            google.charts.setOnLoadCallback(drawTable($scope.artist_dict,$scope.artist_keys));
+            google.charts.setOnLoadCallback(drawTable($scope.visual_dict,$scope.visual_keys,$scope.analyticsOptions.selectedOption.name));
           }
           else if(item == 'gauge'){
             google.charts.load('current', {'packages':['gauge']});
-            google.charts.setOnLoadCallback(drawChart($scope.artist_dict,$scope.artist_keys));
+            google.charts.setOnLoadCallback(drawChart($scope.visual_dict,$scope.visual_keys,$scope.analyticsOptions.selectedOption.name));
           }
           else if(item == 'donut'){
             google.charts.load("current", {packages:['corechart']});
-            google.charts.setOnLoadCallback(drawPie($scope.artist_dict,$scope.artist_keys));
+            google.charts.setOnLoadCallback(drawPie($scope.visual_dict,$scope.visual_keys,$scope.analyticsOptions.selectedOption.name));
           }
         };
     }]);

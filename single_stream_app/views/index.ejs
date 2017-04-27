@@ -67,11 +67,13 @@
                 <div class="row">
                     <div class="col-md-8 offset-md-2">
                         <h1 class="brand-heading">SingleStream</h1>
+                        <!--message is a string stored in a session and is used to alert the user-->
                         <% if (message.length > 0) { %>
                             <div class="alert alert-danger"><%= message %></div>
                         <% } %>
                         <div class="login-page">
                           <div class="form">
+                            <!--Sign up form-->
                             <form class="register-form" action="/signup" method="post">
                                 <input type="text" placeholder="email" name="email" required/>
                                 <input type="text" placeholder="first name" name="firstName" required/>
@@ -81,6 +83,7 @@
                               <button>Create</button>
                               <p class="message">Already registered? <a href="#">Sign In</a></p>
                             </form>
+                            <!--Login form-->
                             <form class="login-form" action="/login" method="post">
                                 <input type="text" placeholder="email" name="email" required/>
                                 <input type="password" placeholder="password" name="password" required/>
@@ -89,6 +92,7 @@
                             </form>
                           </div>
                         </div>
+                        <!--Scroll down in page to about section-->
                         <a href="#about" class="btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
                         </a>
@@ -97,14 +101,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Login Section -->
-<!--     <section id="loginSection" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 offset-md-2">
-                <h2>Login</h2>
-            </div>
-    </section> -->
 
     <!-- About Section -->
     <section id="about" class="container content-section text-center">

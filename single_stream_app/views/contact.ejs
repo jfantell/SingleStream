@@ -8,9 +8,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
         <title>SingleStream</title>
-
-        <!-- To Use Angular -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
       
         <!-- Custom fonts for this template -->
         <link href="profile_resources/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -179,26 +176,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
 
 </body>
-
-<script>
-//This grabs the word you searched
-document.getElementById('search-form').addEventListener('submit', function(e) {
-
-  console.log(document.getElementById('query').value); //prints the query to the conosle
-
-  //alert(document.getElementById('query').value); //alerts the window of the query
-
-  document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + media/breathe.mp3 + '" type="audio/mpeg"></source>' + '</audio>'
-
-}, false);
-
-
- function myFunction() {
-  // document.getElementById("audio-player").innerHTML = '<audio id="audio-player"  controls="controls">' + '<source src="' + 'media/breathe.mp3' + '" type="audio/mpeg"></source>' + '</audio>';
-  //document.getElementById("audio-player").innerHTML = '<p>yo</p>';
-  console.log(document.getElementById("audio-player"));
- }
-</script>
 
 <script>
 var app = angular.module("playlists", ['ngSanitize']);
