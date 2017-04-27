@@ -295,6 +295,7 @@ var self = module.exports = {
 	                newPlaylist.tags = cloned.tags;
 	                newPlaylist.created = cloned.created;
 	                newPlaylist.tracks = cloned.tracks;
+	                newPlaylist.icon = cloned.icon;
 	                newPlaylist.save(function(err) {
 	                if (err)
 	                    console.log(err);
