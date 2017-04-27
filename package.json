@@ -1,6 +1,18 @@
 {
-  "name": "node-authentication",
+  "name": "single-stream",
+  "version":"1.0.0",
+  "description":"All in one music hub, and social/analytics platform",
   "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords":[],
+  "author":"Single Stream Team",
+  "license": "ISC",
+  "repository" :
+  { "type" : "git"
+  , "url" : "https://github.com/jfantell/SingleStream.git"
+  },
   "dependencies": {
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.15.2",
@@ -20,6 +32,8 @@
     "passport-oauth": "*",
     "passport-twitter": "~1.0.4",
     "request": "*",
-    "simple-oauth2": "^1.1.0"
+    "simple-oauth2": "^1.1.0",
+    "youtube-api":"*",
+    "refresh-token":"*"
   }
 }
