@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html ng-app="playlists"> <!--   --> <!--<![endif]-->
+<html ng-app="playlists">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- use the width of the device's screen so it looks good -->
@@ -34,7 +33,6 @@
     </head>
 
 <body ng-controller="mainController" class="sticky-header">
-  <!-- onload="initMap() --> 
     <section>
       <!-- left side start-->
     <div class="left-side sticky-left-side">
@@ -46,13 +44,12 @@
       <div class="logo-icon text-center">
         <a href="/profile">SS </a>
       </div>
-   <!-- /w3l-agile -->
-
+<!-- End logo -->
 
 
   <div class="left-side-inner">
         <!--sidebar nav start-->
-        <!-- These links are dead, not sure what the actual files names will end up being -->
+        <!-- Links to the other pages -->
           <ul class="nav nav-pills nav-stacked custom-nav">
             <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
@@ -61,7 +58,11 @@
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
             <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
 
+            <!-- Add a playlist sidebar button  -->
+
             <li class="active"><a href="#" data-toggle="modal" data-target="#AddModal" ><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Add Playlist</span></a></li>
+
+            <!-- These are your current playlists -->
 
             <li ng-repeat="playlist in user_playlists track by $index" ng-click="load_playlist_view($index)" >
                 <a style="color:#477d8c" href="#"><i class="fa fa-{{playlist.icon}}"></i><span>{{playlist.name}}</span></a>
@@ -84,15 +85,15 @@
       <!--toggle button end-->
 
 
-      <!--notification menu start -->
+      <!--top menu start -->
         <div class="menu-right">
           <div class="profile_details">  
             <div class="col-md-9">
             </div> 
-                      <!-- This is the login button, this should probably end up throwing you the our own specific login page -->
-                     <!-- I just am not sure what that is going to look like yet so this is just a template from online -->
+                      <!-- Additional (original) add playlist button.. maybe remove ? -->
                       <div class="col-md-3 login-pop">
                         <div id="loginpop"> <a href="#" id="loginButton"><span>+Add Playlist</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                          <!-- The form -->
                             <div id="loginBox">  
                              <form id="loginForm">
                                   <fieldset id="body">
@@ -132,7 +133,7 @@
 
 
 
-
+                  <!-- This is the Add Song Modal -->
                   <div class="modal fade" id="myModal" role="dialog">
                     <div class="modal-dialog">
                       <!-- Modal content-->
@@ -154,8 +155,8 @@
                     </div>
                     <div id="noResult" class ="well" style="background-color:white;color:black;opacity:1;"></div>
                     <div id="searh_results" class="well yellow-well" style="background-color:white;color:black;opacity:1;">
-                     <!--  <ul style="list-style:none;"><li ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul> -->
-                     <!--  <table><tr ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></tr></table> -->
+
+                    <!-- Songs found are put into a table -->
 
                       <table class="resultstable">
                         <tr style="background-color:white;" ng-repeat="result in search_results track by $index">
@@ -174,7 +175,7 @@
 
 
 
-
+                  <!-- New create playlist modal... called from the sidebar -->
                   <div class="modal fade" id="AddModal" role="dialog">
                     <div class="modal-dialog">
                       <div class="modal-content" style="background:white;">
@@ -199,6 +200,9 @@
                           <input type="text" class="form-control" placeholder="Pop, Hip-Hop" id="tags" ng-model="tags">
                         </div>
 
+
+                        <!-- Choose an icon to represent your playlist on the sidebar -->
+                        <!-- You can click the Icon header to give you hundreds of keywords you can use for an icon -->
                         <div class="form-group">
                           <a href="http://fontawesome.io/icons/" target="_blank"><label style="color:#477d8c" for="usr">Icon: (Click For Ideas)</label></a>
                           <input type="text" class="form-control" placeholder="music, star, etc." id="icon" ng-model="icon">
@@ -214,7 +218,7 @@
                     </div>     
               </div>
 
-              <!-- Experimental Search Song Modal -->
+              <!-- New Search Song Modal -->
 
                 <div class="modal fade" id="SearchModal" role="dialog">
 
@@ -224,6 +228,7 @@
 
                         <div class="modal-body">
                           <main>
+                            <!-- Redid the add songs modal... modernized searach box -->
                           <div class="input">  
                              <form id="search-form"> 
                               <input class="col-md-7" type="text" id="query" class="form-control" ng-model="query" autofocus placeholder="Type Artist Name.." autocomplete="off">
@@ -234,6 +239,7 @@
 
                              <div id="noResult"></div>
                             <div id="results"></div>
+                            <!-- Shows the search query as you type it -->
                             <h1 ng-show="query" style="font-size:20pt">Searching for ... {{query}}</h1>
 
                           </main>
@@ -242,9 +248,8 @@
                       
                          <div class="modal-footer">
                           <div id="searh_results" >
-                     <!--  <ul style="list-style:none;"><li ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul> -->
-                     <!--  <table><tr ng-repeat="result in search_results track by $index">"{{result[2]}}" - {{result[1]}}  [{{result[5]}}] <button ng-click="add(result)" class="btn btn-primary">Add</button></tr></table> -->
-
+                    
+                      <!-- Results table -->
                       <table class="resultstable">
                         <tr ng-repeat="result in search_results track by $index">
                           <td>"{{result[2]}}" - {{result[1]}}  [{{result[5]}}]</td><td> <button style="background-color:#477d8c"ng-click="add(result)" class="btn btn-primary">Add</button></td>
@@ -262,23 +267,6 @@
 
 
 
- <!-- =====================LEFT TABLE OF PLAYLIST NAMES============================== -->
-                <!-- <div class="container"> -->
-                  <!-- <div class="col-md-3">
-                    <div class="playlistwell">
-                      <h3> Playlists </h3>
-                      <div id="all_playlists">
-                      <table>
-                        <tr ng-repeat="playlist in user_playlists track by $index">
-                          <td class="playlist_view" ng-click="load_playlist_view($index)"> {{playlist.name}}
-                        </td></tr>
-                      </div>
-                       
-                      </table>
-                    </div>
-                  </div>
-                </div>
- -->
         <!-- ===================View the current playlist ============================ -->
          <div id="views">           
         <div class="col-md-12">
@@ -286,7 +274,7 @@
               <div ng-if="isFlashEnabled()==1">
                   <div class="alert">
                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                    <strong> Flash is required to play napster content.</strong> Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this <a href="https://get.adobe.com/flashplayer/">click here</a>
+                    <strong> Flash is required to play napster content.</strong> Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
                   </div>
                 </div>
 
@@ -295,8 +283,6 @@
                   <tr><h1>{{current_playlist_name}}</h1></tr>
                   <tr><p>{{current_playlist_description}}</p></tr>
                   <button id="addsong" data-toggle="modal" data-target="#SearchModal" class="btn playlist-btn">add songs</button>
-
-                  <!-- Header information for the playlist -->
                   <tr>
                     <th>Name</th>
                     <th>Artist/Channel</th>
@@ -310,8 +296,6 @@
                     <!-- <th id="search_field" class="form-group">
                       <button id="addsong" data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add</button> </th> -->
                   </tr>
-
-                  <!--Display all the songs in the playlist within a table (iframes for youtube and play/pause buttons for napster)-->
                   <tr ng-repeat="song in tracks track by $index">
                     <td>{{song.track_name}}</td>
                     <td>{{song.channel_artist}}</td>
@@ -323,8 +307,6 @@
                                 src="{{song.url | trustAsResourceUrl}}">
                               </iframe></div></td>
                     <td id="{{song.track_id}}"><button class="btn btn-danger" id="{{song.track_id}}" data-ng-click="delete_track($event)">-</button></td>
-                  </tr>
-
                 </table>
               </div>
             </div>
