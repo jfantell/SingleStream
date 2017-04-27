@@ -9,8 +9,6 @@
 
         <title>SingleStream</title>
 
-        <!-- To Use Angular -->
-
         <!-- To use google visualizatoin -->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
         
@@ -40,7 +38,7 @@
           table {
             opacity: 1;
             font-family: arial, sans-serif;
-            font-size:25pt !important;
+            font-size:12pt !important;
             border-collapse: collapse;
             width: 100%;
           }
@@ -48,17 +46,16 @@
           td, th {
               border: 1px solid #555;
               text-align: center;
-              padding: 8px;
-          }     
+              line-height: 1.5em;
+          }   
 
           tr:nth-child(odd){
             background-color: white;
           }
 
           tr:nth-child(even) {
-              background-color: white;
-
-        }
+              background-color: #f5f5f5;
+          }
         .loading_ {
           margin-top: 10px;
         }
@@ -86,22 +83,13 @@
   <div class="left-side-inner">
 
         <!--sidebar nav start-->
-        <!-- These links are dead, not sure what the actual files names will end up being -->
           <ul class="nav nav-pills nav-stacked custom-nav">
             <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
-            <!-- <li><a href="/settings"><i class="camera"></i> <span>Settings</span></a>
-              <ul class="sub-menu-list">
-                  <li><a data-toggle="modal" data-target="#myModal">Change Password</a> <li>
-                  <li><a data-toggle="modal" data-target="#LocationModal">Add Location</a> </li>
-                  <li><a data-toggle="modal" data-target="#PicModal">Add Profile Picture </a></li>
-              </ul>
-            </li> -->
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
             <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
-
             </li>
           </ul>
         <!--sidebar nav end-->
@@ -114,20 +102,19 @@
     <div class="main-content">
       <!-- header-starts -->
       <div class="header-section">
-      <!--toggle button start-->
-      <a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
-      <!--toggle button end-->
-      <!--notification menu start -->
+        <!--toggle button start-->
+        <a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
+        <!--toggle button end-->
+        <!--notification menu start -->
         <div class="menu-right">
           <div class="profile_details">   
-              <div class="col-md-3">
-              </div>
-                     
-                    <div class="clearfix"> </div>
-                </div>
-              </div>
-          <div class="clearfix"></div>
-          </div> <!-- Header Section -->
+          <div class="col-md-3">
+          </div>
+          <div class="clearfix"> </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div> <!-- Header Section -->
 
         <div id="page-wrapper">
         <div class="inner-content">
@@ -148,38 +135,40 @@
                   </div>
 
                   <div class="row">
-                    <!-- <div class="span"> -->
-                  <!-- <form class="form-group"> -->
-                  <div class="col-md-2">
-                    <label>Following:
-                      <input type="checkbox" ng-model="checkboxModel.following"
-                              ng-true-value="'YES'" ng-false-value="'NO'">
-                    </label><br/>
-                  </div>
+
                     <div class="col-md-2">
-                    <label>Followers:
-                      <input type="checkbox" ng-model="checkboxModel.followers"
-                             ng-true-value="'YES'" ng-false-value="'NO'">
-                    </label><br/>
+                      <label>Following:
+                        <input type="checkbox" ng-model="checkboxModel.following"
+                                ng-true-value="'YES'" ng-false-value="'NO'">
+                      </label><br/>
                     </div>
+
                     <div class="col-md-2">
-                    </label>My Playlists:
-                      <input type="checkbox" ng-model="checkboxModel.me"
-                             ng-true-value="'YES'" ng-false-value="'NO'">
-                     </label><br/>
+                      <label>Followers:
+                        <input type="checkbox" ng-model="checkboxModel.followers"
+                               ng-true-value="'YES'" ng-false-value="'NO'">
+                      </label><br/>
+                    </div>
+
+                    <div class="col-md-2">
+                      </label>My Playlists:
+                        <input type="checkbox" ng-model="checkboxModel.me"
+                               ng-true-value="'YES'" ng-false-value="'NO'">
+                       </label><br/>
                      </div>
 
                     <div class="col-md-3">
                      <label for="mySelect">Make a choice:</label>
                      <select name="analytics_select" id="analytics_select" ng-options="option.name for option in analyticsOptions.options track by option.id" ng-model="analyticsOptions.selectedOption"></select>
                    </div>
-                   <div class="col-md-2">
-                    <input type="submit" id="login" class="btn btn-primary" value="Search" ng-click="artist_search()">
-                  </div>
-                   </form>
-                 </div>
-               </div>
-               <!-- <div class="well"> -->
+
+                    <div class="col-md-2">
+                      <input type="submit" id="login" class="btn btn-primary" value="Search" ng-click="artist_search()">
+                    </div>
+                 </div> <!--End row for input selection-->
+               </div> <!-- End well containing input options-->
+
+               <!-- Row to hold the buttons for selecting the desired visual -->
                   <div class="row">
                     <div class="col-md-3">
                     </div>
@@ -210,12 +199,14 @@
                     <div class="col col-md-6"><div id="graphs" style="margin-top: 10px;width: 100%; height: 600px;color:black"></div></div>
                     <div class="col col-md-3"></div>
                   </div>
+
                   <!--Show when loading-->
                   <div class="row" id="loadingView">
                     <div class="col col-md-3"></div>
                     <div class="col col-md-6 loading_"><img src="analytics_resources/Moonwalk.gif" alt="Loading" height="400" width="600"></div>
                     <div class="col col-md-3"></div>
                   </div>
+
               </div>
             </div>
           </div>
@@ -230,7 +221,6 @@
     </div> <!--End main content -->
 
   </section>
-
 
 <!-- Additional Scripts -->
 <script src="profile_resources/js/jquery.nicescroll.js"></script>
@@ -251,8 +241,10 @@
 
 </body>
 
+<!-- Script to call the Google Charts API to create the visualizations -->
 <script type="text/javascript">
-    //Variables/info we need to populate data visualizatons
+    
+      //Called when the user selects the 'Draw Table' option
       function drawTable(dic,keys,option) {
         if(keys.length == 0){
           alert("Please select the appropriate filters and then press the search button to visualize your music!");
@@ -275,36 +267,42 @@
           first_column = "Tags";
           description = "<span style='color:red;'>Frequency of Tags Across Checked Categories.</span>";
         }
+
+        //Find the artists and their counts by iterating through the dictionary
         var arr = [];
         for(i=0; i< keys.length; i++){
           arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
           console.log([String(keys[i]),parseInt(dic[keys[i]])]);
-          if(i == keys.length-1){
-            setTimeout(function(){
+
+          if(i == keys.length-1){ //if you get to the end of the keys list
+            setTimeout(function(){ //call the google api with the data
               console.log("Hey what up"); 
               console.log(arr);
               var data = new google.visualization.DataTable();
               data.addColumn('string', first_column);
               data.addColumn('number', 'Frequency');
               data.addRows(arr);
-              $('#description').html(description);
-              $('#graphView').show();
-              $('#loadingView').hide();
+              $('#description').html(description); //Update the description in the html
+              $('#graphView').show(); //show the chart
+              $('#loadingView').hide(); //Hide the gif
+
+              //Call the google charts api to create the table
               var table = new google.visualization.Table(document.getElementById('graphs'));
-              table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+              table.draw(data, {showRowNumber: true, width: '100%'});
             }, 3000);
           }
         }      
       }
 
-      //edited the font size of the table //changed background to white
-
+      //This function is called when the user selects "Draw Gauge"
       function drawChart(dic,keys,option) {
-        if(keys.length == 0){
+        if(keys.length == 0){ //Make sure the user has selected a filter
           alert("Please select the appropriate filters and then press the search button to visualize your music!");
           $('#loadingView').hide();
           return;
         }
+
+        //format the chart parameters based on the filter selected by the user
         var first_column = "";
          var description = "";
         if(option == "Artists"){
@@ -319,11 +317,12 @@
           first_column = "Tags";
           description = "<span style='color:red;'>Frequency of Tags Across Checked Categories.</span> The Tag names are displayed above the blue dot in the center of the gauge. The frequency is displayed below the blue dot. Sometimes the Tag name may be cutoff if it is too long.";
         }
+
         var arr = [[first_column,'Frequency']];
-        for(i=0; i< keys.length; i++){
+        for(i=0; i< keys.length; i++){ //iterate through the direction to collect the data needed
           arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
-          if(i == keys.length-1){
-            setTimeout(function(){ 
+          if(i == keys.length-1){ //if you reach the end of the list
+            setTimeout(function(){ //create and insert the google chart visualization
               console.log(arr);
               var data = google.visualization.arrayToDataTable(arr);
               var options = {
@@ -332,9 +331,11 @@
                 yellowFrom:75, yellowTo: 90,
                 minorTicks: 5
               };
-              $('#description').html(description);
-              $('#graphView').show();
-              $('#loadingView').hide();
+              $('#description').html(description); //update the description
+              $('#graphView').show(); //show the chart view
+              $('#loadingView').hide(); //Hide the loading gif
+
+              //Call the Chart API and draw the appropriate chart
               var chart = new google.visualization.Gauge(document.getElementById('graphs'));
               chart.draw(data, options);
             }, 3000);
@@ -342,13 +343,15 @@
         }      
       }
             
-
+    //this function is called if the user selects "Draw Donut"
     function drawPie(dic, keys,option) {
-      if(keys.length == 0){
+      if(keys.length == 0){ //make sure the user has selected a filter
           alert("Please select the appropriate filters and then press the search button to visualize your music!");
           $('#loadingView').hide();
           return;
       }
+
+      //format the chart api parameters based on what option the user selected
       var first_column = "";
       var description = "";
       if(option == "Artists"){
@@ -363,20 +366,25 @@
         first_column = "Tags";
         description = "<span style='color:red;'>Frequency of Tags Across Checked Categories.</span> Each piece of the pie corresponds to a particular tag. The larger the piece, the greater the frequency of that tag.";
       }
+
+      //Go through the dictionary and collect the needed information
       var arr = [[first_column, 'Frequency']];
       for(i=0; i< keys.length; i++){
         arr.push([String(keys[i]),parseInt(dic[keys[i]])]);
-        if(i == keys.length-1){
+        if(i == keys.length-1){ //When you reach the end of the dictionary
           setTimeout(function(){ 
+            //Populate the chart view with the data and the desired option
             console.log(arr);
             var data = google.visualization.arrayToDataTable(arr);
             var options = {
               pieHole: 0.4,
             };
-            $('#description').html(description);
-            $('#graphView').show();
-            $('#loadingView').hide();
-            var chart = new google.visualization.PieChart(document.getElementById('graphs'));
+            $('#description').html(description); //update the description of the chart
+            $('#graphView').show(); //Show the chart
+            $('#loadingView').hide(); //Hide the loading gif
+
+            //Call the Google API and draw the chart as desired
+            var chart = new google.visualization.PieChart(document.getElementById('graphs')); 
             chart.draw(data, options);
           }, 3000);
         }
@@ -390,24 +398,27 @@
         $('#loadingView').hide(); //Only show when graph being loaded
         $('#graphView').hide();
 
+        //Set the boxes to be checked as the default
         $scope.checkboxModel = {
            following : 'YES',
            followers : 'YES',
            me : 'YES'
          };
 
+        //Called when the user clicks the search button
         $scope.artist_search = function(){
           // console.log("Selected Option " + );
           // var option = String($scope.analyticsOptions.options.name);
           var req = {
             method: 'POST',
             url: '/analytics_artist_search',
-            data: {'checked': $scope.checkboxModel, 'option': $scope.analyticsOptions.selectedOption.name}//pass in artist name
+            data: {'checked': $scope.checkboxModel, 'option': $scope.analyticsOptions.selectedOption.name}//pass in the filters and options selected by the user
           }
           console.log("SEARCH");
+          //Send a request to the server to get the desired information with the user's query
           $http(req).success(function(data){
             console.log(data);
-            $scope.visual_dict = data[0];
+            $scope.visual_dict = data[0]; //store the data in a dictionary so it can be used later
             $scope.visual_keys = data[1];
             console.log($scope.visual_keys.length);
             for(i=0; i<$scope.visual_keys.length; i++){
@@ -416,6 +427,7 @@
           });
         };
 
+        //Set up the options array so we can use this info when sending a request
         $scope.analyticsOptions = {
           options: [
             {id: '1', name: 'Artists'},
@@ -425,20 +437,23 @@
           selectedOption: {id: '1', name: 'Artists'} //This sets the default value of the select in the ui
         };
 
-
+        //Function to show and hide the various charts on the page
         $scope.show = function(item){
         	console.log("show");
           $('#graphView').hide();
           $('#loadingView').show();
 
+          //If the user selected table, call the draw table function
           if(item == 'table'){
             google.charts.load('current', {'packages':['table']});
             google.charts.setOnLoadCallback(drawTable($scope.visual_dict,$scope.visual_keys,$scope.analyticsOptions.selectedOption.name));
           }
+          //if the user selected guage, call the draw chart function
           else if(item == 'gauge'){
             google.charts.load('current', {'packages':['gauge']});
             google.charts.setOnLoadCallback(drawChart($scope.visual_dict,$scope.visual_keys,$scope.analyticsOptions.selectedOption.name));
           }
+          //if the user selected donut, call the draw pie function
           else if(item == 'donut'){
             google.charts.load("current", {packages:['corechart']});
             google.charts.setOnLoadCallback(drawPie($scope.visual_dict,$scope.visual_keys,$scope.analyticsOptions.selectedOption.name));
