@@ -84,6 +84,9 @@ module.exports = function(passport) {
                 if (err)
                     return done(err);
 
+                if(req.body.password != req.body.confirmPassword)
+                    return done(null, false, req.flash('loginMessage', 'Passwords do not match'));
+
                 // check to see if there's already a user with that email
                 if (existingUser) 
                     return done(null, false, req.flash('loginMessage', 'That email is already taken.'));

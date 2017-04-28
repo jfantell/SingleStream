@@ -49,7 +49,7 @@
 
       <!--logo and iconic logo start-->
       <div class="logo">
-        <h1><a href="index.html">Single<span>Stream</span></a></h1>
+        <h1><a href="/profile">Single<span>Stream</span></a></h1>
       </div>
       <div class="logo-icon text-center">
         <a href="/profile">SS </a>
@@ -61,22 +61,13 @@
         <div class="left-side-inner">
 
         <!--sidebar nav start-->
-        <!-- These links are dead, not sure what the actual files names will end up being -->
           <ul class="nav nav-pills nav-stacked custom-nav">
             <li class="active"><a href="/profile"><i class="lnr lnr-home"></i><span>Profile</span></a></li> 
             <li><a href="/friends"><i class="lnr lnr-users"></i> <span>Friends</span></a></li> 
             <li><a href="/playlists"><i class="lnr lnr-music-note"></i> <span>Playlists</span></a></li>           
             <li><a href="/analytics"><i class="lnr lnr-indent-increase"></i> <span>Analytics</span></a></li>
             <li><a href="/contact"><i class="lnr lnr-book"></i><span>About Us</span></a></li>
-            <!-- <li><a href="/settings"><i class="settings"></i><span>Settings</span></a>
-              <ul class="sub-menu-list">
-                  <li><a data-toggle="modal" data-target="#myModal">Change Password</a> <li>
-                  <li><a data-toggle="modal" data-target="#LocationModal">Add Location</a> </li>
-                  <li><a data-toggle="modal" data-target="#PicModal">Add Profile Picture </a></li>
-              </ul>
-            </li> -->
             <li><a href="/logout"><i class="logout"></i><span>Logout</span></a></li>
-
             </li>
           </ul>
         <!--sidebar nav end-->
@@ -110,7 +101,7 @@
                                   <fieldset>
                                       <div id="search_field" class="form-group">
                                         <label for="usr">Enter a user's email</label>
-                                        <input type="text" class="form-control" placeholder="Billy Joel" id="follower" ng-model="query">
+                                        <input type="text" class="form-control" placeholder="email@email.com" id="follower" ng-model="query">
                                         <input type="submit" id="login" class="btn btn-primary" value="Search" ng-click="search()">
                                       </div>
                                   </fieldset>
@@ -133,23 +124,6 @@
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
       <!-- PAGE CONTENT GOES HERE  -->
-
-      <!-- Intro Header -->
-<!--             <div class="container">
-              <div class="row">
-                <div class="well col-lg-8">
-                  <p>{{statusMsg}}</p>
-                  <ul><li ng-repeat="result in users">{{result.local.email}} <button ng-click="add(result)" class="btn btn-primary">Add</button></li></ul>
-                <input type="submit" class="btn btn-success" value="Apply" ng-click="apply()">
-                </div>
-                <div class="row" ng-repeat="followers in friends[0]">
-                  <div class="well col-lg-3">{{followers.name}}</div>
-                  <div class="well col-lg-3">{{following}}</div>
-                </div>
-              </div>
-            </div> --> 
-
-            
 
             <div class="container">
               <div class="row">
@@ -289,18 +263,21 @@ var app = angular.module("playlists", ['ngSanitize']);
       });
     }
 
+    //Show tracks of followers playlists
     $scope.show_tracks1 = function(element) {
       console.log('viewing tracks');
       $scope.viewsongs1 = element.target.id;
       $scope.viewsongs2 = 0;
     }
 
+    //Show tracks of followings playlists (users the authenticated user is following)
     $scope.show_tracks2 = function(element) {
       console.log('viewing tracks');
       $scope.viewsongs2 = element.target.id;
       $scope.viewsongs1 = 0;
     }
 
+    //Clone a followers playlist
     $scope.clone_follower = function(element, id) {
       console.log("cloning");
       var playlist_name = element.target.id;
@@ -316,6 +293,7 @@ var app = angular.module("playlists", ['ngSanitize']);
       });
     }
  
+    //Clone a followings playlist
     $scope.clone_following = function(element, id) {
       console.log("cloning");
  
@@ -332,6 +310,7 @@ var app = angular.module("playlists", ['ngSanitize']);
        });
      }
  
+      //Display all playlists of follower user clicks on
       $scope.get_playlists_follower = function(){
         console.log("get request"+  $scope.thisFollower._id);
         var req = {
@@ -345,6 +324,7 @@ var app = angular.module("playlists", ['ngSanitize']);
         });
       }
  
+      //Display all playlists of following user clicks online
       $scope.get_playlists_following = function(){
         console.log("get request"+  $scope.thisFollowing._id);
         var req = {
@@ -381,8 +361,6 @@ var app = angular.module("playlists", ['ngSanitize']);
         $scope.thisFollower = $scope.followers[i];
         $scope.tracks = $scope.followers[i];
         $scope.get_playlists_follower();
-        // $scope.current_playlist = $scope.user_playlists[i]._id;
-        // $scope.current_playlist_name = $scope.user_playlists[i].name;
     }
     $scope.load_following_view = function(i){
         // $('#search_field').show();
@@ -391,8 +369,6 @@ var app = angular.module("playlists", ['ngSanitize']);
         $scope.thisFollowing = $scope.following[i];
         $scope.tracks = $scope.following[i];
         $scope.get_playlists_following();
-        // $scope.current_playlist = $scope.user_playlists[i]._id;
-        // $scope.current_playlist_name = $scope.user_playlists[i].name;
     }
 
     //On page load, hide the search field for adding new songs to an existing playlist

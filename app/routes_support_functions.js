@@ -35,49 +35,52 @@ var self = module.exports = {
 	recursive_find_tags: function(i,concat,post_parameters,dict,keys,res){
 		//Base Case: all playlists for all users have been searched
 	    if(i == concat.length){
-	        console.log("LENGTH " + concat.length);
 	        res.send([dict,keys]);
 	        return;
 	    }
+
 	    //Find a particular user's playlists
 	    Playlist.find({ 'user_id' :  concat[i]._id }, function(err, playlists) {
-	        //Iterate over all playlists for that user
-	        for(j=0; j<playlists.length; j++){
 
-	        	//ANALYZE 
+	    	if (playlists.length == 0) {
+	    		console.log('Error 104: User has no playlists');
+	    		self.recursive_find_tags(i+1,concat,post_parameters,dict,keys,res);
+	    	}
 
-	        	// //If number of tags for particular is 0
-	        	// if(playlists[j].tags.length == 0){
-	        	// 	console.log("THIS IS I the problem");
-	         //        self.recursive_find(i+1,concat,post_parameters,dict,keys,res);
-	        	// }
+	    	else {
 
-	            //Iterate over all tags for a particular playlist j
-	            for(k=0; k<playlists[j].tags.length; k++){
+		        //Iterate over all playlists for that user
+		        for(j=0; j<playlists.length; j++){
 
-	            	//If new key is found, add it to the keys array and dict object
-	            	//Frequency is 1
-	                if(dict[playlists[j].tags[k]] == undefined){
-	                    dict[playlists[j].tags[k]] = 1;
-	                    keys.push(playlists[j].tags[k]);
-	                    console.log("Tracks =====\n");
-	                    console.log(playlists[j].tags[k]);
-	                }
-	                //Key already stored in dict object, increase frequency
-	                else{
-	                    dict[playlists[j].tags[k]] += 1;
-	                    console.log("Tracks =====\n");
-	                    console.log(playlists[j].tags[k]);
-	                }
+		        	if(playlists[j].tags.length == 0){
+		        		console.log("Error 105: No Tags Found");
+		                if(j == (playlists.length-1)) {
+		                    self.recursive_find_tags(i+1,concat,post_parameters,dict,keys,res);
+		                }
+		        	}
 
-	                //All tracks in all playlists for a particular user have been visited
-	                //Recurse to next user
-	                if(j == (playlists.length-1) && k == (playlists[j].tags.length-1)) {
-	                    console.log("THIS IS I", i);
-	                    self.recursive_find_tags(i+1,concat,post_parameters,dict,keys,res);
-	                }
-	            }
-	        }
+		            //Iterate over all tags for a particular playlist j
+		            for(k=0; k<playlists[j].tags.length; k++){
+
+		            	//If new key is found, add it to the keys array and dict object
+		            	//Frequency is 1
+		                if(dict[playlists[j].tags[k]] == undefined){
+		                    dict[playlists[j].tags[k]] = 1;
+		                    keys.push(playlists[j].tags[k]);
+		                }
+		                //Key already stored in dict object, increase frequency
+		                else{
+		                    dict[playlists[j].tags[k]] += 1;
+		                }
+
+		                //All tracks in all playlists for a particular user have been visited
+		                //Recurse to next user
+		                if(j == (playlists.length-1) && k == (playlists[j].tags.length-1)) {
+		                    self.recursive_find_tags(i+1,concat,post_parameters,dict,keys,res);
+		                }
+		            }
+		        }
+		    }
 	    });
 	},
 
@@ -102,66 +105,69 @@ var self = module.exports = {
 
 		//Base Case: all playlists for all users have been searched
 	    if(i == concat.length){
-	        console.log("LENGTH " + concat.length);
 	        res.send([dict,keys]);
 	        return;
 	    }
 	   	//Find a particular user's playlists
 	    Playlist.find({ 'user_id' :  concat[i]._id }, function(err, playlists) {
 	    	//Iterate over all playlists for that user
-	        for(j=0; j<playlists.length; j++){
 
-	        	///!!!!!!!!! ANALYZE
+	    	if (playlists.length == 0) {
+	    		console.log('Error 106: User has no playlists');
+	    		self.recursive_find(i+1,concat,post_parameters,dict,keys,res);
+	    	}
 
-	        	//If number of tracks in particular playlist is 0; move to the next one
-	        	if(playlists[j].tracks.length == 0){
-	        		console.log("THIS IS I the problem");
-	                self.recursive_find(i+1,concat,post_parameters,dict,keys,res);
-	        	}
+	    	else {
+		        for(j=0; j<playlists.length; j++){
 
-	        	//Iterate over all tracks for a particular playlist j
-	            for(k=0; k<playlists[j].tracks.length; k++){
-	            	console.log("Tracks per single playlist " + playlists[j].tracks.length);
+		        	///!!!!!!!!! ANALYZE
 
-	                //Artists
-	                if(post_parameters.option == "Artists"){
-	                	//If new key is found, add it to the keys array and dict object
-	            		//Frequency is 1
-	                    if(dict[playlists[j].tracks[k].channel_artist] == undefined){
-	                        dict[playlists[j].tracks[k].channel_artist] = 1;
-	                        keys.push(playlists[j].tracks[k].channel_artist);
-	                        console.log(playlists[j].tracks[k].channel_artist);
-	                    }
-	                    //Key already stored in dict object, increase frequency
-	                    else{
-	                        dict[playlists[j].tracks[k].channel_artist] += 1;
-	                        console.log(playlists[j].tracks[k].channel_artist);
-	                    }
-	                }
-	                //Tracks
-	                else if(post_parameters.option == "Tracks"){
-	            		//If new key is found, add it to the keys array and dict object
-	            		//Frequency is 1
-	                    if(dict[playlists[j].tracks[k].track_name] == undefined){
-	                        dict[playlists[j].tracks[k].track_name] = 1;
-	                        keys.push(playlists[j].tracks[k].track_name);
-	                        console.log(playlists[j].tracks[k].track_name);
-	                    }
-	                    //Key already stored in dict object, increase frequency
-	                    else{
-	                        dict[playlists[j].tracks[k].track_name] += 1;
-	                        console.log(playlists[j].tracks[k].track_name);
-	                    }
-	                }
-	                
-	                //All tracks in all playlists for a particular user have been visited
-	                //Recurse to next user
-	                if(j == (playlists.length-1) && k == (playlists[j].tracks.length-1)) {
-	                    console.log("THIS IS I", i);
-	                    self.recursive_find(i+1,concat,post_parameters,dict,keys,res);
-	                }
-	            }
-	        }
+		        	//If number of tracks in particular playlist is 0; move to the next one
+		        	if(playlists[j].tracks.length == 0){
+		                if(j == (playlists.length-1)) {
+		                    self.recursive_find(i+1,concat,post_parameters,dict,keys,res);
+		                }
+		        	}
+
+		        	//Iterate over all tracks for a particular playlist j
+		            for(k=0; k<playlists[j].tracks.length; k++){
+
+		                //Artists
+		                if(post_parameters.option == "Artists"){
+		                	//If new key is found, add it to the keys array and dict object
+		            		//Frequency is 1
+		                    if(dict[playlists[j].tracks[k].channel_artist] == undefined){
+		                        dict[playlists[j].tracks[k].channel_artist] = 1;
+		                        keys.push(playlists[j].tracks[k].channel_artist);
+		                    }
+		                    //Key already stored in dict object, increase frequency
+		                    else{
+		                        dict[playlists[j].tracks[k].channel_artist] += 1;
+		                    }
+		                }
+
+		                //Tracks
+		                else if(post_parameters.option == "Tracks"){
+		            		//If new key is found, add it to the keys array and dict object
+		            		//Frequency is 1
+		                    if(dict[playlists[j].tracks[k].track_name] == undefined){
+		                        dict[playlists[j].tracks[k].track_name] = 1;
+		                        keys.push(playlists[j].tracks[k].track_name);
+		                    }
+		                    //Key already stored in dict object, increase frequency
+		                    else{
+		                        dict[playlists[j].tracks[k].track_name] += 1;
+		                    }
+		                }
+		                
+		                //All tracks in all playlists for a particular user have been visited
+		                //Recurse to next user
+		                if(j == (playlists.length-1) && k == (playlists[j].tracks.length-1)) {
+		                    self.recursive_find(i+1,concat,post_parameters,dict,keys,res);
+		                }
+		            }    
+		        }
+	    	}
 	    });
 	},
 
@@ -204,39 +210,32 @@ var self = module.exports = {
 
 	            //User's own playlists, user follower playlists, user following playlists
 	            if(post_parameters.checked.following == 'YES' && post_parameters.checked.followers && post_parameters.checked.me == 'YES'){
-	                console.log("1");
 	                concat = (following.concat(followers)).concat(me);
 	            }
 
 	            //User follower playlists, user following playlists
 	            else if(post_parameters.checked.following == 'YES' && post_parameters.checked.followers == 'YES' ){
-	                console.log("2");
 	                concat = following.concat(followers);
 	            }
 
 	            //User's own playlists and user following playlists
 	            else if(post_parameters.checked.following == 'YES' && post_parameters.checked.me == 'YES' ){
-	                console.log("3");
 	                concat = following.concat(me);
 	            }
 	            //User's own playlists and user follower playlists
 	            else if(post_parameters.checked.followers == 'YES' && post_parameters.checked.me == 'YES' ){
-	                console.log("4");
 	                concat = followers.concat(me);
 	            }
 	            //User's follower playlists ONLY
 	            else if(post_parameters.checked.followers == 'YES'){
-	                console.log("5");
 	                concat = followers;
 	            }
 	            //User's following playlists ONLY
 	            else if(post_parameters.checked.following == 'YES'){
-	                console.log("6");
 	                concat = following;
 	            }
 	            //User's own playlists ONLY
 	            else if(post_parameters.checked.me == 'YES'){
-	                console.log("7");
 	                concat = me;
 	            }
 	            //All check boxes unchecked on front end, alert user
@@ -247,7 +246,6 @@ var self = module.exports = {
 	            //Recusive call that handles query for artists or track names
 	            if(post_parameters.option == 'Artists' || post_parameters.option == 'Tracks'){
 	                self.recursive_find(i,concat,post_parameters,dict,keys,res);
-	                console.log("I made it here!!!!!!!!!!");
 	            }
 	            //Recursive call that handles query for tags
 	            else if(post_parameters.option == 'Tags'){
@@ -292,11 +290,12 @@ var self = module.exports = {
 
 	        //Two unitliaized global variables to hold the refresh tokens for Google and Napster respectively
 	        var gTokenProvider, nTokenProvider;
+	       	//Boolean flags to determine whether users are authenticated w/ particular service
 	        napster_set = false;
 	        google_set = false;
 	        
 	        //Variables to store objects that will be passed back to the client in some api calls
-	        var g_playlists, n_playlists, u_playlists;
+	        var g_playlists, n_playlists;
 
 	        //Check if napster refresh token has been set in the user's local account
 	        if(user.napster.refreshToken != undefined){
@@ -321,18 +320,31 @@ var self = module.exports = {
 	            google_set = true;
 	        }
 
+	        //Search for songs in all authenticated services
 	        if(api_call == "search"){
+	        	//Array to hold all songs found
 	            var songs = [];
+	            //Hold any errors as well
 	            var errors = [];
-	            //songs array, napster auth boolean, token obect, query, callback
+	            
+
+	            //napster_songs and google_videos make Restful API search calls to napster and google respectively
+	            //we need two use callback functions to ensure we have gathered all the songs from one service
+	            //before we go to the next
+
+	            //songs array, napster auth boolean, token obect, query, callback are parameters
 	            self.napster_songs(songs,napster_set,nTokenProvider,post_parameters, session_user_id, errors, function(done_1) {
+	            	//songs array, napster auth boolean, token obect, query, callback are parameters
 	                self.google_videos(songs,google_set,gTokenProvider,post_parameters,session_user_id, errors, function(done_2){
+	                	//If any errors, notify the user
                         if (errors.length != 0) {
                             res.send(errors);
                         }
+                        //No songs returned
                         else if (songs.length == 0) {
                             res.send('none');
                         }
+                        //Send array of songs to client
                         else {
                             res.send(songs);
                         }
@@ -340,17 +352,7 @@ var self = module.exports = {
 	            });    
 	        }
 
-	        // //GET PLAYLISTS FROM BOTH NAPSTER AND GOOGLE/YOUTUBE
-	        // if(api_call == "playlists_function"){
-	        //     var playlists = [];
-	        //     self.napster_playlist(playlists,napster_set,nTokenProvider,function(done_1){
-	        //         self.google_playlist(playlists,google_set,gTokenProvider,function(done_2){
-	        //             res.send("Hey man");
-	        //         });
-	        //     });
-	        // }
-
-
+	        //Creates a new playlist
 	        if(api_call == "create_playlist"){
 
 	            // create the playlist
@@ -373,40 +375,39 @@ var self = module.exports = {
 	                if (err)
 	                    console.log(err);
 	                res.send("Done");
-	                console.log("done");
 	            });  
 	        }
 
+	        //Delete existing playlist
 	        if(api_call == "delete_playlist"){
-	            console.log(session_user_id, post_parameters.playlist_name);
 	            Playlist.remove({'user_id': session_user_id, 'name' : post_parameters.playlist_name}, function(){
 	                res.send("Done");
 	            });
-	            console.log("playlist deleted");
 	        }
 
+	        //Get all user's custom playlists from mongodb
 	        if(api_call == "get_playlists"){
 	            Playlist.find({ 'user_id' :  session_user_id }, function(err, playlists) {
 	                res.send(playlists);
 	            });
 	        }
 
+	        //Get all playlists from the user's follower
 	        if(api_call == "get_playlists_follower"){
-	            console.log(post_parameters);
 	            Playlist.find({ 'user_id' :  post_parameters.friend }, function(err, playlists) {
 	                res.send(playlists);
 	            });
 	        }
 
+	        //Get all playlists from the user's following (someone the user is following)
 	        if(api_call == "get_playlists_following"){
-	            console.log(post_parameters);
 	            Playlist.find({ 'user_id' :  post_parameters.friend }, function(err, playlists) {
 	                res.send(playlists);
 	            });
 	        }
 
+	        //Clone a playlist from a follower or following
 	        if(api_call == "clone"){
-	            console.log(post_parameters);
 	            Playlist.findOne({ 'user_id' :  post_parameters.friend, 
 	                                'name':post_parameters.playlist_name }, function(err, cloned) {
 
@@ -423,20 +424,29 @@ var self = module.exports = {
 	                if (err)
 	                    console.log(err);
 	                    res.send("cloned");
-	                    console.log("clone");
 	                });  
 
 	            });
 	        }
 
+	        //Delete a track
 	        if(api_call == "delete_track"){
-	            console.log(session_user_id, post_parameters.track_id, post_parameters.playlist_name);
 	            Playlist.update({'user_id': session_user_id, 'name' : post_parameters.playlist_name}, { $pull: { "tracks" : { "track_id": post_parameters.track_id } } }, function(){
 	                res.send("Done");
 	            });
-	            console.log("track deleted");
 	        }
+
+	        //Add a song to a playlist
 	        if(api_call == "add_to_playlist"){
+	        	//Our playlist functionality on the front end requires us to have the duration of each song or video
+	        	//YouTube does not provide this information using the search api alone (which we called out to when the user initially
+	        	//searched for a particular track/artist/channel_name)
+	        	//Instead, we record the video id returned for each video from the YouTube search API
+	        	//If a user selects to add that particular video to a playlist we make an additional API call to get additional
+	        	//information about that video (including the duration)
+
+	        	//post_parameters.result[5] specifies the source of the video or song (either youtube or napster)
+	        	//if source is youtube
 	            if(google_set && post_parameters.result[5] == "youtube"){
 	                gTokenProvider.getToken(function (err, token) {
 	                    var contentDetails = {
@@ -446,10 +456,9 @@ var self = module.exports = {
 	                    };
 	                    //new youtube track request to get video duration (only if youtube source)
 	                    request.get(contentDetails, function(error, response, contents) {
-	                       console.log(contents);
+	                      
 	                       var runtime = "";
-	                       console.log(contents);
-	                       console.log('-------------------------------------------');
+	                      
 	                       var duration = contents.items[0].contentDetails.duration;
 	                       
 	                        //convert Youtube iso format to seconds
@@ -463,7 +472,7 @@ var self = module.exports = {
 	                        duration = total;
 	                        runtime = duration;
 	                       
-	                       
+	                       //Construct track object
 	                        var track = {track_id: post_parameters.result[0], 
 	                            channel_artist: post_parameters.result[1], 
 	                            track_name: post_parameters.result[2], 
@@ -471,46 +480,51 @@ var self = module.exports = {
 	                            runtime: runtime,
 	                            source: post_parameters.result[5]};
 
+	                          //Add to existing playlist
 	                        Playlist.findByIdAndUpdate(post_parameters.playlist_id, {
 	                          $push: { tracks: track }
 	                        }, function (err, playlist) {
 	                            console.log(err);
-	                            console.log(playlist);
 	                        });
 	                        res.end();
 	                    });
 	               });
 	            }
+	            //if source is napster
 	            else if (post_parameters.result[5] == "napster") {
+	            	//Construct track object
 	                var track = {track_id: post_parameters.result[0], 
 	                    channel_artist: post_parameters.result[1], 
 	                    track_name: post_parameters.result[2], 
 	                    url: post_parameters.result[3],
 	                    runtime: post_parameters.result[4],
 	                    source: post_parameters.result[5]};
-
+					//Add to existing playlist
 	                Playlist.findByIdAndUpdate(post_parameters.playlist_id, {
 	                  $push: { tracks: track }
 	                }, function (err, playlist) {
 	                    console.log(err);
-	                    console.log(playlist);
 	                });
 	                res.end();
 	            }
 
+	            //something went wrong
 	            else {
 	                res.send("Something went wrond: error103");
 	            }
 	        }
 
+	        //Search db for users by email
 	        if(api_call == "find_users_to_follow"){
 	            User.find({ 'local.email' :  post_parameters.q }, function(err, followers) {
 	                res.send(followers);
 	            });
 	        }
 
-	        //add someone you want to follow/following
-	        //add your id to their account as a follower
+	        //Follow another user
+	        //When you follow another user you show up in their
+	        //followers list, they show up in your followings list
+	        //followers and followings are associated using user ids
 	        if(api_call == "add_following"){
 	            var following = {_id: post_parameters.result._id, name: post_parameters.result.local.email};
 	            var followers = {_id: session_user_id, name: user.local.email};
@@ -518,19 +532,17 @@ var self = module.exports = {
 	              $push: { following : following }
 	            }, function (err, user) {
 	                console.log(err);
-	                console.log(user);
 	            });
 	            User.findByIdAndUpdate(post_parameters.result._id, {
 	              $push: { followers : followers }
 	            }, function (err, user) {
 	                console.log(err);
-	                console.log(user);
 	            });
 	            res.end();
 	        }
 
+	        //Return list of all followers/followings for the authenticated user
 	        if(api_call == 'get_followers_following') {
-	            console.log("Hell0");
 	            User.findOne({ '_id' :  session_user_id }, function(err, user) {
 	                res.send([user.followers, user.following]);
 	            });
@@ -555,15 +567,16 @@ var self = module.exports = {
 	            });
 	        }
 
+	        //Attach a biograph to the authenticated user's account
 	        if(api_call == "attach_bio"){
 	            User.findOne({ '_id' :  session_user_id }, function(err, user) {
 	                console.log(err);
 	                user.biography = post_parameters.bio;
-	                console.log("Test " + post_parameters.bio);
 	                user.save(function(err) {
 	                    if(err) console.log(err);
 	                });
 	            });
+	            res.send("updated");
 	        }
 	    });
 	    return;
@@ -572,16 +585,24 @@ var self = module.exports = {
 //-----------------------------
 //Search API Call
 //-----------------------------
+
+	//Search napster's catalog given user input
+	//I.E. A user types in "Michael Jackson", we will search Napster
+	//songs catalog for those that relate to Michael Jackson
+
+	//we pass in the songs array from the "rest" function, which will store all songs we find from both napster and google
+	//we pass in the napster token object as well; allows us to get a new access token using the refresh token
+	//stored in the authenticated user's account
 	napster_songs: function(songs,napster_set,nTokenProvider,post_parameters, reqUser, errors, callback){
+		//if napster is set
 	    if(napster_set){
+	    	//generate access token
 	        nTokenProvider.getToken(function (err, token) {
 
-	            
+	            //there's an error, proceed to google
 	            if (err) {
 	                User.findOne({ '_id' :  reqUser }, function(err, user) {
 	                    console.log(err);
-	                    console.log("ERROR 101");
-	                    console.log("UNLINKED NAPSTER");
 	                    user.napster.refreshToken = undefined;
 	                    //inform user
 	                    errors = "101";
@@ -592,6 +613,7 @@ var self = module.exports = {
 	                });
 	            }
 
+	            //call the search api, retrirve 5 related results
 	            else {
 	                var tracks = {
 	                    url: 'https://api.napster.com/v2.1/search?q='+post_parameters+'&type=track&limit=5',
@@ -604,6 +626,7 @@ var self = module.exports = {
 	                        callback("done");
 	                   }
 	                   else {
+	                   		//add all results to songs array
 	                       for(i = 0; i < body.data.length; i++){
 	                            songs.push([body.data[i].id, 
 	                                        body.data[i].artistName, 
@@ -612,6 +635,7 @@ var self = module.exports = {
 	                                        body.data[i].playbackSeconds,
 	                                        "napster"]);
 	                            if(i == body.data.length-1){
+	                            	//proceed to google search
 	                                callback("done");
 	                            }
 	                        }
@@ -621,19 +645,25 @@ var self = module.exports = {
 	        });  
 	    }
 	    else {
+	    	//proceed to google search
 	        callback("done");
 	    }
 	},
+	//Search google's/youtube's catalog given user input
+	//I.E. A user types in "Michael Jackson", we will search YouTube
+	//videos for those that relate to Michael Jackson
+
+	//we pass in the songs array from the "rest" function, which will store all songs we find from both napster and google
+	//we pass in the google token object as well; allows us to get a new access token using the refresh token
+	//stored in the authenticated user's account
 	google_videos: function(songs,google_set,gTokenProvider,post_parameters, reqUser, errors, callback){
 	    if(google_set){
 	        gTokenProvider.getToken(function (err, token) {
 
-	            
+	            //if error proceed back to "rest" function where we return the songs array (if any songs have been added)
 	            if (err) {
 	                User.findOne({ '_id' :  reqUser }, function(err, user) {
 	                    console.log(err);
-	                    console.log("ERROR 102")
-	                    console.log("UNLINKED GOOGLE");
 	                    user.google.refreshToken = undefined;
 	                    //inform user
 	                    errors.push("102");
@@ -644,6 +674,7 @@ var self = module.exports = {
 	                });
 	            }
 
+	            //YouTube search api call using valid access token
 	            else {
 	                var videos = {
 	                    url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&q='+post_parameters+'&type=video',
@@ -653,8 +684,8 @@ var self = module.exports = {
 	                request.get(videos, function(error, response, body) {
 	                    //Parse body and add each video to an array with the needed data/metadata
 	                    var youtube_videos = [];
-	                    console.log("Google");
 	                    if (body.items.length == 0) {
+	                    	//return to "rest" function
 	                        callback("done");
 	                    }
 	                    else {
@@ -667,7 +698,7 @@ var self = module.exports = {
 	                                        '0',
 	                                        "youtube"]);
 	                            if(i == body.items.length-1){
-	                                console.log("Google")
+	                                //return to "rest" function
 	                                callback("done");
 	                            }
 	                        }
@@ -677,6 +708,7 @@ var self = module.exports = {
 	        });
 	    }
 	    else {
+	    	//return to "rest" function
 	        callback('done');
 	    }
 	}

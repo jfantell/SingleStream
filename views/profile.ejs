@@ -89,6 +89,10 @@
           <div class="container">
               <div class="row">
                   <h2 id="profileHeader">Welcome to your profile</h2>
+                  <div class="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                    <strong> ATTENTION </strong> When you first try to authenticate with Google or Napster you may be logged out. If this happens to you, simply log back in and you will be set to enjoy the full SingleStream experience!
+                  </div>
 
                   <!-- LOCAL INFORMATION -->
                   <div class="col-sm-4">
@@ -207,7 +211,9 @@ app.controller('myCtrl', ['$scope','$http',function($scope, $http){
           data: {'bio': $scope.bio}
       }
       $http(req).success(function(data){
-        console.log(data);
+        if(data){
+          location.reload();
+        }
       });
     }
 }]);

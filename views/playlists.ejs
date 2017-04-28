@@ -274,7 +274,7 @@
               <div ng-if="isFlashEnabled()==1">
                   <div class="alert">
                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                    <strong> Flash is required to play napster content.</strong> Please install flash if you do not have it. If the plugin is disabled, please enable it for this website. If you need help doing this, click here.
+                    <strong> Flash is required </strong> Please install flash if you do not already have it. If the plugin is disabled, please enable it <em>before</em> clicking the "Auto Play" button or any of the Napster "Play"/"Pause" buttons. If you forget to do this, reload the page and enable flash immediately. If you need help installing Flash, <a href="https://get.adobe.com/flashplayer/">click here</a>
                   </div>
                 </div>
 
@@ -293,8 +293,6 @@
                         <button ng-click="delete_playlist()" class="btn btn-danger">Delete Playlist</button>
                     </th>
                     <th id="kill_autoplay"> <button ng-click="kill_autoplay()" class="btn btn-warning">Stop Auto Play</button></th>
-                    <!-- <th id="search_field" class="form-group">
-                      <button id="addsong" data-toggle="modal" data-target="#myModal" class="btn playlist-btn">add</button> </th> -->
                   </tr>
                   <tr ng-repeat="song in tracks track by $index">
                     <td>{{song.track_name}}</td>
@@ -329,8 +327,7 @@
 <script src="profile_resources/js/bootstrap.js"></script>
 
 <!--For playlists-->
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- --><script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
 
 </body>

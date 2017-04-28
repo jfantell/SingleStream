@@ -30,7 +30,6 @@ module.exports = function(app, passport) {
                 console.log(req.flash('loginMessage'));
                 //Destroy session upon going to landing page
                 req.session.destroy(function (err){ 
-                console.log("Hi"); 
                 res.send(render);
             }); 
         });
@@ -41,7 +40,7 @@ module.exports = function(app, passport) {
         res.render('profile.ejs', {
             user : req.user,
         });
-        console.log(req.user);
+        // console.log(req.user);
     });
 
     // Logout Page (Destroy session)
@@ -105,13 +104,12 @@ module.exports = function(app, passport) {
                 User.findOne({ '_id' :  req.query.state }, function(err, user) {
                     //Reset local user session
                     req.user = user;
-                    console.log("Google Callback Error -> " + user);
                     //Redirect to profile
                     res.redirect('/profile');
                     return;
                 });
 
-                console.log("ERROR 100");
+                console.log("Error 100: Google Callback Error");
                 return;
             }
 
@@ -130,6 +128,7 @@ module.exports = function(app, passport) {
                 //with SingleStream
                 else {
                     user.error = "Your Google credntials are authenticated with another SingleStream account. They can only be authenticated with one. Please go to https://myaccount.google.com/permissions and disconnect 'SingleStream' from your connected apps list. Then try authenticating again";
+                    console.log("Error 101: Google authenicated with more than one SingleStream account");
                 }
                 //Save all changes to the local user's account
                 user.save(function(err) {
@@ -138,7 +137,6 @@ module.exports = function(app, passport) {
                 });
                 //Reset the session to reflect new changes
                 req.user = user;
-                console.log("Google Callback Success -> " + user);
 
                 //Redirect to profile
                 res.redirect('/profile');
@@ -197,7 +195,7 @@ module.exports = function(app, passport) {
                 });
 
                 //<199 >
-                console.log("Error 103");
+                console.log("Error 103: Napster Callback Error");
                 return;
             }
 
@@ -217,7 +215,6 @@ module.exports = function(app, passport) {
                 
                 //Reset the session with the new changes
                 req.user = user;
-                console.log("Napster Callback Success -> " + user);
 
                 //Redirect to profile
                 res.redirect('/profile');
@@ -236,7 +233,7 @@ module.exports = function(app, passport) {
     // google ---------------------------------
     app.get('/unlink/google', function(req, res) {
         var user          = req.user;
-        console.log("UNLINKED GOOGLE");
+        // console.log("Unlinked Google Account");
         //We need to actually revoke the token by making a Google API call
         //This will be done in the support function "rest"
         support_functions.rest(req.user._id, "unlink",res);
@@ -252,7 +249,7 @@ module.exports = function(app, passport) {
     // napster ---------------------------------
     app.get('/unlink/napster', function(req, res) {
         var user          = req.user;
-        console.log("UNLINKED NAPSTER");
+        // console.log("Unlinked Napster Account");
         //Simply set the refreshToken in mongodb to undefined
         user.napster.refreshToken = undefined;
         //Save the changes, and redirect to the profile page
@@ -343,7 +340,6 @@ module.exports = function(app, passport) {
     //== CAN FILTER BY USER PLAYLISTS, USER FOLLOWING PLAYLISTS, AND/OR USER FOLLOWER PLAYLISTS ==
     app.post('/analytics_artist_search', isLoggedIn, function(req, res){
         support_functions.analytics(req.user._id, 'analytics_artist_search', res, req.body);
-        console.log(req.body);
     });
     //== RENDER CONTACT PAGE ==
     app.get('/contact', isLoggedIn, function(req, res) {
@@ -358,7 +354,6 @@ module.exports = function(app, passport) {
     //== ADD A USER BIO ==
     app.post('/attach_bio', isLoggedIn, function(req, res){
         support_functions.rest(req.user._id, 'attach_bio', res, req.body);
-        console.log(req.body);
     });
 }
 // route middleware to ensure user is logged in
