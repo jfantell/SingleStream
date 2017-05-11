@@ -8,7 +8,7 @@ The git repo for SingleStream is located at:
 https://github.com/jfantell/SingleStream (Master repo is called "gh-pages")
 
 The SingleStream Application is currently being hosted at the following IP Address:
-107.170.28.94:8080 (Digital Ocean is the hosting service)
+107.170.28.94:80 (Digital Ocean is the hosting service)
 
 The midterm and final presentations, initial project proposal, and a project conclusion/review are also featured in the git repo.
 
