@@ -18,13 +18,13 @@ module.exports = {
     'googleAuth' : {
         'clientID'      : '204378439556-ajptcmntu0rqkjippgpih7sfd2o8cphl.apps.googleusercontent.com',
         'clientSecret'  : 'AfKMi0hekiiXmCkWqZQDo1Jn',
-        'callbackURL'   : 'http://127.0.0.1:8080/auth/google/callback'
+        'callbackURL'   : 'http://singlestream.online/auth/google/callback'
     },
 
     'napsterAuth' : {
         'clientID'      : 'YWQzNWQxZWMtNDU5Mi00NjJjLThkNTAtNjcwN2M4Yjc5NWM4',
         'clientSecret'  : 'MTRkYzZlZDUtMDU5Zi00NzcxLTg4ZWItYjRkZTFmNTg0OWZh',
-        'callbackURL'   : 'http://localhost:8080/auth/napster/callback'
+        'callbackURL'   : 'http://singlestream.online/auth/napster/callback'
     }
 
 };
