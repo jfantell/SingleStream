@@ -694,7 +694,7 @@ var self = module.exports = {
 	                            songs.push([body.items[i].id.videoId, 
 	                                        body.items[i].snippet.channelTitle, 
 	                                        body.items[i].snippet.title, 
-	                                        "http://www.youtube.com/embed/" + body.items[i].id.videoId,
+	                                        "https://www.youtube.com/embed/" + body.items[i].id.videoId,
 	                                        '0',
 	                                        "youtube"]);
 	                            if(i == body.items.length-1){
