@@ -7,9 +7,6 @@ Project Description: Music Is Everywhere but now you will not have to be. Music 
 The git repo for SingleStream is located at:
 https://github.com/jfantell/SingleStream (Master repo is called "gh-pages")
 
-The SingleStream Application is currently being hosted at the following IP Address:
-107.170.28.94:80 (Digital Ocean is the hosting service)
-
 The midterm and final presentations, initial project proposal, and a project conclusion/review are also featured in the git repo.
 
 **** App Architecture ****
@@ -60,7 +57,7 @@ Napster Web API (documentation: https://developer.napster.com/api/v2.1)
 
 YouTube V3 Data API  (documentation: https://developers.google.com/youtube/v3/)
 
-**** BUS IDENTIFIED (Working on a fix) ****
+**** BUGS IDENTIFIED (Working on a fix) ****
 
 Sometimes user is logged out upon the first time they authenticate with either Google or Napster. There is a message at the top of the screen
 that alerts the user this may happen, and informs the user what to do if it does (which is simply just logging back in)
