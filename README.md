@@ -69,7 +69,6 @@ After completing the project for the semester our group is very excited about wh
 We would like to add more music services to our platform to make it a more robust tool. We would also like to change Napster’s music player from Flash to an HTML player when they release their next API update. Finally, we’d like to improve the playlist functionality to have a few more features such as song skip, replay, pause, and shuffle library. There are a lot of improvements we can make to the project but now we’re no longer bound in a time frame. We’ll work on the project in our own time and add features that we feel would improve the site.
 
 
-**** QUESTIONS ****
+**** QUESTIONS, COMMENTS, SUGGESTIONS, BUGS ****
 
-Contact inquiries@singlestream.us
-
+Open an issue in GitHub.
